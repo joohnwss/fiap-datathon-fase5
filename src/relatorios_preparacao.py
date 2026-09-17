@@ -140,7 +140,7 @@ def report_body(summary, metadata):
                     "- **Pedras e INDE:** limites do dicionário diferem da Figura 3 do DOCX; não houve reclassificação de pedras ou recomposição do INDE.\n"
                     "- **Indisponibilidade:** IPP é estruturalmente ausente em 2022; erros Excel e outros vazios nos demais anos não receberam causa presumida nem imputação.\n"
                     "- **Cadastro:** datas ambíguas, idades armazenadas como datas e divergências normalizadas permanecem sinalizadas; não há correção por suposição.\n"
-                    "- **Risco futuro:** perda de seguimento e aplicabilidade dos indicadores podem alterar a população analisável. Alvo, recorte e estratégia temporal estão aprovados em `docs/contrato_metodologico.md`; a preparação das coortes e a modelagem permanecem pendentes.\n"
+                    "- **Risco futuro:** perda de seguimento e aplicabilidade dos indicadores podem alterar a população analisável. Alvo, recorte e estratégia temporal estão aprovados em `docs/contrato_metodologico.md`; as coortes são preparadas por `src/preparacao_coortes.py`, com evidências em `reports/relatorio_coortes_modelagem.md`. O treinamento permanece pendente.\n"
                     "- **Escopo:** auditoria e preparação concluídas nos limites das verificações registradas. Análises de negócio completas, notebook preditivo, apresentação, aplicação, publicação e vídeo pertencem às próximas etapas.")
     sections.append("Evidências textuais e visuais e suas localizações: `docs/evidencias_documentais.md`. "
                     "A revisão documental foi realizada em 15/09/2026 e contemplou seis páginas do enunciado, quatro do dicionário, nove de desvendando_passos e dez imagens do DOCX. "

@@ -1,0 +1,535 @@
+{
+  "regeneravel": true,
+  "schema_version": 2,
+  "kind": "coortes",
+  "started_at": "2026-09-17T14:21:01.779003+00:00",
+  "executed_at": "2026-09-17T14:21:05.621332+00:00",
+  "command": "python src/preparacao_coortes.py",
+  "working_directory": ".",
+  "recovery_directory": "local_recovery/20260917T142101779003Z_coortes",
+  "source_file": "DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx",
+  "inventory_count": 13,
+  "source_hashes_before": {
+    "BASE DE DADOS PEDE 2024 - DATATHON.xlsx": "05779754185f7c9cb1c166b881a1489643d30355cff2ec468e4c266f41b6d1a9",
+    "Bases antigas/Base de dados - Passos Mágicos.zip": "71cc75f1fbd4b4f19c52fdafa01776deb6eeeab8f25353c4106b6fb26adef552",
+    "Bases antigas/DATATHON-PASSOS-MÁGICOS.ipynb": "47b93c9d47b5686bf8fc42dde83ae3207d7dffedf6ac8157be573b5b82193ce1",
+    "Bases antigas/PEDE_PASSOS_DATASET_FIAP.csv": "28f6563b2feb849cd29bae29c5d3433df49d47a2383c3f28033dc547de7a6133",
+    "Bases antigas/PEDE_PASSOS_DATASET_FIAP.xlsx": "67509da73f74d1e0677f2996855b8cb33081b3969bd9bc85a9789d1713025b3d",
+    "desvendando_passos.pdf": "594694ae2859bd9259ee6feb1b07198a43e18e6700047eb34eea490b5c0ecb8c",
+    "Dicionário Dados Datathon.pdf": "c141a779a02d34e829e6892ba3c505f00b1510fc2de7761a66b75b9f30239e00",
+    "Links adicionais da passos.docx": "5d72421f1d3f3e823c1b1702d10ec39e77f26cd897b9354aa2900ce64e3b29ea",
+    "PEDE_ Pontos importantes.docx": "ee2a6cd6e0d53f9108497cf6975f27d178b03de19ff55db3905e2d03a23b75bc",
+    "POSTECH - Datathon - Fase 5 (1).pdf": "ac333680d88bc7d33c47379bcd3eb53d1ebaa599922f96bc28e0fc16062320ec",
+    "Relatorio PEDE2022.pdf": "34314dcc09fe36865809c290cd6fe2493c3af875f366b3686a145e80a0010020",
+    "Relatório PEDE2020.pdf": "618599418db1b9f830caa5a3cab7bf729613cca987f1243f497b4e1fb02e4a4a",
+    "Relatório PEDE2021.pdf": "859ce95807a5508da43d05219c9e355056183786ce2b0c7cd0f02e340c6570b8"
+  },
+  "source_hashes_after": {
+    "BASE DE DADOS PEDE 2024 - DATATHON.xlsx": "05779754185f7c9cb1c166b881a1489643d30355cff2ec468e4c266f41b6d1a9",
+    "Bases antigas/Base de dados - Passos Mágicos.zip": "71cc75f1fbd4b4f19c52fdafa01776deb6eeeab8f25353c4106b6fb26adef552",
+    "Bases antigas/DATATHON-PASSOS-MÁGICOS.ipynb": "47b93c9d47b5686bf8fc42dde83ae3207d7dffedf6ac8157be573b5b82193ce1",
+    "Bases antigas/PEDE_PASSOS_DATASET_FIAP.csv": "28f6563b2feb849cd29bae29c5d3433df49d47a2383c3f28033dc547de7a6133",
+    "Bases antigas/PEDE_PASSOS_DATASET_FIAP.xlsx": "67509da73f74d1e0677f2996855b8cb33081b3969bd9bc85a9789d1713025b3d",
+    "desvendando_passos.pdf": "594694ae2859bd9259ee6feb1b07198a43e18e6700047eb34eea490b5c0ecb8c",
+    "Dicionário Dados Datathon.pdf": "c141a779a02d34e829e6892ba3c505f00b1510fc2de7761a66b75b9f30239e00",
+    "Links adicionais da passos.docx": "5d72421f1d3f3e823c1b1702d10ec39e77f26cd897b9354aa2900ce64e3b29ea",
+    "PEDE_ Pontos importantes.docx": "ee2a6cd6e0d53f9108497cf6975f27d178b03de19ff55db3905e2d03a23b75bc",
+    "POSTECH - Datathon - Fase 5 (1).pdf": "ac333680d88bc7d33c47379bcd3eb53d1ebaa599922f96bc28e0fc16062320ec",
+    "Relatorio PEDE2022.pdf": "34314dcc09fe36865809c290cd6fe2493c3af875f366b3686a145e80a0010020",
+    "Relatório PEDE2020.pdf": "618599418db1b9f830caa5a3cab7bf729613cca987f1243f497b4e1fb02e4a4a",
+    "Relatório PEDE2021.pdf": "859ce95807a5508da43d05219c9e355056183786ce2b0c7cd0f02e340c6570b8"
+  },
+  "source_integrity_preserved": true,
+  "source_diff_during_run": {
+    "adicionados": [],
+    "removidos": [],
+    "alterados": []
+  },
+  "previous_inventory_exists": false,
+  "inventory_diff_from_previous_run": {
+    "adicionados": [
+      "BASE DE DADOS PEDE 2024 - DATATHON.xlsx",
+      "Bases antigas/Base de dados - Passos Mágicos.zip",
+      "Bases antigas/DATATHON-PASSOS-MÁGICOS.ipynb",
+      "Bases antigas/PEDE_PASSOS_DATASET_FIAP.csv",
+      "Bases antigas/PEDE_PASSOS_DATASET_FIAP.xlsx",
+      "Dicionário Dados Datathon.pdf",
+      "Links adicionais da passos.docx",
+      "PEDE_ Pontos importantes.docx",
+      "POSTECH - Datathon - Fase 5 (1).pdf",
+      "Relatorio PEDE2022.pdf",
+      "Relatório PEDE2020.pdf",
+      "Relatório PEDE2021.pdf",
+      "desvendando_passos.pdf"
+    ],
+    "removidos": [],
+    "alterados": []
+  },
+  "historical_baseline": null,
+  "historical_comparison": {
+    "available": false,
+    "status": "nao_disponivel",
+    "matches": null,
+    "diff": null
+  },
+  "manual_documents_preserved": true,
+  "manual_document_hashes": {
+    "docs/registro_decisoes.md": "d34201456dc3c4b8d606b52fdcb530e81a80d5b298b43c92041e23b2be8fc2a8",
+    "docs/revisao_auditoria.md": "d76c1f7a7112586da289c39617ebda129b906dc6ad2e490b0fbeafb728f8ba52",
+    "docs/requisitos.md": "a53b3128dffb8d9e9000e6c4da24d624dd90deb166750bd1fdf99cf3b3f34a29",
+    "docs/evidencias_documentais.md": "7c61975a9c82f9fdbe47c4f78206c9a2552ae502113bf458931edd7d6ac0a2ba",
+    "docs/contrato_metodologico.md": "eb4aafec436ed5dcde0c231f9a87603a1ada9256fd5829fe6d299b8243a017cc",
+    "docs/status_projeto.md": "ca2cb729eebfdf9843c8327413f401011732c95bd731b02d8d3f4920f9c8d64e",
+    "README.md": "322b8679ded1f61cad4f31f690562e1986b76697c1c7fd8d3e9282bf2ea56bea"
+  },
+  "privacy": {
+    "diretorios_ignorados": [
+      "DATATHON/probe.txt",
+      "local_data/base_longitudinal.jsonl",
+      "local_recovery/probe.txt"
+    ],
+    "arquivos_individuais_rastreados": 0,
+    "dados_individuais_fora_versionamento": true
+  },
+  "python": "3.12.5",
+  "packages": {
+    "pandas": "3.0.5",
+    "openpyxl": "3.1.5",
+    "pypdf": "6.18.1",
+    "python-docx": "1.2.0"
+  },
+  "code_hashes": {
+    "src/auditoria_inicial.py": "dd9ef82c8aaa40d2029ee660959c035c8916b5f2a629bd275bcd7cb4aca77996",
+    "src/dados_pede.py": "b40f4e1fdd62af19350d8ec817dd169496aeb8a9472baf2f5e8493c222fe90c5",
+    "src/preparacao_coortes.py": "30525f1f4102fe5aefbd8194cfa343e887a0a0fbe90dfcb95520580546a5850d",
+    "src/preparacao_longitudinal.py": "8e2825a62cff62d5796952107c3d29b9a3eb89a71d4b930df75ff03290a913ec",
+    "src/rastreabilidade.py": "fab476e427e08c9bd86a61af139ddddef20a3d4bdb04755727159f94472b5420",
+    "src/relatorios_preparacao.py": "d00595014982fd84a0559c56061c433c5035cfd4872b97892aaa4f5bf54554f0",
+    "src/verificar_entrega.py": "450bcc0a715e92021b1cbf911957c543bee1abd001cb409c54babea521e00a2d"
+  },
+  "test_hashes": {
+    "tests/test_auditoria_regressao.py": "3c8b9a05c7d496f08687f51aff36423d3e03f542cbe255013852a3e5f795c559",
+    "tests/test_coortes_regressao.py": "45aa53f3928d5377a71cafb71d8baed5e000dd5593a7c8d986f7e4289b87cc30",
+    "tests/test_portabilidade_regressao.py": "831bc33de83a36e26a291c8c3d0b900746ea0db8486d27a7954f62b349dc9108",
+    "tests/test_preparacao_regressao.py": "3590d7aa68fdb854824e06ffd794ffd6a6df829093c0120135ab127083fa1346"
+  },
+  "output_hashes": {
+    "local_data/coorte_desenvolvimento.csv": "36be981c4456a60f1cf59e1dc83096565fb196132f1407f673056c8e202e0292",
+    "local_data/X_desenvolvimento.csv": "b977216e33dddf5182aab1e194acefe6cf37937438b51ed8e87b248df26d2d72",
+    "local_data/y_desenvolvimento.csv": "59e73f6d06d4024f7c787f93262c8737c75d2adb787967de8780ab3b108750b4",
+    "local_data/coorte_teste_temporal.csv": "ca58b905a5f2d5c4d66a2d5b5218b86fdd08307a223e3312937755839a04b877",
+    "local_data/X_teste_temporal.csv": "23ebc4612b5db16669dc091e8ba6ccc5e07a6eb0ba3bb51ede67af0dc8a80714",
+    "local_data/y_teste_temporal.csv": "ee6d3f609cb291f7c73d66ad4f4407395985eccd8f67d631b07ff2d11a1c1257",
+    "local_data/coortes_modelagem.jsonl": "330812eb10a0981c6a268445aa10f4572bc1d2c68b3891569dc65c645ecb9802",
+    "reports/relatorio_coortes_modelagem.md": "a5de35377ec6a898bc6e168f1d25c7f2f623a8afe584bbce4a6a39a0a04464e2"
+  },
+  "validations": {
+    "coortes_serializadas_conferidas": true,
+    "X_sem_identificadores": true,
+    "X_somente_variaveis_origem": true,
+    "fase_categorica": true,
+    "desconhecidos_fora_matrizes_supervisionadas": true,
+    "separacao_temporal_preservada": true,
+    "referencias": [
+      {
+        "coorte": "desenvolvimento",
+        "campo": "supervisionados",
+        "calculado": 189,
+        "referencia": 189,
+        "confere": true
+      },
+      {
+        "coorte": "desenvolvimento",
+        "campo": "alvo_1",
+        "calculado": 60,
+        "referencia": 60,
+        "confere": true
+      },
+      {
+        "coorte": "teste_temporal",
+        "campo": "supervisionados",
+        "calculado": 311,
+        "referencia": 311,
+        "confere": true
+      },
+      {
+        "coorte": "teste_temporal",
+        "campo": "alvo_1",
+        "calculado": 84,
+        "referencia": 84,
+        "confere": true
+      }
+    ]
+  },
+  "summary": {
+    "coortes": {
+      "desenvolvimento": {
+        "ano_origem": 2022,
+        "ano_destino": 2023,
+        "registros_origem": 860,
+        "exclusoes_sequenciais": {
+          "ra_invalido": 0,
+          "defasagem_indisponivel": 0,
+          "ja_defasado": 601,
+          "fase_8": 0,
+          "fase_9": 0,
+          "fase_nao_elegivel": 0
+        },
+        "fases_todos_registros_origem": {
+          "0": 190,
+          "1": 192,
+          "2": 155,
+          "3": 148,
+          "4": 76,
+          "5": 60,
+          "6": 18,
+          "7": 21
+        },
+        "elegiveis_origem": 259,
+        "encontrados": 189,
+        "nao_encontrados": 70,
+        "destino_sem_defasagem": 0,
+        "supervisionados": 189,
+        "alvo_1": 60,
+        "alvo_0": 129,
+        "alvo_desconhecido": 70,
+        "taxa_evento": 0.31746031746031744,
+        "cobertura_elegiveis": {
+          "ida": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ieg": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "iaa": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ips": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ipv": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "fase_origem": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "defasagem_origem": {
+            "total": 259,
+            "disponiveis": 259,
+            "ausentes": 0,
+            "motivos": {}
+          }
+        },
+        "cobertura_supervisionados": {
+          "ida": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ieg": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "iaa": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ips": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ipv": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "fase_origem": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "defasagem_origem": {
+            "total": 189,
+            "disponiveis": 189,
+            "ausentes": 0,
+            "motivos": {}
+          }
+        }
+      },
+      "teste_temporal": {
+        "ano_origem": 2023,
+        "ano_destino": 2024,
+        "registros_origem": 1014,
+        "exclusoes_sequenciais": {
+          "ra_invalido": 0,
+          "defasagem_indisponivel": 0,
+          "ja_defasado": 552,
+          "fase_8": 63,
+          "fase_9": 0,
+          "fase_nao_elegivel": 0
+        },
+        "fases_todos_registros_origem": {
+          "0": 231,
+          "1": 173,
+          "2": 200,
+          "3": 132,
+          "4": 94,
+          "5": 65,
+          "6": 33,
+          "7": 23,
+          "8": 63
+        },
+        "elegiveis_origem": 399,
+        "encontrados": 311,
+        "nao_encontrados": 88,
+        "destino_sem_defasagem": 0,
+        "supervisionados": 311,
+        "alvo_1": 84,
+        "alvo_0": 227,
+        "alvo_desconhecido": 88,
+        "taxa_evento": 0.27009646302250806,
+        "cobertura_elegiveis": {
+          "ida": {
+            "total": 399,
+            "disponiveis": 388,
+            "ausentes": 11,
+            "motivos": {
+              "celula_vazia": 11
+            }
+          },
+          "ieg": {
+            "total": 399,
+            "disponiveis": 388,
+            "ausentes": 11,
+            "motivos": {
+              "celula_vazia": 11
+            }
+          },
+          "iaa": {
+            "total": 399,
+            "disponiveis": 399,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ips": {
+            "total": 399,
+            "disponiveis": 398,
+            "ausentes": 1,
+            "motivos": {
+              "erro_excel:#N/A": 1
+            }
+          },
+          "ipv": {
+            "total": 399,
+            "disponiveis": 388,
+            "ausentes": 11,
+            "motivos": {
+              "erro_excel:#N/A": 11
+            }
+          },
+          "fase_origem": {
+            "total": 399,
+            "disponiveis": 399,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "defasagem_origem": {
+            "total": 399,
+            "disponiveis": 399,
+            "ausentes": 0,
+            "motivos": {}
+          }
+        },
+        "cobertura_supervisionados": {
+          "ida": {
+            "total": 311,
+            "disponiveis": 300,
+            "ausentes": 11,
+            "motivos": {
+              "celula_vazia": 11
+            }
+          },
+          "ieg": {
+            "total": 311,
+            "disponiveis": 300,
+            "ausentes": 11,
+            "motivos": {
+              "celula_vazia": 11
+            }
+          },
+          "iaa": {
+            "total": 311,
+            "disponiveis": 311,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ips": {
+            "total": 311,
+            "disponiveis": 311,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "ipv": {
+            "total": 311,
+            "disponiveis": 300,
+            "ausentes": 11,
+            "motivos": {
+              "erro_excel:#N/A": 11
+            }
+          },
+          "fase_origem": {
+            "total": 311,
+            "disponiveis": 311,
+            "ausentes": 0,
+            "motivos": {}
+          },
+          "defasagem_origem": {
+            "total": 311,
+            "disponiveis": 311,
+            "ausentes": 0,
+            "motivos": {}
+          }
+        }
+      }
+    },
+    "sobreposicao": {
+      "teste_com_participacao_desenvolvimento": 104,
+      "teste_sem_participacao_desenvolvimento": 207
+    }
+  },
+  "input_hashes": {
+    "local_data/base_longitudinal.jsonl": "9eac60571308afcd94356ffdfad81c52492c79f0e7c12dda575824a33707d9df",
+    "local_data/base_longitudinal.csv": "c4addf3e9b9f94ac9cb6d37fe0d3035a76bf541428e2e90bf943f908db9a54e1",
+    "reports/metadados_preparacao.json": "85ea91d4c0c32196b7ae72c86facae041a1bed4c79376eee8de68aaf12056e4e"
+  },
+  "cohort_schema": {
+    "version": 1,
+    "unit": "transicao_aluno_ano",
+    "X": {
+      "ida": {
+        "source_field": "ida_numerico",
+        "source_year": "ano_origem",
+        "type": "nullable_number"
+      },
+      "ieg": {
+        "source_field": "ieg_numerico",
+        "source_year": "ano_origem",
+        "type": "nullable_number"
+      },
+      "iaa": {
+        "source_field": "iaa_numerico",
+        "source_year": "ano_origem",
+        "type": "nullable_number"
+      },
+      "ips": {
+        "source_field": "ips_numerico",
+        "source_year": "ano_origem",
+        "type": "nullable_number"
+      },
+      "ipv": {
+        "source_field": "ipv_numerico",
+        "source_year": "ano_origem",
+        "type": "nullable_number"
+      },
+      "fase_origem": {
+        "source_field": "fase_extraida",
+        "source_year": "ano_origem",
+        "type": "categorical"
+      },
+      "defasagem_origem": {
+        "source_field": "defasagem_registrada",
+        "source_year": "ano_origem",
+        "type": "nullable_number"
+      }
+    },
+    "phase_categories": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "y": {
+      "type": "nullable_binary",
+      "positive": "D_destino < 0",
+      "negative": "D_destino >= 0",
+      "unknown": "destino ausente ou D_destino indisponivel"
+    },
+    "private_audit_key": [
+      "ra",
+      "ano_origem",
+      "ano_destino"
+    ],
+    "csv_columns": [
+      "ida",
+      "ieg",
+      "iaa",
+      "ips",
+      "ipv",
+      "fase_origem",
+      "defasagem_origem",
+      "y"
+    ],
+    "jsonl_blocks": [
+      "chave_privada",
+      "X",
+      "y",
+      "metadados"
+    ],
+    "alignment": "CSV e X/y seguem a ordem dos registros supervisionados do JSONL por coorte; sem indice exportado"
+  },
+  "criteria": {
+    "origin": "RA valido e unico por ano; D_t >= 0; fase extraida entre 0 e 7 (ALFA=0)",
+    "destination": "RA correspondente e defasagem registrada valida para rotular",
+    "unknown": "preservado no JSONL, excluido dos CSV supervisionados",
+    "features": "lista fechada; somente valores do registro de origem; fase categorica",
+    "excluded": [
+      "identificadores",
+      "IAN",
+      "INDE",
+      "Pedra",
+      "IPP",
+      "fase ideal",
+      "variaveis futuras",
+      "genero",
+      "idade",
+      "datas",
+      "escola",
+      "instituicao",
+      "unidade",
+      "textos administrativos"
+    ],
+    "missing": "null no JSONL, campo vazio no CSV; sem imputacao, corte ou arredondamento",
+    "split": "temporal fixo, sem embaralhamento; ordem por linha fisica de origem"
+  }
+}

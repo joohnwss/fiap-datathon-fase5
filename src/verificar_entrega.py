@@ -39,6 +39,11 @@ def main():
     records = [json.loads(line) for line in base.read_text(encoding="utf-8").splitlines()]
     checks.update(validate_source_correspondence(records, ROOT / "DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx"))
     checks.update(validate_outputs(base, ROOT / "local_data/base_longitudinal.csv", records))
+    # Projetos anteriores sem esta etapa continuam verificáveis; no projeto
+    # com o módulo de coortes, a ausência de qualquer saída é uma falha.
+    if (ROOT / "src/preparacao_coortes.py").exists():
+        from preparacao_coortes import validate_artifacts
+        checks.update(validate_artifacts(ROOT, records))
     history = {m["kind"]: historical_comparison(m.get("historical_baseline"), current_sources) for m in metas}
     public_paths = [ROOT / p for p in subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard"], cwd=ROOT,
                                                     capture_output=True, text=True, encoding="utf-8", check=True).stdout.splitlines()]

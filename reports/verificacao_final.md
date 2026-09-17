@@ -2,7 +2,7 @@
 
 Regenerável por `python src/verificar_entrega.py`.
 
-Início UTC: 2026-09-17T13:59:57.598760+00:00. Fim UTC: 2026-09-17T14:00:13.317764+00:00.
+Início UTC: 2026-09-17T14:21:32.785134+00:00. Fim UTC: 2026-09-17T14:21:53.989123+00:00.
 
 Comando: `python src/verificar_entrega.py`.
 
@@ -30,6 +30,14 @@ Comando: `python src/verificar_entrega.py`.
 | csv_reaberto_campos_conferidos | True |
 | campos_derivados_csv | 90 |
 | linhas_jsonl | 3030 |
+| coortes_serializadas_conferidas | True |
+| X_sem_identificadores | True |
+| X_somente_variaveis_origem | True |
+| fase_categorica | True |
+| desconhecidos_fora_matrizes_supervisionadas | True |
+| separacao_temporal_preservada | True |
+| hashes_coortes_conferidos | True |
+| referencias_coortes_conferidas | 4 |
 | amostras_individuais_em_documentos_publicos | 0 |
 | sem_amostras_individuais_detectadas | True |
 
@@ -42,13 +50,26 @@ Comando: `python src/verificar_entrega.py`.
 
 A comparação histórica usa os hashes transportados nos metadados. Sem baseline, consta como não disponível; não é requisito para verificar a integridade atual. Nenhuma pasta histórica local é necessária.
 
-Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `78b7ec143da81471a5a117c29d2a1d27dfa07f6f22a6dc37f32a2f1077e791a7`.
+Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `a5229c16d02747278739a839d4899786e26ed70fba03a868698c7203e452ff35`.
 
 ```text
 test_phase_labels_and_year (test_auditoria_regressao.AuditoriaRegressionTests.test_phase_labels_and_year) ... ok
 test_ra_states_and_ian_expectation (test_auditoria_regressao.AuditoriaRegressionTests.test_ra_states_and_ian_expectation) ... ok
 test_repeated_headers_keep_original_metadata (test_auditoria_regressao.AuditoriaRegressionTests.test_repeated_headers_keep_original_metadata) ... ok
 test_transition_rejects_duplicate_destination_ra (test_auditoria_regressao.AuditoriaRegressionTests.test_transition_rejects_duplicate_destination_ra) ... ok
+test_alpha_is_categorical_zero (test_coortes_regressao.CoortesRegressionTests.test_alpha_is_categorical_zero) ... ok
+test_destination_features_cannot_change_origin_predictors (test_coortes_regressao.CoortesRegressionTests.test_destination_features_cannot_change_origin_predictors) ... ok
+test_duplicate_ra_blocks_both_sides (test_coortes_regressao.CoortesRegressionTests.test_duplicate_ra_blocks_both_sides) ... ok
+test_fixed_temporal_split_and_stable_source_order (test_coortes_regressao.CoortesRegressionTests.test_fixed_temporal_split_and_stable_source_order) ... ok
+test_generation_metadata_and_independent_validation (test_coortes_regressao.CoortesRegressionTests.test_generation_metadata_and_independent_validation) ... ok
+test_identifiers_and_all_unapproved_columns_are_rejected (test_coortes_regressao.CoortesRegressionTests.test_identifiers_and_all_unapproved_columns_are_rejected) ... ok
+test_missing_values_reasons_and_observed_zero_survive_serialization (test_coortes_regressao.CoortesRegressionTests.test_missing_values_reasons_and_observed_zero_survive_serialization) ... ok
+test_origin_eligibility_and_phase_exclusions (test_coortes_regressao.CoortesRegressionTests.test_origin_eligibility_and_phase_exclusions) ... ok
+test_positive_negative_and_unknown_outcomes (test_coortes_regressao.CoortesRegressionTests.test_positive_negative_and_unknown_outcomes) ... ok
+test_real_source_counts_and_prepared_base_agree (test_coortes_regressao.CoortesRegressionTests.test_real_source_counts_and_prepared_base_agree) ... ok
+test_recovery_only_copies_cohort_outputs (test_coortes_regressao.CoortesRegressionTests.test_recovery_only_copies_cohort_outputs) ... ok
+test_references_fail_without_changing_counts (test_coortes_regressao.CoortesRegressionTests.test_references_fail_without_changing_counts) ... ok
+test_tampered_csv_or_jsonl_is_detected (test_coortes_regressao.CoortesRegressionTests.test_tampered_csv_or_jsonl_is_detected) ... ok
 test_absolute_path_detector_and_portable_command (test_portabilidade_regressao.PortabilidadeRegressionTests.test_absolute_path_detector_and_portable_command) ... ok
 test_final_verification_runs_without_local_recovery (test_portabilidade_regressao.PortabilidadeRegressionTests.test_final_verification_runs_without_local_recovery) ... ok
 test_history_is_optional_and_metadata_only (test_portabilidade_regressao.PortabilidadeRegressionTests.test_history_is_optional_and_metadata_only) ... ok
@@ -71,7 +92,7 @@ test_phase_rejects_fraction_and_unanchored_digits (test_preparacao_regressao.Pre
 test_type_after_first_twenty_rows_is_counted (test_preparacao_regressao.PreparacaoRegressionTests.test_type_after_first_twenty_rows_is_counted) ... ok
 
 ----------------------------------------------------------------------
-Ran 24 tests in 1.897s
+Ran 37 tests in 7.302s
 
 OK
 ```
