@@ -1,0 +1,42 @@
+# Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+.ipynb_checkpoints/
+
+# OS/editor
+.DS_Store
+Thumbs.db
+.vscode/
+
+# Dados e materiais de fonte (preservados localmente)
+DATATHON/
+**/bases_*.csv
+**/*.xlsx
+**/*.xls
+**/*.zip
+**/*.parquet
+**/*_dados*
+
+# Relatórios locais com detalhes sensíveis
+reports/*.csv
+reports/*.json
+!reports/metadados_preparacao.json
+reports/*.xlsx
+reports/*.html
+
+# Secrets e caches
+.env
+.env.*
+secrets/
+*.key
+*.pem
+
+# Dados individuais, evidências locais e cópias de recuperação
+/local_data/
+/local_recovery/
+/tmp/
