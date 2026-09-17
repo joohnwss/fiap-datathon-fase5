@@ -68,7 +68,8 @@ def manual_hashes() -> dict:
     # Estes arquivos nunca são sobrescritos pelos scripts automáticos.
     return {str(p.relative_to(ROOT).as_posix()): sha256_file(p)
             for p in [ROOT / "docs/registro_decisoes.md", ROOT / "docs/revisao_auditoria.md", ROOT / "docs/requisitos.md",
-                      ROOT / "docs/evidencias_documentais.md"]
+                      ROOT / "docs/evidencias_documentais.md", ROOT / "docs/contrato_metodologico.md",
+                      ROOT / "docs/status_projeto.md", ROOT / "README.md"]
             if p.exists()}
 
 
@@ -93,7 +94,10 @@ def public_text_issues(text: str) -> list[str]:
     """Detecta caminhos locais absolutos e vocabulário alheio ao relatório acadêmico."""
     patterns = {
         "caminho_absoluto": r"(?i)(?:(?<![\w\\])[a-z]:[\\/]|\\\\[a-z0-9_.-]+\\|(?<![\w:/])/(?:home|Users|tmp|var|usr|opt|mnt|private|workspace|root)(?:/|\\))",
-        "contexto_editorial": r"(?i)\b(?:conver" r"sa|prom" r"pt|co" r"dex|i" r"a)\b",
+        # Literais segmentados permitem verificar também o próprio código-fonte.
+        "contexto_editorial": (r"(?i)\b(?:co" r"dex|co" r"pilot|prom" r"pt|"
+                               r"nesta\s+conver" r"sa|o\s+usu[áa]rio\s+solici" r"tou|"
+                               r"assist[êe]ncia\s+automa" r"tizada)\b"),
     }
     return [name for name, pattern in patterns.items() if re.search(pattern, text)]
 

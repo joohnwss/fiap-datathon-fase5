@@ -1,6 +1,7 @@
 """Verificação final independente das saídas e execução registrada dos testes."""
 from __future__ import annotations
 import json
+import os
 import subprocess
 import sys
 from datetime import datetime, timezone
@@ -14,7 +15,10 @@ from preparacao_longitudinal import validate_source_correspondence, validate_out
 def main():
     started = datetime.now(timezone.utc).isoformat()
     command = [sys.executable, "-m", "unittest", "discover", "-s", "tests", "-p", "test_*.py", "-v"]
-    tests = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8")
+    # A saída do processo filho deve usar a mesma codificação da leitura,
+    # inclusive no Windows, onde a codificação padrão pode ser diferente.
+    tests = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
+                           env={**os.environ, "PYTHONIOENCODING": "utf-8"})
     log = ROOT / "local_data/verificacao/testes.txt"
     log.parent.mkdir(parents=True, exist_ok=True)
     log.write_text(tests.stdout + tests.stderr, encoding="utf-8")

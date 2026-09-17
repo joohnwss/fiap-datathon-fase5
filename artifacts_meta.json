@@ -2,11 +2,11 @@
   "regeneravel": true,
   "schema_version": 2,
   "kind": "auditoria",
-  "started_at": "2026-09-17T12:38:15.725396+00:00",
-  "executed_at": "2026-09-17T12:38:26.352406+00:00",
+  "started_at": "2026-09-17T13:59:06.129441+00:00",
+  "executed_at": "2026-09-17T13:59:17.906826+00:00",
   "command": "python src/auditoria_inicial.py",
   "working_directory": ".",
-  "recovery_directory": "local_recovery/20260917T123815725396Z_auditoria",
+  "recovery_directory": "local_recovery/20260917T135906129441Z_auditoria",
   "source_file": "DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx",
   "inventory_count": 13,
   "source_hashes_before": {
@@ -81,10 +81,13 @@
   },
   "manual_documents_preserved": true,
   "manual_document_hashes": {
-    "docs/registro_decisoes.md": "9665a7b7e523f52fc21dffd368e69f16fb4f7f42d3d315280219f439b7cadab5",
+    "docs/registro_decisoes.md": "d34201456dc3c4b8d606b52fdcb530e81a80d5b298b43c92041e23b2be8fc2a8",
     "docs/revisao_auditoria.md": "d76c1f7a7112586da289c39617ebda129b906dc6ad2e490b0fbeafb728f8ba52",
     "docs/requisitos.md": "a53b3128dffb8d9e9000e6c4da24d624dd90deb166750bd1fdf99cf3b3f34a29",
-    "docs/evidencias_documentais.md": "7c61975a9c82f9fdbe47c4f78206c9a2552ae502113bf458931edd7d6ac0a2ba"
+    "docs/evidencias_documentais.md": "7c61975a9c82f9fdbe47c4f78206c9a2552ae502113bf458931edd7d6ac0a2ba",
+    "docs/contrato_metodologico.md": "eb4aafec436ed5dcde0c231f9a87603a1ada9256fd5829fe6d299b8243a017cc",
+    "docs/status_projeto.md": "9ef6e6ce43665a6d2b21e59fc90f340e5f49ed8384650a45d2b21358507f4245",
+    "README.md": "14bd10b385ebc932659edc93a6efd09dd6a40795a3f07f74e02ff51a37dd4407"
   },
   "privacy": {
     "diretorios_ignorados": [
@@ -106,13 +109,13 @@
     "src/auditoria_inicial.py": "dd9ef82c8aaa40d2029ee660959c035c8916b5f2a629bd275bcd7cb4aca77996",
     "src/dados_pede.py": "b40f4e1fdd62af19350d8ec817dd169496aeb8a9472baf2f5e8493c222fe90c5",
     "src/preparacao_longitudinal.py": "8e2825a62cff62d5796952107c3d29b9a3eb89a71d4b930df75ff03290a913ec",
-    "src/rastreabilidade.py": "9641f2b04771373b9ff8cc07e13f59e1d5865bd0e45a930b3ee03cebe228f1d8",
-    "src/relatorios_preparacao.py": "dfa5d34219687d8727e4cfbef76edd49c0d4029e533704124016263f72cb65c9",
-    "src/verificar_entrega.py": "03d9fe362a9c0f393d33d4718ee502ab8731b0fdf7a6274c0f2bd31be38e955b"
+    "src/rastreabilidade.py": "faf628b6ed32cd3afbef6b137440b059795907c0b97bf08adb9480f3ab0ca41d",
+    "src/relatorios_preparacao.py": "4baa808cc2278b0aa031150c7b8eb877ab325a5db5f11e29b6c5e02adaf3f2d4",
+    "src/verificar_entrega.py": "32f16fb89a8d7d58f7342e438b154ccd415debb00ac0142484851b51a6a2f403"
   },
   "test_hashes": {
     "tests/test_auditoria_regressao.py": "3c8b9a05c7d496f08687f51aff36423d3e03f542cbe255013852a3e5f795c559",
-    "tests/test_portabilidade_regressao.py": "80e749e48639b1421a2b1a1285789a938bcaa3c5ca1a422b0eae535a4e1c3f23",
+    "tests/test_portabilidade_regressao.py": "831bc33de83a36e26a291c8c3d0b900746ea0db8486d27a7954f62b349dc9108",
     "tests/test_preparacao_regressao.py": "3590d7aa68fdb854824e06ffd794ffd6a6df829093c0120135ab127083fa1346"
   },
   "output_hashes": {

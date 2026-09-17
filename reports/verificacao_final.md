@@ -2,7 +2,7 @@
 
 Regenerável por `python src/verificar_entrega.py`.
 
-Início UTC: 2026-09-17T12:39:06.613223+00:00. Fim UTC: 2026-09-17T12:39:22.623596+00:00.
+Início UTC: 2026-09-17T13:59:57.598760+00:00. Fim UTC: 2026-09-17T14:00:13.317764+00:00.
 
 Comando: `python src/verificar_entrega.py`.
 
@@ -42,7 +42,7 @@ Comando: `python src/verificar_entrega.py`.
 
 A comparação histórica usa os hashes transportados nos metadados. Sem baseline, consta como não disponível; não é requisito para verificar a integridade atual. Nenhuma pasta histórica local é necessária.
 
-Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `a5baba966b06d31c21bf4024c931cf2fc20f41161b98c69ddd837c1a9c05d207`.
+Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `78b7ec143da81471a5a117c29d2a1d27dfa07f6f22a6dc37f32a2f1077e791a7`.
 
 ```text
 test_phase_labels_and_year (test_auditoria_regressao.AuditoriaRegressionTests.test_phase_labels_and_year) ... ok
@@ -55,6 +55,7 @@ test_history_is_optional_and_metadata_only (test_portabilidade_regressao.Portabi
 test_manual_mutation_during_run_is_detected (test_portabilidade_regressao.PortabilidadeRegressionTests.test_manual_mutation_during_run_is_detected) ... ok
 test_new_run_portable_reports_and_manual_documents_preserved (test_portabilidade_regressao.PortabilidadeRegressionTests.test_new_run_portable_reports_and_manual_documents_preserved) ... ok
 test_phase_counts_include_eligible_missing_destination (test_portabilidade_regressao.PortabilidadeRegressionTests.test_phase_counts_include_eligible_missing_destination) ... ok
+test_public_language_accepts_academic_acronym_and_rejects_editorial_context (test_portabilidade_regressao.PortabilidadeRegressionTests.test_public_language_accepts_academic_acronym_and_rejects_editorial_context) ... ok
 test_ra_outside_first_column_and_tampered_association (test_portabilidade_regressao.PortabilidadeRegressionTests.test_ra_outside_first_column_and_tampered_association) ... ok
 test_absent_target_is_not_negative_outcome_and_join_uses_ra (test_preparacao_regressao.PreparacaoRegressionTests.test_absent_target_is_not_negative_outcome_and_join_uses_ra) ... ok
 test_all_indicator_ranges_and_extreme_preserved (test_preparacao_regressao.PreparacaoRegressionTests.test_all_indicator_ranges_and_extreme_preserved) ... ok
@@ -70,7 +71,7 @@ test_phase_rejects_fraction_and_unanchored_digits (test_preparacao_regressao.Pre
 test_type_after_first_twenty_rows_is_counted (test_preparacao_regressao.PreparacaoRegressionTests.test_type_after_first_twenty_rows_is_counted) ... ok
 
 ----------------------------------------------------------------------
-Ran 23 tests in 1.812s
+Ran 24 tests in 1.897s
 
 OK
 ```

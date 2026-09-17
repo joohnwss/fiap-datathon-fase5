@@ -2,10 +2,13 @@
 
 Grupo: Victor, Jonatas, Izadora, Laura e Lucas.
 
-## Escopo da rodada
+## Estado do projeto
 
 Auditoria corrigida e primeira base longitudinal conservadora dos anos 2022–2024,
 usando somente `DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx`.
+O [contrato metodológico](docs/contrato_metodologico.md) está aprovado;
+a modelagem ainda não foi iniciada. O [status do projeto](docs/status_projeto.md)
+reúne o marco concluído, as pendências e as instruções para continuidade pelo grupo.
 Nenhum modelo foi treinado e nenhuma aplicação, apresentação ou publicação foi criada.
 
 Resultados e pendências: [relatório de preparação](reports/relatorio_preparacao_inicial.md).
@@ -95,13 +98,13 @@ inferido de novo a partir do texto. RA não deve ser convertido automaticamente 
 - Fases alfanuméricas são extraídas explicitamente; números das séries entre parênteses são ignorados. Fase 9 permanece sem significado atribuído.
 - Defasagem registrada, diferença entre códigos de fase e IAN esperado são campos/testes separados. Equivalência curricular entre anos permanece pendente.
 - Faixa operacional 0–10 sinaliza os oito indicadores, sem cortar ou arredondar. INDE, pedras e idades não são corrigidos por suposição.
-- Ausência de observação futura gera desfecho desconhecido. As transições são descritivas e não definem o recorte final de um modelo.
+- Ausência de observação futura gera desfecho desconhecido. As transições da auditoria são descritivas; o recorte do futuro modelo está definido no contrato metodológico.
 - `phase_origin_counts` conta todos os elegíveis; `phase_origin_found_counts` conta os encontrados no destino, sempre pela fase na origem.
-- `docs/registro_decisoes.md`, `docs/revisao_auditoria.md` e `docs/requisitos.md` foram preservados como registros manuais/históricos. O escopo atualizado está neste README e no relatório desta rodada.
+- Os documentos manuais têm hashes conferidos durante as execuções. O histórico de decisões foi mantido, com seção datada para o contrato aprovado; o contrato e o status registram a metodologia vigente e a continuidade.
 - Relatórios automáticos são identificados como regeneráveis. O registro substantivo de leitura visual fica separado em `docs/evidencias_documentais.md`.
 - Os antigos apontadores `documentacao_revisao.md`, `revisao_auditoria_gerada.md` e `registro_decisoes_gerado.md` foram arquivados em uma pasta datada de `local_recovery/` e deixaram de ser regenerados. Consulte diretamente o mapa, as evidências e os relatórios substantivos.
 
-`DATATHON/`, `local_data/` e `local_recovery/` são ignoradas pelo Git. Os scripts
+`DATATHON/`, `local_data/`, `local_recovery/` e `.venv/` são ignoradas pelo Git. Os scripts
 verificam isso antes de gravar dados individuais. Documentos públicos contêm
 agregados, sem amostras de nomes, RAs ou datas completas de nascimento.
 

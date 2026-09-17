@@ -2,7 +2,7 @@
 
 Regenerável por qualquer um dos scripts de auditoria/preparação.
 
-Execução UTC: 2026-09-17T12:38:57.391703+00:00
+Execução UTC: 2026-09-17T13:59:48.577097+00:00
 
 | Arquivo relativo | Tamanho (bytes) | SHA-256 |
 | --- | ---: | --- |

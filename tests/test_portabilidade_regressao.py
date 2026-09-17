@@ -18,7 +18,8 @@ import verificar_entrega as verification
 from preparacao_longitudinal import validate_source_correspondence, write_flat_csv
 
 
-MANUAL = ("registro_decisoes.md", "revisao_auditoria.md", "requisitos.md", "evidencias_documentais.md")
+MANUAL = ("registro_decisoes.md", "revisao_auditoria.md", "requisitos.md", "evidencias_documentais.md",
+          "contrato_metodologico.md", "status_projeto.md")
 
 
 def fixture(root):
@@ -28,6 +29,7 @@ def fixture(root):
     (root / "reports").mkdir()
     for name in MANUAL:
         (root / "docs" / name).write_text("Registro manual preservado.\n", encoding="utf-8")
+    (root / "README.md").write_text("Estado do projeto preservado.\n", encoding="utf-8")
     wb = Workbook()
     for i, year in enumerate((2022, 2023, 2024)):
         ws = wb.active if i == 0 else wb.create_sheet()
@@ -78,6 +80,7 @@ class PortabilidadeRegressionTests(unittest.TestCase):
             root = Path(tmp)
             _, frames, records = fixture(root)
             before = {name: r.sha256_file(root / "docs" / name) for name in MANUAL}
+            readme_before = r.sha256_file(root / "README.md")
             with patch.object(r, "ROOT", root), patch.object(reports, "ROOT", root), \
                  patch.object(r, "check_git_privacy", return_value={"dados_individuais_fora_versionamento": True}), \
                  patch.object(r, "git_output", return_value=""):
@@ -94,8 +97,11 @@ class PortabilidadeRegressionTests(unittest.TestCase):
                 self.assertTrue(meta["manual_documents_preserved"])
                 self.assertEqual(r.public_text_issues(rendered), [])
                 self.assertEqual(r.public_text_issues(json.dumps(meta)), [])
-                self.assertEqual(len(meta["manual_document_hashes"]), 4)
+                self.assertEqual(set(meta["manual_document_hashes"]),
+                                 {"docs/" + name for name in MANUAL} | {"README.md"})
+                self.assertEqual(meta["manual_document_hashes"]["README.md"], readme_before)
             self.assertEqual(before, {name: r.sha256_file(root / "docs" / name) for name in MANUAL})
+            self.assertEqual(readme_before, r.sha256_file(root / "README.md"))
             self.assertEqual({p.name for p in (root / "docs").glob("*.md")}, set(MANUAL) | {"mapa_campos.md", "inventario_fontes.md"})
 
     def test_manual_mutation_during_run_is_detected(self):
@@ -117,6 +123,20 @@ class PortabilidadeRegressionTests(unittest.TestCase):
         self.assertIn("caminho_absoluto", r.public_text_issues(unix))
         self.assertEqual(r.public_text_issues("python src/auditoria_inicial.py\nworking_directory: ."), [])
         self.assertEqual(r.public_text_issues(Path(r.__file__).read_text(encoding="utf-8")), [])
+
+    def test_public_language_accepts_academic_acronym_and_rejects_editorial_context(self):
+        for text in ("modelo de IA", "IA aplicada à educação", "conversa pedagógica",
+                     "O usuário informa os indicadores."):
+            with self.subTest(text=text):
+                self.assertEqual(r.public_text_issues(text), [])
+        # A composição em tempo de execução evita exemplos proibidos no texto público.
+        forbidden = ("Co" "dex", "Co" "pilot", "prom" "pt", "nesta conver" "sa",
+                     "o usuário solici" "tou", "assistência automa" "tizada",
+                     "o usuario solici" "tou", "assistencia automa" "tizada")
+        for text in forbidden:
+            for variant in (text, text.upper(), text.replace(" ", "\n")):
+                with self.subTest(text=variant):
+                    self.assertIn("contexto_editorial", r.public_text_issues(variant))
 
     def test_final_verification_runs_without_local_recovery(self):
         # Execução do verificador em projeto temporário sem histórico. Somente

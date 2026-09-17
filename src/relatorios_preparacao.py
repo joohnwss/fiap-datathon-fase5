@@ -98,7 +98,7 @@ def report_body(summary, metadata):
           t["found_with_missing_or_invalid_defas_count"], t["dest_defasado_count"]]
          for pair, groups in summary["transicoes"].items() for label, t in groups.items()]))
     sections.append("Todas as junções usam RA válido e `validate=\"one_to_one\"`; duplicidade bloqueia a junção e não é resolvida apagando registros. "
-                    "Ausência de destino ou de D futuro gera desfecho desconhecido (null). Os recortes são conferências descritivas, sem decisão sobre população final do modelo.")
+                    "Ausência de destino ou de D futuro gera desfecho desconhecido (null). Os recortes são conferências descritivas; a população do futuro modelo está definida em `docs/contrato_metodologico.md`.")
     sections.append("Nos metadados, `phase_origin_counts` contabiliza todos os elegíveis por fase de origem; "
                     "`phase_origin_found_counts` contabiliza somente os encontrados no destino. As somas correspondem, respectivamente, a elegíveis e encontrados.")
     sections.append("## Comparações cadastrais")
@@ -140,7 +140,7 @@ def report_body(summary, metadata):
                     "- **Pedras e INDE:** limites do dicionário diferem da Figura 3 do DOCX; não houve reclassificação de pedras ou recomposição do INDE.\n"
                     "- **Indisponibilidade:** IPP é estruturalmente ausente em 2022; erros Excel e outros vazios nos demais anos não receberam causa presumida nem imputação.\n"
                     "- **Cadastro:** datas ambíguas, idades armazenadas como datas e divergências normalizadas permanecem sinalizadas; não há correção por suposição.\n"
-                    "- **Risco futuro:** perda de seguimento e aplicabilidade dos indicadores podem alterar a população analisável. Definição de alvo, recorte e estratégia temporal do modelo ficam para decisão posterior.\n"
+                    "- **Risco futuro:** perda de seguimento e aplicabilidade dos indicadores podem alterar a população analisável. Alvo, recorte e estratégia temporal estão aprovados em `docs/contrato_metodologico.md`; a preparação das coortes e a modelagem permanecem pendentes.\n"
                     "- **Escopo:** auditoria e preparação concluídas nos limites das verificações registradas. Análises de negócio completas, notebook preditivo, apresentação, aplicação, publicação e vídeo pertencem às próximas etapas.")
     sections.append("Evidências textuais e visuais e suas localizações: `docs/evidencias_documentais.md`. "
                     "A revisão documental foi realizada em 15/09/2026 e contemplou seis páginas do enunciado, quatro do dicionário, nove de desvendando_passos e dez imagens do DOCX. "

@@ -2,7 +2,7 @@
 
 Documento **regenerável**. Relatório público agregado; dados individuais em `local_data/`, ignorada pelo Git.
 
-Execução UTC: 2026-09-17T12:38:57.391703+00:00. Comando: `python src/preparacao_longitudinal.py`.
+Execução UTC: 2026-09-17T13:59:48.577097+00:00. Comando: `python src/preparacao_longitudinal.py`.
 
 ## Procedimentos e correções
 
@@ -97,7 +97,7 @@ O segundo teste é aritmético sobre códigos extraídos. Concordância não con
 | 2023->2024 | todas_fases | 462 | 370 | 92 | 0 | 84 |
 | 2023->2024 | fases_0_a_7 | 399 | 311 | 88 | 0 | 84 |
 
-Todas as junções usam RA válido e `validate="one_to_one"`; duplicidade bloqueia a junção e não é resolvida apagando registros. Ausência de destino ou de D futuro gera desfecho desconhecido (null). Os recortes são conferências descritivas, sem decisão sobre população final do modelo.
+Todas as junções usam RA válido e `validate="one_to_one"`; duplicidade bloqueia a junção e não é resolvida apagando registros. Ausência de destino ou de D futuro gera desfecho desconhecido (null). Os recortes são conferências descritivas; a população do futuro modelo está definida em `docs/contrato_metodologico.md`.
 
 Nos metadados, `phase_origin_counts` contabiliza todos os elegíveis por fase de origem; `phase_origin_found_counts` contabiliza somente os encontrados no destino. As somas correspondem, respectivamente, a elegíveis e encontrados.
 
@@ -199,7 +199,7 @@ Os testes unitários e a validação da base são verificações diferentes. A e
 - **Pedras e INDE:** limites do dicionário diferem da Figura 3 do DOCX; não houve reclassificação de pedras ou recomposição do INDE.
 - **Indisponibilidade:** IPP é estruturalmente ausente em 2022; erros Excel e outros vazios nos demais anos não receberam causa presumida nem imputação.
 - **Cadastro:** datas ambíguas, idades armazenadas como datas e divergências normalizadas permanecem sinalizadas; não há correção por suposição.
-- **Risco futuro:** perda de seguimento e aplicabilidade dos indicadores podem alterar a população analisável. Definição de alvo, recorte e estratégia temporal do modelo ficam para decisão posterior.
+- **Risco futuro:** perda de seguimento e aplicabilidade dos indicadores podem alterar a população analisável. Alvo, recorte e estratégia temporal estão aprovados em `docs/contrato_metodologico.md`; a preparação das coortes e a modelagem permanecem pendentes.
 - **Escopo:** auditoria e preparação concluídas nos limites das verificações registradas. Análises de negócio completas, notebook preditivo, apresentação, aplicação, publicação e vídeo pertencem às próximas etapas.
 
 Evidências textuais e visuais e suas localizações: `docs/evidencias_documentais.md`. A revisão documental foi realizada em 15/09/2026 e contemplou seis páginas do enunciado, quatro do dicionário, nove de desvendando_passos e dez imagens do DOCX. A inspeção das imagens extraídas do DOCX não é uma validação da sua paginação renderizada.
