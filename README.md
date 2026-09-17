@@ -6,8 +6,9 @@ Grupo: Victor, Jonatas, Izadora, Laura e Lucas.
 
 Auditoria corrigida e primeira base longitudinal conservadora dos anos 2022–2024,
 usando somente `DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx`.
-O [contrato metodológico](docs/contrato_metodologico.md) está aprovado;
-a modelagem ainda não foi iniciada. O [status do projeto](docs/status_projeto.md)
+O [contrato metodológico](docs/contrato_metodologico.md) está aprovado e a
+[preparação das coortes](reports/relatorio_coortes_modelagem.md) está concluída.
+O treinamento ainda não foi iniciado. O [status do projeto](docs/status_projeto.md)
 reúne o marco concluído, as pendências e as instruções para continuidade pelo grupo.
 Nenhum modelo foi treinado e nenhuma aplicação, apresentação ou publicação foi criada.
 
@@ -28,14 +29,16 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py" -v
 .\.venv\Scripts\python.exe src/auditoria_inicial.py
 .\.venv\Scripts\python.exe src/preparacao_longitudinal.py
+.\.venv\Scripts\python.exe src/preparacao_coortes.py
 .\.venv\Scripts\python.exe src/verificar_entrega.py
 ```
 
 Execute a partir da raiz do projeto. No Linux/macOS, use `.venv/bin/python`
 no lugar de `.\.venv\Scripts\python.exe`. A preparação é independente da execução
-prévia da auditoria, mas a verificação final compara as saídas de ambas: use a ordem acima.
+prévia da auditoria. As coortes consomem a base longitudinal já preparada;
+a verificação final confere as três etapas: use a ordem acima.
 
-Cada execução de auditoria/preparação cria uma cópia datada somente das saídas
+Cada execução de auditoria/preparação longitudinal/coortes cria uma cópia datada somente das saídas
 que serão regeneradas, em `local_recovery/`. Isso inclui as saídas individuais
 locais, quando existentes. Não copia `.venv` nem os originais de `DATATHON/`.
 
@@ -60,15 +63,22 @@ e, separadamente, o inventário da execução anterior. Nenhum comando faz commi
 | `src/dados_pede.py` | Leitura com tipo Excel e linha física, classificação de conteúdo, extração de fases e derivações conservadoras compartilhadas. |
 | `src/auditoria_inicial.py` | Auditoria de todas as linhas/colunas, indicadores, cadastro e transições por RA. |
 | `src/preparacao_longitudinal.py` | Grava base individual e relê fonte/saídas para validar a correspondência integral. |
+| `src/preparacao_coortes.py` | Prepara as duas transições temporais, separa X/y da auditoria privada e valida elegibilidade, contagens e saídas. |
 | `src/rastreabilidade.py` | Cópia de recuperação, inventários, hashes e proteção contra versionamento de dados individuais. |
 | `src/relatorios_preparacao.py` | Mapa e relatórios agregados regeneráveis. |
 | `src/verificar_entrega.py` | Executa testes e confere hashes, registros, arquivos serializados e exclusões do Git; produz evidência final. |
 | `tests/test_auditoria_regressao.py` | Quatro testes existentes preservados. |
 | `tests/test_preparacao_regressao.py` | Regressões sobre códigos, erros Excel, tipos após 20 linhas, datas, duplicidades, junções e linha original. |
 | `tests/test_portabilidade_regressao.py` | Execução sem recuperação histórica, caminhos públicos, RA fora da primeira coluna, fases de origem e documentos manuais. |
+| `tests/test_coortes_regressao.py` | Alvo, ausências, fases, proteção de X, separação temporal, serialização e referências na fonte real quando disponível. |
 | `local_data/base_longitudinal.jsonl` | Base completa: valores originais, tipos de cada célula, derivados, qualidade e procedência. Um objeto por registro anual. |
 | `local_data/base_longitudinal.csv` | Visão plana derivada. O bloco completo de originais permanece no JSONL. |
 | `local_data/auditoria/` | Detalhes individuais de células, cadastro e transições, além do resumo agregado em JSON. |
+| `local_data/coorte_{desenvolvimento,teste_temporal}.csv` | Sete preditores e y, somente transições supervisionadas, sem identificadores. |
+| `local_data/X_{desenvolvimento,teste_temporal}.csv` e `local_data/y_{desenvolvimento,teste_temporal}.csv` | Matrizes X e alvos y separados, alinhados por posição, sem índice exportado. |
+| `local_data/coortes_modelagem.jsonl` | Elegíveis na origem, inclusive alvo desconhecido; blocos separados de chave privada, X, y e metadados de auditoria. |
+| `reports/relatorio_coortes_modelagem.md` | Fluxos, exclusões, cobertura, distribuição do alvo e validações agregadas. |
+| `reports/metadados_coortes.json` | Schema, critérios, contagens e hashes de entradas, saídas, fontes, código e documentos. |
 | `docs/mapa_campos.md` | Mapa de todas as colunas por ano/posição e dicionário dos campos preparados. |
 | `reports/relatorio_auditoria_inicial.md` | Auditoria agregada corrigida. |
 | `reports/relatorio_preparacao_inicial.md` | Resultado da preparação, contagens de qualidade, validações e pendências. |
@@ -89,6 +99,14 @@ registros = [json.loads(linha) for linha in
 O JSONL é a representação completa e conserva a diferença entre ausência (`null`)
 e zero. Datas originais usam ISO junto de seus tipos Excel/Python; o tipo não é
 inferido de novo a partir do texto. RA não deve ser convertido automaticamente em número.
+
+Nas coortes, os CSV não preservam tipos categóricos. Para obter X com fase
+categórica e números anuláveis, usar `supervised_matrices` de
+`src/preparacao_coortes.py` sobre os registros do JSONL filtrados por
+`metadados.coorte`. A função exclui y desconhecido e retorna X e y alinhados.
+Os CSV de X contêm exclusivamente IDA, IEG, IAA, IPS, IPV, fase e defasagem de
+origem; nenhuma chave de auditoria pertence a X. Ausências permanecem vazias
+no CSV e `null` no JSONL, sem imputação. Todos esses arquivos são privados.
 
 ## Regras de preservação e limites
 

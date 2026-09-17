@@ -103,6 +103,11 @@ def public_text_issues(text: str) -> list[str]:
 
 
 def outputs_for_run(kind: str) -> list[str]:
+    if kind == "coortes":
+        return ["reports/metadados_coortes.json", "reports/relatorio_coortes_modelagem.md",
+                "local_data/coortes_modelagem.jsonl"] + [
+                    f"local_data/{prefix}_{name}.csv" for name in ("desenvolvimento", "teste_temporal")
+                    for prefix in ("coorte", "X", "y")]
     common = ["docs/inventario_fontes.md", "docs/mapa_campos.md", "local_data/auditoria/resumo.json"]
     common += [f"local_data/auditoria/detalhes_{name}.jsonl" for name in ("celulas", "cadastro", "transicoes")]
     return common + (["artifacts_meta.json", "reports/relatorio_auditoria_inicial.md"] if kind == "auditoria" else
@@ -123,9 +128,12 @@ def start_run(kind: str) -> dict:
             shutil.copy2(source, recovery / name)
     inventory = find_source_files(ROOT / "DATATHON")
     hashes = {f["relative_path"]: f["sha256"] for f in inventory}
-    meta_path = ROOT / ("artifacts_meta.json" if kind == "auditoria" else "reports/metadados_preparacao.json")
+    configurations = {"auditoria": ("artifacts_meta.json", "auditoria_inicial"),
+                      "preparacao": ("reports/metadados_preparacao.json", "preparacao_longitudinal"),
+                      "coortes": ("reports/metadados_coortes.json", "preparacao_coortes")}
+    metadata_name, script = configurations[kind]
+    meta_path = ROOT / metadata_name
     previous = json.loads(meta_path.read_text(encoding="utf-8")) if meta_path.exists() else {}
-    script = "auditoria_inicial" if kind == "auditoria" else "preparacao_longitudinal"
     run = {"kind": kind, "started_at": started, "command": f"python src/{script}.py",
            "working_directory": ".", "recovery_directory": recovery.relative_to(ROOT).as_posix(),
            "historical_baseline": historical_baseline(previous),
@@ -138,7 +146,7 @@ def start_run(kind: str) -> dict:
     return run
 
 
-def finish_run(run: dict, summary: dict, validations: dict, outputs: list[Path]) -> dict:
+def finish_run(run: dict, summary: dict, validations: dict, outputs: list[Path], *, extra_metadata: dict | None = None) -> dict:
     after = {f["relative_path"]: f["sha256"] for f in find_source_files(ROOT / "DATATHON")}
     baseline = run.get("historical_baseline")
     metadata = {"regeneravel": True, "schema_version": 2, "kind": run["kind"], "started_at": run["started_at"],
@@ -159,12 +167,17 @@ def finish_run(run: dict, summary: dict, validations: dict, outputs: list[Path])
                 "test_hashes": {p.relative_to(ROOT).as_posix(): sha256_file(p) for p in sorted((ROOT / "tests").glob("*.py"))},
                 "output_hashes": {p.relative_to(ROOT).as_posix(): sha256_file(p) for p in outputs},
                 "validations": validations, "summary": summary}
+    if extra_metadata:
+        if metadata.keys() & extra_metadata.keys():
+            raise ValueError("Metadados adicionais não podem substituir campos de rastreabilidade")
+        metadata.update(extra_metadata)
     write_json(ROOT / run["metadata_path"], metadata)
     # Metadados de preparação são agregados e devem poder ser versionados.
     inventory_lines = ["# Inventário das fontes", "", "Regenerável por qualquer um dos scripts de auditoria/preparação.",
                        "", f"Execução UTC: {metadata['executed_at']}", "", "| Arquivo relativo | Tamanho (bytes) | SHA-256 |", "| --- | ---: | --- |"]
     inventory_lines.extend(f"| {f['relative_path']} | {f['size_bytes']} | {f['sha256']} |" for f in run["inventory"])
-    (ROOT / "docs/inventario_fontes.md").write_text("\n".join(inventory_lines) + "\n", encoding="utf-8")
+    if run["kind"] != "coortes":
+        (ROOT / "docs/inventario_fontes.md").write_text("\n".join(inventory_lines) + "\n", encoding="utf-8")
     if not metadata["source_integrity_preserved"] or not metadata["manual_documents_preserved"]:
         raise RuntimeError("Falha de integridade; consulte os metadados e a recuperação local")
     return metadata

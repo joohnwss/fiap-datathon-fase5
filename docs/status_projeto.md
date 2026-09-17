@@ -20,7 +20,11 @@ A evidência da execução mais recente, incluindo a quantidade atual de testes,
 está em [verificação final](../reports/verificacao_final.md).
 
 O [contrato metodológico](contrato_metodologico.md) está aprovado. A modelagem
-ainda não foi iniciada e nenhum modelo foi treinado até este marco.
+conta agora com coortes preparadas e validadas; nenhum modelo foi treinado.
+O marco seguro da fundação é a tag `v0.1-fundacao-dados`. A etapa de coortes
+foi desenvolvida na branch `feat/coortes-modelagem`, sem publicação nesta rodada.
+O [relatório de coortes](../reports/relatorio_coortes_modelagem.md) apresenta
+as contagens calculadas, a cobertura e os fluxos de inclusão e exclusão.
 
 ## Metodologia aprovada
 
@@ -63,12 +67,13 @@ python -m venv .venv
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py" -v
 .\.venv\Scripts\python.exe src\auditoria_inicial.py
 .\.venv\Scripts\python.exe src\preparacao_longitudinal.py
+.\.venv\Scripts\python.exe src\preparacao_coortes.py
 .\.venv\Scripts\python.exe src\verificar_entrega.py
 ```
 
 No Linux/macOS, usar `.venv/bin/python` e separadores `/` nos caminhos dos
-scripts. A ordem acima permite ao verificador comparar as saídas de auditoria
-e preparação. As dependências atuais reproduzem a preparação; dependências de
+scripts. A ordem acima permite ao verificador comparar as saídas de auditoria,
+preparação longitudinal e coortes. As dependências atuais reproduzem a preparação; dependências de
 modelagem e aplicação serão definidas em suas respectivas etapas.
 
 As bases JSONL e CSV e os detalhes individuais serão regenerados em
@@ -77,6 +82,15 @@ metadados e hashes e preservam cópias datadas das saídas em `local_recovery/`.
 Antes de editar código, testes ou documentos manuais, preservar também uma
 cópia recuperável desses arquivos: a recuperação automática cobre apenas as
 saídas regeneradas. Não restaurar versões antigas sobre trabalho atual.
+
+As coortes produzem `local_data/coorte_desenvolvimento.csv`,
+`local_data/coorte_teste_temporal.csv`, os arquivos separados
+`local_data/X_{desenvolvimento,teste_temporal}.csv` e
+`local_data/y_{desenvolvimento,teste_temporal}.csv`, além de
+`local_data/coortes_modelagem.jsonl`. Os CSV supervisionados excluem desfechos
+desconhecidos e identificadores; o JSONL mantém os elegíveis sem alvo em blocos
+privados de chave técnica, X, y e metadados. O schema e os hashes constam de
+`reports/metadados_coortes.json`. Nenhuma imputação foi realizada.
 
 ## Trabalho compartilhado e proteção dos dados
 
@@ -100,20 +114,20 @@ relatórios identificados como regeneráveis devem ser alterados em seu gerador.
 
 ## Próximas entregas
 
-1. Preparar as coortes de modelagem conforme o contrato, conferindo elegibilidade,
-   perdas, alvo desconhecido, alunos repetidos e as contagens esperadas.
-2. Realizar as análises das 11 perguntas, com cobertura e limites observacionais.
-3. Construir o notebook reproduzível, com engenharia de atributos e divisão temporal.
-4. Treinar e selecionar no desenvolvimento; congelar escolhas e realizar a avaliação
+1. Realizar as análises das 11 perguntas, incluindo os perfis de perda de acompanhamento,
+   com cobertura e limites observacionais.
+2. Construir o notebook reproduzível, com engenharia de atributos e divisão temporal.
+3. Treinar e selecionar no desenvolvimento; congelar escolhas e realizar a avaliação
    temporal única, com incerteza, sensibilidade e equidade.
-5. Implementar a aplicação Streamlit e o modelo final, distinguindo o retreinamento
+4. Implementar a aplicação Streamlit e o modelo final, distinguindo o retreinamento
    das métricas oficiais de avaliação temporal.
-6. Realizar o deploy no Streamlit Community Cloud após revisão dos artefatos públicos.
-7. Preparar a apresentação gerencial em PPT/PDF com resultados e limitações.
-8. Produzir o vídeo de até cinco minutos, com ao menos uma pessoa do grupo.
-9. Concluir a revisão final de requisitos, reprodutibilidade, privacidade e entregas.
+5. Realizar o deploy no Streamlit Community Cloud após revisão dos artefatos públicos.
+6. Preparar a apresentação gerencial em PPT/PDF com resultados e limitações.
+7. Produzir o vídeo de até cinco minutos, com ao menos uma pessoa do grupo.
+8. Concluir a revisão final de requisitos, reprodutibilidade, privacidade e entregas.
 
-O ponto imediato de continuidade é a preparação das coortes, ainda pendente.
+A preparação das coortes está concluída. O ponto imediato de continuidade são
+as análises de negócio e o notebook com pipeline de validação interna, ainda pendentes.
 Consultar o [registro de decisões](registro_decisoes.md), as
 [evidências documentais](evidencias_documentais.md) e o
 [relatório de preparação](../reports/relatorio_preparacao_inicial.md) antes de
