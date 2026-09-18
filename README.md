@@ -8,9 +8,14 @@ Auditoria corrigida e primeira base longitudinal conservadora dos anos 2022–20
 usando somente `DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx`.
 O [contrato metodológico](docs/contrato_metodologico.md) está aprovado e a
 [preparação das coortes](reports/relatorio_coortes_modelagem.md) está concluída.
-O treinamento ainda não foi iniciado. O [status do projeto](docs/status_projeto.md)
+A modelagem preditiva está implementada, com seleção exclusiva em 2022→2023,
+congelamento e avaliação temporal única em 2023→2024. Consulte o
+[relatório de modelagem](reports/relatorio_modelagem.md) e a
+[configuração congelada](artifacts/configuracao_congelada.json).
+O [status do projeto](docs/status_projeto.md)
 reúne o marco concluído, as pendências e as instruções para continuidade pelo grupo.
-Nenhum modelo foi treinado e nenhuma aplicação, apresentação ou publicação foi criada.
+O modelo avaliado foi treinado somente em 2022→2023. O modelo operacional,
+a aplicação, a apresentação e a publicação permanecem para etapas posteriores.
 
 Resultados e pendências: [relatório de preparação](reports/relatorio_preparacao_inicial.md).
 Evidência das verificações: [verificação final](reports/verificacao_final.md).
@@ -30,13 +35,29 @@ python -m venv .venv
 .\.venv\Scripts\python.exe src/auditoria_inicial.py
 .\.venv\Scripts\python.exe src/preparacao_longitudinal.py
 .\.venv\Scripts\python.exe src/preparacao_coortes.py
+.\.venv\Scripts\python.exe src/modelagem.py
 .\.venv\Scripts\python.exe src/verificar_entrega.py
 ```
 
 Execute a partir da raiz do projeto. No Linux/macOS, use `.venv/bin/python`
 no lugar de `.\.venv\Scripts\python.exe`. A preparação é independente da execução
 prévia da auditoria. As coortes consomem a base longitudinal já preparada;
-a verificação final confere as três etapas: use a ordem acima.
+a verificação final confere preparação e modelagem: use a ordem acima.
+
+Na primeira execução de modelagem, o script compara quatro modelos com cinco
+folds estratificados, escolhe o limiar OOF com recall mínimo de 80%, grava o
+congelamento, ajusta o modelo e abre o teste temporal. `--somente-desenvolvimento`
+permite encerrar após o congelamento, antes de abrir o teste. Uma vez registrada
+a avaliação, novas execuções apenas verificam hashes e resultados existentes;
+não selecionam nem avaliam novamente. Uma avaliação interrompida fica bloqueada
+para investigação, sem repetição automática. Não remova os registros de
+congelamento ou abertura para escolher outro modelo após conhecer o teste.
+
+O schema exige as sete colunas na ordem documentada. O pipeline persistido
+recebe DataFrame, retorna probabilidades e usa o limiar do schema para classificar
+risco. Os arquivos privados de probabilidades OOF, sensibilidade e teste ficam
+em `local_data/modelagem/`. Apenas parâmetros treinados e resultados agregados
+são públicos. As versões utilizadas estão fixadas em `requirements.txt`.
 
 Cada execução de auditoria/preparação longitudinal/coortes cria uma cópia datada somente das saídas
 que serão regeneradas, em `local_recovery/`. Isso inclui as saídas individuais
@@ -64,6 +85,13 @@ e, separadamente, o inventário da execução anterior. Nenhum comando faz commi
 | `src/auditoria_inicial.py` | Auditoria de todas as linhas/colunas, indicadores, cadastro e transições por RA. |
 | `src/preparacao_longitudinal.py` | Grava base individual e relê fonte/saídas para validar a correspondência integral. |
 | `src/preparacao_coortes.py` | Prepara as duas transições temporais, separa X/y da auditoria privada e valida elegibilidade, contagens e saídas. |
+| `src/modelagem.py` | Seleção OOF, congelamento, persistência do modelo avaliado, limiar e avaliação temporal com bootstrap e robustez. |
+| `src/relatorio_modelagem.py` | Relatório agregado e curvas de precisão-recall e calibração. |
+| `tests/test_modelagem_regressao.py` | Separação temporal, schema, imputação, OOF, limiar, persistência, privacidade e integração sintética. |
+| `artifacts/configuracao_congelada.json` | Configuração e métricas de decisão registradas antes da abertura do teste; hash canônico. |
+| `artifacts/modelo_avaliado.joblib` e `artifacts/schema_modelo.json` | Pipeline treinado somente em 2022→2023 e contrato de entrada/limiar. |
+| `artifacts/avaliacao_temporal.json` | Registro de abertura única e integridade das saídas. |
+| `reports/relatorio_modelagem.md`, `reports/metricas_modelagem.json` e `reports/curvas_modelagem.png` | Avaliação, intervalos, análises agregadas, interpretabilidade e limitações. |
 | `src/rastreabilidade.py` | Cópia de recuperação, inventários, hashes e proteção contra versionamento de dados individuais. |
 | `src/relatorios_preparacao.py` | Mapa e relatórios agregados regeneráveis. |
 | `src/verificar_entrega.py` | Executa testes e confere hashes, registros, arquivos serializados e exclusões do Git; produz evidência final. |

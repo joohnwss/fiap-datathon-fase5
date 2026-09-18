@@ -1,6 +1,6 @@
 # Status do projeto
 
-Atualização: 17/09/2026. Integrantes: Victor, Jonatas, Izadora, Laura e Lucas.
+Atualização: 18/09/2026. Integrantes: Victor, Jonatas, Izadora, Laura e Lucas.
 
 ## Objetivo e marco atual
 
@@ -20,11 +20,19 @@ A evidência da execução mais recente, incluindo a quantidade atual de testes,
 está em [verificação final](../reports/verificacao_final.md).
 
 O [contrato metodológico](contrato_metodologico.md) está aprovado. A modelagem
-conta agora com coortes preparadas e validadas; nenhum modelo foi treinado.
-O marco seguro da fundação é a tag `v0.1-fundacao-dados`. A etapa de coortes
-foi desenvolvida na branch `feat/coortes-modelagem`, sem publicação nesta rodada.
+conta com coortes validadas e pipeline de avaliação temporal. Os marcos seguros
+são `v0.1-fundacao-dados` e `v0.2-coortes`. A modelagem foi implementada na branch
+`feat/modelagem`, sem commit, merge, push ou nova tag.
 O [relatório de coortes](../reports/relatorio_coortes_modelagem.md) apresenta
 as contagens calculadas, a cobertura e os fluxos de inclusão e exclusão.
+
+A regressão logística foi selecionada no desenvolvimento (AP OOF 0,6649;
+recall 0,8167; precisão 0,5326), com C=1, solver lbfgs, max_iter=2000 e
+semente 42. O limiar é 0,26696679375725973. A
+[configuração congelada](../artifacts/configuracao_congelada.json) precede
+a abertura do teste; o [relatório de modelagem](../reports/relatorio_modelagem.md)
+registra a avaliação temporal, os intervalos e as limitações. O artefato
+persistido é o **modelo avaliado**, treinado somente em 2022→2023.
 
 ## Metodologia aprovada
 
@@ -68,13 +76,22 @@ python -m venv .venv
 .\.venv\Scripts\python.exe src\auditoria_inicial.py
 .\.venv\Scripts\python.exe src\preparacao_longitudinal.py
 .\.venv\Scripts\python.exe src\preparacao_coortes.py
+.\.venv\Scripts\python.exe src\modelagem.py
 .\.venv\Scripts\python.exe src\verificar_entrega.py
 ```
 
 No Linux/macOS, usar `.venv/bin/python` e separadores `/` nos caminhos dos
 scripts. A ordem acima permite ao verificador comparar as saídas de auditoria,
-preparação longitudinal e coortes. As dependências atuais reproduzem a preparação; dependências de
-modelagem e aplicação serão definidas em suas respectivas etapas.
+preparação longitudinal, coortes e modelagem. As dependências fixadas reproduzem
+a preparação e a modelagem; a aplicação permanece fora desta etapa.
+
+`modelagem.py --somente-desenvolvimento` encerra depois de congelar a seleção e
+persistir o ajuste de desenvolvimento. A execução sem opção realiza a primeira
+avaliação temporal ou, se já concluída, apenas verifica integridade. Os arquivos
+`artifacts/configuracao_congelada.json` e `artifacts/avaliacao_temporal.json`
+bloqueiam nova seleção/avaliação. Uma execução interrompida após abertura exige
+investigação; não há repetição automática. As decisões não podem ser alteradas
+em função dos resultados temporais.
 
 As bases JSONL e CSV e os detalhes individuais serão regenerados em
 `local_data/`. Os relatórios públicos contêm agregados. As execuções atualizam
@@ -117,8 +134,9 @@ relatórios identificados como regeneráveis devem ser alterados em seu gerador.
 1. Realizar as análises das 11 perguntas, incluindo os perfis de perda de acompanhamento,
    com cobertura e limites observacionais.
 2. Construir o notebook reproduzível, com engenharia de atributos e divisão temporal.
-3. Treinar e selecionar no desenvolvimento; congelar escolhas e realizar a avaliação
-   temporal única, com incerteza, sensibilidade e equidade.
+3. Revisar os resultados da modelagem já implementada, preservando o congelamento
+   e as métricas oficiais. A auditoria por gênero ficou limitada pela ausência
+   desse campo nas coortes autorizadas; a auditoria por fase é agregada.
 4. Implementar a aplicação Streamlit e o modelo final, distinguindo o retreinamento
    das métricas oficiais de avaliação temporal.
 5. Realizar o deploy no Streamlit Community Cloud após revisão dos artefatos públicos.
@@ -126,8 +144,9 @@ relatórios identificados como regeneráveis devem ser alterados em seu gerador.
 7. Produzir o vídeo de até cinco minutos, com ao menos uma pessoa do grupo.
 8. Concluir a revisão final de requisitos, reprodutibilidade, privacidade e entregas.
 
-A preparação das coortes está concluída. O ponto imediato de continuidade são
-as análises de negócio e o notebook com pipeline de validação interna, ainda pendentes.
+A preparação das coortes e o pipeline de modelagem estão concluídos. O ponto
+de continuidade são as análises de negócio e a integração do pipeline existente
+ao notebook, ainda pendentes. Não realizar nova seleção com o teste temporal.
 Consultar o [registro de decisões](registro_decisoes.md), as
 [evidências documentais](evidencias_documentais.md) e o
 [relatório de preparação](../reports/relatorio_preparacao_inicial.md) antes de

@@ -1,0 +1,50 @@
+{
+  "tipo": "modelo avaliado",
+  "treino": "2022->2023",
+  "n": 189,
+  "eventos": 60,
+  "colunas": [
+    "ida",
+    "ieg",
+    "iaa",
+    "ips",
+    "ipv",
+    "fase_origem",
+    "defasagem_origem"
+  ],
+  "tipos": {
+    "ida": "numero anulavel",
+    "ieg": "numero anulavel",
+    "iaa": "numero anulavel",
+    "ips": "numero anulavel",
+    "ipv": "numero anulavel",
+    "fase_origem": "string categorica",
+    "defasagem_origem": "numero anulavel"
+  },
+  "categorias_fase": [
+    "0",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7"
+  ],
+  "classe_positiva": 1,
+  "limiar": 0.26696679375725973,
+  "regra_classificacao": "probabilidade >= limiar",
+  "ordem_obrigatoria": true,
+  "configuracao_sha256": "85e1e2cd77fa3555f50553078e7dccb72e03152a4c9bb41e293811e99ac87444",
+  "modelo_sha256": "88098ab093fab4eccda475a340a85dd541ffda936a839ce79c3449a3b02dafab",
+  "sensibilidade_sha256": "da748d42879bb822ac3546b8116a73afe67677f9f05ce0b819dde1e83a18ae40",
+  "packages": {
+    "numpy": "2.5.3",
+    "pandas": "3.0.5",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.18.1",
+    "joblib": "1.6.0",
+    "matplotlib": "3.11.2"
+  },
+  "oof_sha256": "caf25b239edfd13a1a09b413fae7a24494009cca85e363f1933728a49d1bad5f"
+}

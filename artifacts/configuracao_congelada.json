@@ -1,0 +1,1061 @@
+{
+  "congelado_em": "2026-09-18T14:50:56.482500+00:00",
+  "configuracao": {
+    "protocolo": {
+      "versao": 1,
+      "random_state": 42,
+      "validacao": {
+        "classe": "StratifiedKFold",
+        "n_splits": 5,
+        "shuffle": true,
+        "random_state": 42
+      },
+      "selecao": "Maior AP OOF; empate exato: menor DP de AP nos folds, menor Brier OOF, ordem logistica/arvore/floresta/dummy.",
+      "limiar": "p >= limiar; recall >= 0.80; maior precisao; empate: maior recall, depois maior limiar.",
+      "preprocessamento": {
+        "numericos": "SimpleImputer median dentro do fold; coluna totalmente ausente no treino bloqueia ajuste",
+        "fase": "OneHotEncoder categorias 0..7, sem descarte, handle_unknown=ignore; desconhecida gera vetor zero",
+        "padronizacao": "StandardScaler somente nos numericos da logistica",
+        "indicadores_ausencia": false,
+        "justificativa": "Nenhuma ausencia observada no desenvolvimento; nao ha padrao aprendivel."
+      },
+      "sensibilidade": "Mesmo algoritmo/hiperparametros escolhido, sem defasagem_origem; OOF e limiar proprios antes do teste; nao compete na selecao.",
+      "bootstrap": {
+        "n": 2000,
+        "seed": 42,
+        "confianca": 0.95,
+        "unidade": "transicao/aluno no teste (uma por pessoa)",
+        "metodo": "percentil, nao estratificado, pipeline e limiar fixos; nulo por metrica nao estimavel, contar descartes",
+        "diferenca": "sem repetidos menos teste completo; reamostragem pareada do teste e mascara de participacao"
+      },
+      "robustez": [
+        "casos completos sem reajuste",
+        "com/sem participacao desenvolvimento",
+        "perdas sem alvo",
+        "distribuicao dos sete preditores",
+        "equidade genero se disponivel nas coortes e fase",
+        "falsos positivos/negativos agregados"
+      ],
+      "privacidade": {
+        "minimo_perfil": 10,
+        "minimo_grupo": 30,
+        "minimo_eventos_e_nao_eventos": 5,
+        "calibracao": "5 faixas uniformes; fundir adjacentes ate pelo menos 20 observacoes; sobra fundida a ultima"
+      }
+    },
+    "preditores": [
+      "ida",
+      "ieg",
+      "iaa",
+      "ips",
+      "ipv",
+      "fase_origem",
+      "defasagem_origem"
+    ],
+    "categorias_fase": [
+      "0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7"
+    ],
+    "candidatos": {
+      "dummy": {
+        "constant": null,
+        "random_state": 42,
+        "strategy": "prior"
+      },
+      "logistica": {
+        "C": 1.0,
+        "class_weight": null,
+        "dual": false,
+        "fit_intercept": true,
+        "intercept_scaling": 1,
+        "l1_ratio": 0.0,
+        "max_iter": 2000,
+        "n_jobs": null,
+        "penalty": "deprecated",
+        "random_state": 42,
+        "solver": "lbfgs",
+        "tol": 0.0001,
+        "verbose": 0,
+        "warm_start": false
+      },
+      "arvore": {
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "gini",
+        "max_depth": 3,
+        "max_features": null,
+        "max_leaf_nodes": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 15,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "random_state": 42,
+        "splitter": "best"
+      },
+      "floresta": {
+        "bootstrap": true,
+        "ccp_alpha": 0.0,
+        "class_weight": null,
+        "criterion": "gini",
+        "max_depth": 3,
+        "max_features": "sqrt",
+        "max_leaf_nodes": null,
+        "max_samples": null,
+        "min_impurity_decrease": 0.0,
+        "min_samples_leaf": 10,
+        "min_samples_split": 2,
+        "min_weight_fraction_leaf": 0.0,
+        "monotonic_cst": null,
+        "n_estimators": 200,
+        "n_jobs": 1,
+        "oob_score": false,
+        "random_state": 42,
+        "verbose": 0,
+        "warm_start": false
+      }
+    },
+    "escolha": {
+      "modelos": {
+        "dummy": {
+          "limiar": 0.3157894736842105,
+          "regra": "p >= limiar; recall >= 0.80; maior precisao; empate: maior recall, depois maior limiar.",
+          "metricas": {
+            "n": 189,
+            "eventos": 60,
+            "prevalencia": 0.31746031746031744,
+            "average_precision": 0.3161236424394319,
+            "roc_auc": 0.4968992248062015,
+            "precisao": 0.31746031746031744,
+            "recall": 1.0,
+            "f1": 0.4819277108433735,
+            "brier": 0.21668557342880806,
+            "matriz_confusao": [
+              [
+                0,
+                129
+              ],
+              [
+                0,
+                60
+              ]
+            ],
+            "previstos_risco": 189,
+            "proporcao_risco": 1.0
+          },
+          "folds": [
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.3157894736842105,
+              "roc_auc": 0.5,
+              "precisao": 0.3157894736842105,
+              "recall": 1.0,
+              "f1": 0.48,
+              "brier": 0.21607085561805922,
+              "matriz_confusao": [
+                [
+                  0,
+                  26
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 38,
+              "proporcao_risco": 1.0
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.3157894736842105,
+              "roc_auc": 0.5,
+              "precisao": 0.3157894736842105,
+              "recall": 1.0,
+              "f1": 0.48,
+              "brier": 0.21607085561805928,
+              "matriz_confusao": [
+                [
+                  0,
+                  26
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 38,
+              "proporcao_risco": 1.0
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.3157894736842105,
+              "roc_auc": 0.5,
+              "precisao": 0.3157894736842105,
+              "recall": 1.0,
+              "f1": 0.48,
+              "brier": 0.21607085561805922,
+              "matriz_confusao": [
+                [
+                  0,
+                  26
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 38,
+              "proporcao_risco": 1.0
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.3157894736842105,
+              "roc_auc": 0.5,
+              "precisao": 0.3157894736842105,
+              "recall": 1.0,
+              "f1": 0.48,
+              "brier": 0.21607085561805922,
+              "matriz_confusao": [
+                [
+                  0,
+                  26
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 38,
+              "proporcao_risco": 1.0
+            },
+            {
+              "n": 37,
+              "eventos": 12,
+              "prevalencia": 0.32432432432432434,
+              "average_precision": 0.32432432432432434,
+              "roc_auc": 0.5,
+              "precisao": 0.32432432432432434,
+              "recall": 1.0,
+              "f1": 0.4897959183673469,
+              "brier": 0.21921090065134383,
+              "matriz_confusao": [
+                [
+                  0,
+                  25
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 37,
+              "proporcao_risco": 1.0
+            }
+          ],
+          "dispersao": {
+            "average_precision": {
+              "media": 0.3174964438122333,
+              "dp": 0.003816901241820425,
+              "folds_validos": 5
+            },
+            "roc_auc": {
+              "media": 0.5,
+              "dp": 0.0,
+              "folds_validos": 5
+            },
+            "precisao": {
+              "media": 0.3174964438122333,
+              "dp": 0.003816901241820425,
+              "folds_validos": 5
+            },
+            "recall": {
+              "media": 1.0,
+              "dp": 0.0,
+              "folds_validos": 5
+            },
+            "f1": {
+              "media": 0.4819591836734694,
+              "dp": 0.004380867874285306,
+              "folds_validos": 5
+            },
+            "brier": {
+              "media": 0.21669886462471616,
+              "dp": 0.0014042708293669872,
+              "folds_validos": 5
+            }
+          }
+        },
+        "logistica": {
+          "limiar": 0.26696679375725973,
+          "regra": "p >= limiar; recall >= 0.80; maior precisao; empate: maior recall, depois maior limiar.",
+          "metricas": {
+            "n": 189,
+            "eventos": 60,
+            "prevalencia": 0.31746031746031744,
+            "average_precision": 0.6648719587525226,
+            "roc_auc": 0.8142118863049096,
+            "precisao": 0.532608695652174,
+            "recall": 0.8166666666666667,
+            "f1": 0.6447368421052632,
+            "brier": 0.16040225856108906,
+            "matriz_confusao": [
+              [
+                86,
+                43
+              ],
+              [
+                11,
+                49
+              ]
+            ],
+            "previstos_risco": 92,
+            "proporcao_risco": 0.48677248677248675
+          },
+          "folds": [
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6693706756206758,
+              "roc_auc": 0.8493589743589745,
+              "precisao": 0.6,
+              "recall": 1.0,
+              "f1": 0.75,
+              "brier": 0.14677339115240062,
+              "matriz_confusao": [
+                [
+                  18,
+                  8
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 20,
+              "proporcao_risco": 0.5263157894736842
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.7084325396825397,
+              "roc_auc": 0.7788461538461539,
+              "precisao": 0.5333333333333333,
+              "recall": 0.6666666666666666,
+              "f1": 0.5925925925925926,
+              "brier": 0.16329870498257862,
+              "matriz_confusao": [
+                [
+                  19,
+                  7
+                ],
+                [
+                  4,
+                  8
+                ]
+              ],
+              "previstos_risco": 15,
+              "proporcao_risco": 0.39473684210526316
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6927083333333334,
+              "roc_auc": 0.8301282051282051,
+              "precisao": 0.47619047619047616,
+              "recall": 0.8333333333333334,
+              "f1": 0.6060606060606061,
+              "brier": 0.15744953790170638,
+              "matriz_confusao": [
+                [
+                  15,
+                  11
+                ],
+                [
+                  2,
+                  10
+                ]
+              ],
+              "previstos_risco": 21,
+              "proporcao_risco": 0.5526315789473685
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6590897900408771,
+              "roc_auc": 0.7724358974358974,
+              "precisao": 0.5625,
+              "recall": 0.75,
+              "f1": 0.6428571428571429,
+              "brier": 0.17444400578534736,
+              "matriz_confusao": [
+                [
+                  19,
+                  7
+                ],
+                [
+                  3,
+                  9
+                ]
+              ],
+              "previstos_risco": 16,
+              "proporcao_risco": 0.42105263157894735
+            },
+            {
+              "n": 37,
+              "eventos": 12,
+              "prevalencia": 0.32432432432432434,
+              "average_precision": 0.707632850241546,
+              "roc_auc": 0.8366666666666667,
+              "precisao": 0.5,
+              "recall": 0.8333333333333334,
+              "f1": 0.625,
+              "brier": 0.16003601499482636,
+              "matriz_confusao": [
+                [
+                  15,
+                  10
+                ],
+                [
+                  2,
+                  10
+                ]
+              ],
+              "previstos_risco": 20,
+              "proporcao_risco": 0.5405405405405406
+            }
+          ],
+          "dispersao": {
+            "average_precision": {
+              "media": 0.6874468377837943,
+              "dp": 0.022396584079870177,
+              "folds_validos": 5
+            },
+            "roc_auc": {
+              "media": 0.8134871794871794,
+              "dp": 0.0353065377909302,
+              "folds_validos": 5
+            },
+            "precisao": {
+              "media": 0.5344047619047619,
+              "dp": 0.04915744177266198,
+              "folds_validos": 5
+            },
+            "recall": {
+              "media": 0.8166666666666667,
+              "dp": 0.12360330811826106,
+              "folds_validos": 5
+            },
+            "f1": {
+              "media": 0.6433020683020683,
+              "dp": 0.06260588975490601,
+              "folds_validos": 5
+            },
+            "brier": {
+              "media": 0.16040033096337186,
+              "dp": 0.010001984414231814,
+              "folds_validos": 5
+            }
+          }
+        },
+        "arvore": {
+          "limiar": 0.2222222222222222,
+          "regra": "p >= limiar; recall >= 0.80; maior precisao; empate: maior recall, depois maior limiar.",
+          "metricas": {
+            "n": 189,
+            "eventos": 60,
+            "prevalencia": 0.31746031746031744,
+            "average_precision": 0.5029162629163757,
+            "roc_auc": 0.7290051679586563,
+            "precisao": 0.44545454545454544,
+            "recall": 0.8166666666666667,
+            "f1": 0.5764705882352941,
+            "brier": 0.19492439510513115,
+            "matriz_confusao": [
+              [
+                68,
+                61
+              ],
+              [
+                11,
+                49
+              ]
+            ],
+            "previstos_risco": 110,
+            "proporcao_risco": 0.582010582010582
+          },
+          "folds": [
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6214070048309178,
+              "roc_auc": 0.8301282051282051,
+              "precisao": 0.5217391304347826,
+              "recall": 1.0,
+              "f1": 0.6857142857142857,
+              "brier": 0.1540541742427302,
+              "matriz_confusao": [
+                [
+                  15,
+                  11
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 23,
+              "proporcao_risco": 0.6052631578947368
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.5501927166400851,
+              "roc_auc": 0.717948717948718,
+              "precisao": 0.47368421052631576,
+              "recall": 0.75,
+              "f1": 0.5806451612903226,
+              "brier": 0.19135169036278232,
+              "matriz_confusao": [
+                [
+                  16,
+                  10
+                ],
+                [
+                  3,
+                  9
+                ]
+              ],
+              "previstos_risco": 19,
+              "proporcao_risco": 0.5
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.44396551724137934,
+              "roc_auc": 0.7019230769230769,
+              "precisao": 0.41379310344827586,
+              "recall": 1.0,
+              "f1": 0.5853658536585366,
+              "brier": 0.2034979780243459,
+              "matriz_confusao": [
+                [
+                  9,
+                  17
+                ],
+                [
+                  0,
+                  12
+                ]
+              ],
+              "previstos_risco": 29,
+              "proporcao_risco": 0.7631578947368421
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.405103668261563,
+              "roc_auc": 0.6458333333333333,
+              "precisao": 0.4090909090909091,
+              "recall": 0.75,
+              "f1": 0.5294117647058824,
+              "brier": 0.22684284154342466,
+              "matriz_confusao": [
+                [
+                  13,
+                  13
+                ],
+                [
+                  3,
+                  9
+                ]
+              ],
+              "previstos_risco": 22,
+              "proporcao_risco": 0.5789473684210527
+            },
+            {
+              "n": 37,
+              "eventos": 12,
+              "prevalencia": 0.32432432432432434,
+              "average_precision": 0.49264705882352944,
+              "roc_auc": 0.6833333333333333,
+              "precisao": 0.4117647058823529,
+              "recall": 0.5833333333333334,
+              "f1": 0.4827586206896552,
+              "brier": 0.198982072332028,
+              "matriz_confusao": [
+                [
+                  15,
+                  10
+                ],
+                [
+                  5,
+                  7
+                ]
+              ],
+              "previstos_risco": 17,
+              "proporcao_risco": 0.4594594594594595
+            }
+          ],
+          "dispersao": {
+            "average_precision": {
+              "media": 0.5026631931594949,
+              "dp": 0.08576530390560734,
+              "folds_validos": 5
+            },
+            "roc_auc": {
+              "media": 0.7158333333333333,
+              "dp": 0.06931366713007664,
+              "folds_validos": 5
+            },
+            "precisao": {
+              "media": 0.4460144118765273,
+              "dp": 0.050185782083978364,
+              "folds_validos": 5
+            },
+            "recall": {
+              "media": 0.8166666666666667,
+              "dp": 0.18066236157232332,
+              "folds_validos": 5
+            },
+            "f1": {
+              "media": 0.5727791372117366,
+              "dp": 0.07576125316739044,
+              "folds_validos": 5
+            },
+            "brier": {
+              "media": 0.19494575130106223,
+              "dp": 0.026419193702999583,
+              "folds_validos": 5
+            }
+          }
+        },
+        "floresta": {
+          "limiar": 0.3070440305499885,
+          "regra": "p >= limiar; recall >= 0.80; maior precisao; empate: maior recall, depois maior limiar.",
+          "metricas": {
+            "n": 189,
+            "eventos": 60,
+            "prevalencia": 0.31746031746031744,
+            "average_precision": 0.5747318853211328,
+            "roc_auc": 0.7665374677002583,
+            "precisao": 0.48484848484848486,
+            "recall": 0.8,
+            "f1": 0.6037735849056604,
+            "brier": 0.18589082662610362,
+            "matriz_confusao": [
+              [
+                78,
+                51
+              ],
+              [
+                12,
+                48
+              ]
+            ],
+            "previstos_risco": 99,
+            "proporcao_risco": 0.5238095238095238
+          },
+          "folds": [
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6001977146520491,
+              "roc_auc": 0.8044871794871795,
+              "precisao": 0.55,
+              "recall": 0.9166666666666666,
+              "f1": 0.6875,
+              "brier": 0.17818676244305406,
+              "matriz_confusao": [
+                [
+                  17,
+                  9
+                ],
+                [
+                  1,
+                  11
+                ]
+              ],
+              "previstos_risco": 20,
+              "proporcao_risco": 0.5263157894736842
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6308201058201058,
+              "roc_auc": 0.7756410256410257,
+              "precisao": 0.5555555555555556,
+              "recall": 0.8333333333333334,
+              "f1": 0.6666666666666666,
+              "brier": 0.1828694767177128,
+              "matriz_confusao": [
+                [
+                  18,
+                  8
+                ],
+                [
+                  2,
+                  10
+                ]
+              ],
+              "previstos_risco": 18,
+              "proporcao_risco": 0.47368421052631576
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.5263186813186813,
+              "roc_auc": 0.733974358974359,
+              "precisao": 0.45454545454545453,
+              "recall": 0.8333333333333334,
+              "f1": 0.5882352941176471,
+              "brier": 0.18821263245373224,
+              "matriz_confusao": [
+                [
+                  14,
+                  12
+                ],
+                [
+                  2,
+                  10
+                ]
+              ],
+              "previstos_risco": 22,
+              "proporcao_risco": 0.5789473684210527
+            },
+            {
+              "n": 38,
+              "eventos": 12,
+              "prevalencia": 0.3157894736842105,
+              "average_precision": 0.6081077334139948,
+              "roc_auc": 0.7435897435897436,
+              "precisao": 0.47058823529411764,
+              "recall": 0.6666666666666666,
+              "f1": 0.5517241379310345,
+              "brier": 0.18936211323393848,
+              "matriz_confusao": [
+                [
+                  17,
+                  9
+                ],
+                [
+                  4,
+                  8
+                ]
+              ],
+              "previstos_risco": 17,
+              "proporcao_risco": 0.4473684210526316
+            },
+            {
+              "n": 37,
+              "eventos": 12,
+              "prevalencia": 0.32432432432432434,
+              "average_precision": 0.611209854959855,
+              "roc_auc": 0.7166666666666667,
+              "precisao": 0.4090909090909091,
+              "recall": 0.75,
+              "f1": 0.5294117647058824,
+              "brier": 0.19095645427278288,
+              "matriz_confusao": [
+                [
+                  12,
+                  13
+                ],
+                [
+                  3,
+                  9
+                ]
+              ],
+              "previstos_risco": 22,
+              "proporcao_risco": 0.5945945945945946
+            }
+          ],
+          "dispersao": {
+            "average_precision": {
+              "media": 0.5953308180329372,
+              "dp": 0.04019093375560548,
+              "folds_validos": 5
+            },
+            "roc_auc": {
+              "media": 0.7548717948717949,
+              "dp": 0.03505947327993771,
+              "folds_validos": 5
+            },
+            "precisao": {
+              "media": 0.4879560308972074,
+              "dp": 0.06335764399394163,
+              "folds_validos": 5
+            },
+            "recall": {
+              "media": 0.8,
+              "dp": 0.0950146187582615,
+              "folds_validos": 5
+            },
+            "f1": {
+              "media": 0.6047075726842461,
+              "dp": 0.0697164872295193,
+              "folds_validos": 5
+            },
+            "brier": {
+              "media": 0.18591748782424408,
+              "dp": 0.005281543396058435,
+              "folds_validos": 5
+            }
+          }
+        }
+      },
+      "vencedor": "logistica",
+      "sensibilidade_sem_defasagem": {
+        "limiar": 0.2675127859122439,
+        "regra": "p >= limiar; recall >= 0.80; maior precisao; empate: maior recall, depois maior limiar.",
+        "metricas": {
+          "n": 189,
+          "eventos": 60,
+          "prevalencia": 0.31746031746031744,
+          "average_precision": 0.6295248496075376,
+          "roc_auc": 0.7996124031007751,
+          "precisao": 0.5161290322580645,
+          "recall": 0.8,
+          "f1": 0.6274509803921569,
+          "brier": 0.16706926548083745,
+          "matriz_confusao": [
+            [
+              84,
+              45
+            ],
+            [
+              12,
+              48
+            ]
+          ],
+          "previstos_risco": 93,
+          "proporcao_risco": 0.49206349206349204
+        },
+        "folds": [
+          {
+            "n": 38,
+            "eventos": 12,
+            "prevalencia": 0.3157894736842105,
+            "average_precision": 0.6125236970631708,
+            "roc_auc": 0.8397435897435898,
+            "precisao": 0.6,
+            "recall": 1.0,
+            "f1": 0.75,
+            "brier": 0.15380122983698366,
+            "matriz_confusao": [
+              [
+                18,
+                8
+              ],
+              [
+                0,
+                12
+              ]
+            ],
+            "previstos_risco": 20,
+            "proporcao_risco": 0.5263157894736842
+          },
+          {
+            "n": 38,
+            "eventos": 12,
+            "prevalencia": 0.3157894736842105,
+            "average_precision": 0.7053027826483205,
+            "roc_auc": 0.7724358974358974,
+            "precisao": 0.5333333333333333,
+            "recall": 0.6666666666666666,
+            "f1": 0.5925925925925926,
+            "brier": 0.16297521934502193,
+            "matriz_confusao": [
+              [
+                19,
+                7
+              ],
+              [
+                4,
+                8
+              ]
+            ],
+            "previstos_risco": 15,
+            "proporcao_risco": 0.39473684210526316
+          },
+          {
+            "n": 38,
+            "eventos": 12,
+            "prevalencia": 0.3157894736842105,
+            "average_precision": 0.6044707345794301,
+            "roc_auc": 0.782051282051282,
+            "precisao": 0.45454545454545453,
+            "recall": 0.8333333333333334,
+            "f1": 0.5882352941176471,
+            "brier": 0.17757005173818308,
+            "matriz_confusao": [
+              [
+                14,
+                12
+              ],
+              [
+                2,
+                10
+              ]
+            ],
+            "previstos_risco": 22,
+            "proporcao_risco": 0.5789473684210527
+          },
+          {
+            "n": 38,
+            "eventos": 12,
+            "prevalencia": 0.3157894736842105,
+            "average_precision": 0.6384706175467045,
+            "roc_auc": 0.7628205128205128,
+            "precisao": 0.5333333333333333,
+            "recall": 0.6666666666666666,
+            "f1": 0.5925925925925926,
+            "brier": 0.17538349935978786,
+            "matriz_confusao": [
+              [
+                19,
+                7
+              ],
+              [
+                4,
+                8
+              ]
+            ],
+            "previstos_risco": 15,
+            "proporcao_risco": 0.39473684210526316
+          },
+          {
+            "n": 37,
+            "eventos": 12,
+            "prevalencia": 0.32432432432432434,
+            "average_precision": 0.7055685420817001,
+            "roc_auc": 0.83,
+            "precisao": 0.47619047619047616,
+            "recall": 0.8333333333333334,
+            "f1": 0.6060606060606061,
+            "brier": 0.16557705851997767,
+            "matriz_confusao": [
+              [
+                14,
+                11
+              ],
+              [
+                2,
+                10
+              ]
+            ],
+            "previstos_risco": 21,
+            "proporcao_risco": 0.5675675675675675
+          }
+        ],
+        "dispersao": {
+          "average_precision": {
+            "media": 0.6532672747838651,
+            "dp": 0.04925240899303985,
+            "folds_validos": 5
+          },
+          "roc_auc": {
+            "media": 0.7974102564102564,
+            "dp": 0.03503665780115283,
+            "folds_validos": 5
+          },
+          "precisao": {
+            "media": 0.5194805194805194,
+            "dp": 0.056916118438855585,
+            "folds_validos": 5
+          },
+          "recall": {
+            "media": 0.8,
+            "dp": 0.13944333775567927,
+            "folds_validos": 5
+          },
+          "f1": {
+            "media": 0.6258962170726876,
+            "dp": 0.06969901062056037,
+            "folds_validos": 5
+          },
+          "brier": {
+            "media": 0.16706141175999084,
+            "dp": 0.00967498519164873,
+            "folds_validos": 5
+          }
+        }
+      }
+    },
+    "algoritmo": "LogisticRegression",
+    "hiperparametros": {
+      "C": 1.0,
+      "class_weight": null,
+      "dual": false,
+      "fit_intercept": true,
+      "intercept_scaling": 1,
+      "l1_ratio": 0.0,
+      "max_iter": 2000,
+      "n_jobs": null,
+      "penalty": "deprecated",
+      "random_state": 42,
+      "solver": "lbfgs",
+      "tol": 0.0001,
+      "verbose": 0,
+      "warm_start": false
+    },
+    "limiar": 0.26696679375725973,
+    "input_hashes": {
+      "local_data/coorte_desenvolvimento.csv": "36be981c4456a60f1cf59e1dc83096565fb196132f1407f673056c8e202e0292",
+      "local_data/X_desenvolvimento.csv": "b977216e33dddf5182aab1e194acefe6cf37937438b51ed8e87b248df26d2d72",
+      "local_data/y_desenvolvimento.csv": "59e73f6d06d4024f7c787f93262c8737c75d2adb787967de8780ab3b108750b4",
+      "local_data/coorte_teste_temporal.csv": "ca58b905a5f2d5c4d66a2d5b5218b86fdd08307a223e3312937755839a04b877",
+      "local_data/X_teste_temporal.csv": "23ebc4612b5db16669dc091e8ba6ccc5e07a6eb0ba3bb51ede67af0dc8a80714",
+      "local_data/y_teste_temporal.csv": "ee6d3f609cb291f7c73d66ad4f4407395985eccd8f67d631b07ff2d11a1c1257",
+      "local_data/coortes_modelagem.jsonl": "330812eb10a0981c6a268445aa10f4572bc1d2c68b3891569dc65c645ecb9802"
+    },
+    "contrato_sha256": "eb4aafec436ed5dcde0c231f9a87603a1ada9256fd5829fe6d299b8243a017cc",
+    "codigo_sha256": {
+      "src/modelagem.py": "5a90421afef4a1485c52a84dc9c66d06bc5343613942b95a0ad5884a1020a05f",
+      "src/relatorio_modelagem.py": "62ec192861cb9d7169781673cef519edba487aa7ec7a4a855c4fe6bfb389f25a"
+    },
+    "packages": {
+      "numpy": "2.5.3",
+      "pandas": "3.0.5",
+      "scikit-learn": "1.9.1",
+      "scipy": "1.18.1",
+      "joblib": "1.6.0",
+      "matplotlib": "3.11.2"
+    },
+    "python": "3.12.5",
+    "ausencias_desenvolvimento": {
+      "ida": 0,
+      "ieg": 0,
+      "iaa": 0,
+      "ips": 0,
+      "ipv": 0,
+      "fase_origem": 0,
+      "defasagem_origem": 0
+    }
+  },
+  "sha256": "85e1e2cd77fa3555f50553078e7dccb72e03152a4c9bb41e293811e99ac87444"
+}

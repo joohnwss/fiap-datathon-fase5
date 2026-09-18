@@ -27,6 +27,7 @@ reports/*.csv
 reports/*.json
 !reports/metadados_preparacao.json
 !reports/metadados_coortes.json
+!reports/metricas_modelagem.json
 reports/*.xlsx
 reports/*.html
 

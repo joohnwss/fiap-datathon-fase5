@@ -2,7 +2,7 @@
 
 Regenerável por `python src/verificar_entrega.py`.
 
-Início UTC: 2026-09-17T14:21:32.785134+00:00. Fim UTC: 2026-09-17T14:21:53.989123+00:00.
+Início UTC: 2026-09-18T14:57:32.647058+00:00. Fim UTC: 2026-09-18T14:58:25.687517+00:00.
 
 Comando: `python src/verificar_entrega.py`.
 
@@ -38,6 +38,10 @@ Comando: `python src/verificar_entrega.py`.
 | separacao_temporal_preservada | True |
 | hashes_coortes_conferidos | True |
 | referencias_coortes_conferidas | 4 |
+| modelagem_congelada_antes_teste | True |
+| hashes_modelagem_conferidos | True |
+| modelo_avaliado_treinado_apenas_desenvolvimento | True |
+| metricas_modelagem_validas | True |
 | amostras_individuais_em_documentos_publicos | 0 |
 | sem_amostras_individuais_detectadas | True |
 
@@ -50,7 +54,7 @@ Comando: `python src/verificar_entrega.py`.
 
 A comparação histórica usa os hashes transportados nos metadados. Sem baseline, consta como não disponível; não é requisito para verificar a integridade atual. Nenhuma pasta histórica local é necessária.
 
-Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `a5229c16d02747278739a839d4899786e26ed70fba03a868698c7203e452ff35`.
+Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `8fbe6e5188b353bcffa15b0e51e87d31e5eeac98582ebe63740d7776155dbbc8`.
 
 ```text
 test_phase_labels_and_year (test_auditoria_regressao.AuditoriaRegressionTests.test_phase_labels_and_year) ... ok
@@ -70,6 +74,27 @@ test_real_source_counts_and_prepared_base_agree (test_coortes_regressao.CoortesR
 test_recovery_only_copies_cohort_outputs (test_coortes_regressao.CoortesRegressionTests.test_recovery_only_copies_cohort_outputs) ... ok
 test_references_fail_without_changing_counts (test_coortes_regressao.CoortesRegressionTests.test_references_fail_without_changing_counts) ... ok
 test_tampered_csv_or_jsonl_is_detected (test_coortes_regressao.CoortesRegressionTests.test_tampered_csv_or_jsonl_is_detected) ... ok
+test_bootstrap_invalid_replicates_explicit_and_reproducible (test_modelagem_regressao.ModelagemRegressionTests.test_bootstrap_invalid_replicates_explicit_and_reproducible) ... ok
+test_closed_predictors_identifiers_and_future_rejected (test_modelagem_regressao.ModelagemRegressionTests.test_closed_predictors_identifiers_and_future_rejected) ... ok
+test_completed_artifacts_counts_privacy_and_integrity_when_present (test_modelagem_regressao.ModelagemRegressionTests.test_completed_artifacts_counts_privacy_and_integrity_when_present) ... ok
+test_empty_training_feature_fails_without_zero (test_modelagem_regressao.ModelagemRegressionTests.test_empty_training_feature_fails_without_zero) ... ok
+test_full_synthetic_workflow_freezes_before_first_temporal_read (test_modelagem_regressao.ModelagemRegressionTests.test_full_synthetic_workflow_freezes_before_first_temporal_read) ... ok
+test_median_learned_only_on_training (test_modelagem_regressao.ModelagemRegressionTests.test_median_learned_only_on_training) ... ok
+test_metric_invalid_values_and_undefined_denominators (test_modelagem_regressao.ModelagemRegressionTests.test_metric_invalid_values_and_undefined_denominators) ... ok
+test_oof_alignment_and_fold_local_fit (test_modelagem_regressao.ModelagemRegressionTests.test_oof_alignment_and_fold_local_fit) ... ok
+test_pipeline_persistence_reproduces_probabilities (test_modelagem_regressao.ModelagemRegressionTests.test_pipeline_persistence_reproduces_probabilities) ... ok
+test_random_state_reproducibility (test_modelagem_regressao.ModelagemRegressionTests.test_random_state_reproducibility) ... ok
+test_real_development_counts_without_test_access (test_modelagem_regressao.ModelagemRegressionTests.test_real_development_counts_without_test_access) ... ok
+test_repeated_temporal_evaluation_is_blocked (test_modelagem_regressao.ModelagemRegressionTests.test_repeated_temporal_evaluation_is_blocked) ... ok
+test_schema_column_order (test_modelagem_regressao.ModelagemRegressionTests.test_schema_column_order) ... ok
+test_selection_has_no_file_access (test_modelagem_regressao.ModelagemRegressionTests.test_selection_has_no_file_access) ... ok
+test_small_groups_and_profiles_are_suppressed (test_modelagem_regressao.ModelagemRegressionTests.test_small_groups_and_profiles_are_suppressed) ... ok
+test_stable_hash_and_configuration_mutation (test_modelagem_regressao.ModelagemRegressionTests.test_stable_hash_and_configuration_mutation) ... ok
+test_tampered_cohort_hash_fails (test_modelagem_regressao.ModelagemRegressionTests.test_tampered_cohort_hash_fails) ... ok
+test_temporal_access_requires_freeze (test_modelagem_regressao.ModelagemRegressionTests.test_temporal_access_requires_freeze) ... ok
+test_threshold_deterministic_precision_tie (test_modelagem_regressao.ModelagemRegressionTests.test_threshold_deterministic_precision_tie) ... ok
+test_threshold_recall_and_max_precision (test_modelagem_regressao.ModelagemRegressionTests.test_threshold_recall_and_max_precision) ... ok
+test_unknown_phase_safe_and_no_new_category (test_modelagem_regressao.ModelagemRegressionTests.test_unknown_phase_safe_and_no_new_category) ... ok
 test_absolute_path_detector_and_portable_command (test_portabilidade_regressao.PortabilidadeRegressionTests.test_absolute_path_detector_and_portable_command) ... ok
 test_final_verification_runs_without_local_recovery (test_portabilidade_regressao.PortabilidadeRegressionTests.test_final_verification_runs_without_local_recovery) ... ok
 test_history_is_optional_and_metadata_only (test_portabilidade_regressao.PortabilidadeRegressionTests.test_history_is_optional_and_metadata_only) ... ok
@@ -92,7 +117,7 @@ test_phase_rejects_fraction_and_unanchored_digits (test_preparacao_regressao.Pre
 test_type_after_first_twenty_rows_is_counted (test_preparacao_regressao.PreparacaoRegressionTests.test_type_after_first_twenty_rows_is_counted) ... ok
 
 ----------------------------------------------------------------------
-Ran 37 tests in 7.302s
+Ran 58 tests in 24.146s
 
 OK
 ```

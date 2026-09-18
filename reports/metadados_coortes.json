@@ -2,11 +2,11 @@
   "regeneravel": true,
   "schema_version": 2,
   "kind": "coortes",
-  "started_at": "2026-09-17T14:21:01.779003+00:00",
-  "executed_at": "2026-09-17T14:21:05.621332+00:00",
+  "started_at": "2026-09-18T14:53:54.288333+00:00",
+  "executed_at": "2026-09-18T14:53:59.245549+00:00",
   "command": "python src/preparacao_coortes.py",
   "working_directory": ".",
-  "recovery_directory": "local_recovery/20260917T142101779003Z_coortes",
+  "recovery_directory": "local_recovery/20260918T145354288333Z_coortes",
   "source_file": "DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx",
   "inventory_count": 13,
   "source_hashes_before": {
@@ -45,32 +45,39 @@
     "removidos": [],
     "alterados": []
   },
-  "previous_inventory_exists": false,
+  "previous_inventory_exists": true,
   "inventory_diff_from_previous_run": {
-    "adicionados": [
-      "BASE DE DADOS PEDE 2024 - DATATHON.xlsx",
-      "Bases antigas/Base de dados - Passos Mágicos.zip",
-      "Bases antigas/DATATHON-PASSOS-MÁGICOS.ipynb",
-      "Bases antigas/PEDE_PASSOS_DATASET_FIAP.csv",
-      "Bases antigas/PEDE_PASSOS_DATASET_FIAP.xlsx",
-      "Dicionário Dados Datathon.pdf",
-      "Links adicionais da passos.docx",
-      "PEDE_ Pontos importantes.docx",
-      "POSTECH - Datathon - Fase 5 (1).pdf",
-      "Relatorio PEDE2022.pdf",
-      "Relatório PEDE2020.pdf",
-      "Relatório PEDE2021.pdf",
-      "desvendando_passos.pdf"
-    ],
+    "adicionados": [],
     "removidos": [],
     "alterados": []
   },
-  "historical_baseline": null,
+  "historical_baseline": {
+    "source_hashes": {
+      "BASE DE DADOS PEDE 2024 - DATATHON.xlsx": "05779754185f7c9cb1c166b881a1489643d30355cff2ec468e4c266f41b6d1a9",
+      "Bases antigas/Base de dados - Passos Mágicos.zip": "71cc75f1fbd4b4f19c52fdafa01776deb6eeeab8f25353c4106b6fb26adef552",
+      "Bases antigas/DATATHON-PASSOS-MÁGICOS.ipynb": "47b93c9d47b5686bf8fc42dde83ae3207d7dffedf6ac8157be573b5b82193ce1",
+      "Bases antigas/PEDE_PASSOS_DATASET_FIAP.csv": "28f6563b2feb849cd29bae29c5d3433df49d47a2383c3f28033dc547de7a6133",
+      "Bases antigas/PEDE_PASSOS_DATASET_FIAP.xlsx": "67509da73f74d1e0677f2996855b8cb33081b3969bd9bc85a9789d1713025b3d",
+      "desvendando_passos.pdf": "594694ae2859bd9259ee6feb1b07198a43e18e6700047eb34eea490b5c0ecb8c",
+      "Dicionário Dados Datathon.pdf": "c141a779a02d34e829e6892ba3c505f00b1510fc2de7761a66b75b9f30239e00",
+      "Links adicionais da passos.docx": "5d72421f1d3f3e823c1b1702d10ec39e77f26cd897b9354aa2900ce64e3b29ea",
+      "PEDE_ Pontos importantes.docx": "ee2a6cd6e0d53f9108497cf6975f27d178b03de19ff55db3905e2d03a23b75bc",
+      "POSTECH - Datathon - Fase 5 (1).pdf": "ac333680d88bc7d33c47379bcd3eb53d1ebaa599922f96bc28e0fc16062320ec",
+      "Relatorio PEDE2022.pdf": "34314dcc09fe36865809c290cd6fe2493c3af875f366b3686a145e80a0010020",
+      "Relatório PEDE2020.pdf": "618599418db1b9f830caa5a3cab7bf729613cca987f1243f497b4e1fb02e4a4a",
+      "Relatório PEDE2021.pdf": "859ce95807a5508da43d05219c9e355056183786ce2b0c7cd0f02e340c6570b8"
+    },
+    "recorded_at": "2026-09-17T14:21:01.779003+00:00"
+  },
   "historical_comparison": {
-    "available": false,
-    "status": "nao_disponivel",
-    "matches": null,
-    "diff": null
+    "available": true,
+    "status": "comparado",
+    "matches": true,
+    "diff": {
+      "adicionados": [],
+      "removidos": [],
+      "alterados": []
+    }
   },
   "manual_documents_preserved": true,
   "manual_document_hashes": {
@@ -79,8 +86,8 @@
     "docs/requisitos.md": "a53b3128dffb8d9e9000e6c4da24d624dd90deb166750bd1fdf99cf3b3f34a29",
     "docs/evidencias_documentais.md": "7c61975a9c82f9fdbe47c4f78206c9a2552ae502113bf458931edd7d6ac0a2ba",
     "docs/contrato_metodologico.md": "eb4aafec436ed5dcde0c231f9a87603a1ada9256fd5829fe6d299b8243a017cc",
-    "docs/status_projeto.md": "ca2cb729eebfdf9843c8327413f401011732c95bd731b02d8d3f4920f9c8d64e",
-    "README.md": "322b8679ded1f61cad4f31f690562e1986b76697c1c7fd8d3e9282bf2ea56bea"
+    "docs/status_projeto.md": "2172bd83ade7d6ba88b2acf9df9826619698b958e0bdbe757ce9ce640c9ea7c3",
+    "README.md": "517cd1b983caf0588a99665d8efc3952e32a4db2f596e04020564490fea8fb14"
   },
   "privacy": {
     "diretorios_ignorados": [
@@ -101,15 +108,18 @@
   "code_hashes": {
     "src/auditoria_inicial.py": "dd9ef82c8aaa40d2029ee660959c035c8916b5f2a629bd275bcd7cb4aca77996",
     "src/dados_pede.py": "b40f4e1fdd62af19350d8ec817dd169496aeb8a9472baf2f5e8493c222fe90c5",
-    "src/preparacao_coortes.py": "30525f1f4102fe5aefbd8194cfa343e887a0a0fbe90dfcb95520580546a5850d",
+    "src/modelagem.py": "5a90421afef4a1485c52a84dc9c66d06bc5343613942b95a0ad5884a1020a05f",
+    "src/preparacao_coortes.py": "25f5c0e3d3e98a507bc85bf7fba9062facdb87e0dbc5e136d8b9cb485b76c951",
     "src/preparacao_longitudinal.py": "8e2825a62cff62d5796952107c3d29b9a3eb89a71d4b930df75ff03290a913ec",
-    "src/rastreabilidade.py": "fab476e427e08c9bd86a61af139ddddef20a3d4bdb04755727159f94472b5420",
-    "src/relatorios_preparacao.py": "d00595014982fd84a0559c56061c433c5035cfd4872b97892aaa4f5bf54554f0",
-    "src/verificar_entrega.py": "450bcc0a715e92021b1cbf911957c543bee1abd001cb409c54babea521e00a2d"
+    "src/rastreabilidade.py": "0ed9b81d8107fb6d886d1c0b9c8a69596017af9d5df089e6ebb12fcd52316acd",
+    "src/relatorio_modelagem.py": "62ec192861cb9d7169781673cef519edba487aa7ec7a4a855c4fe6bfb389f25a",
+    "src/relatorios_preparacao.py": "09c2461864bbf6e48e3c01b68e7c392ba89bd1edc0ab177bd8ccf2c79ac79646",
+    "src/verificar_entrega.py": "3d9d4c196b5405c331292910876604918da834e49014325475ebf9410fbba8b5"
   },
   "test_hashes": {
     "tests/test_auditoria_regressao.py": "3c8b9a05c7d496f08687f51aff36423d3e03f542cbe255013852a3e5f795c559",
-    "tests/test_coortes_regressao.py": "45aa53f3928d5377a71cafb71d8baed5e000dd5593a7c8d986f7e4289b87cc30",
+    "tests/test_coortes_regressao.py": "0fe63f8e0e48ede7380206ef913508ce2bbda1382520b42f757b6aec44d73d1b",
+    "tests/test_modelagem_regressao.py": "2b868e7a67f38bcf1c0aaafbcdb6bf05e141f6ff02ebc505c3c28229dc44f39d",
     "tests/test_portabilidade_regressao.py": "831bc33de83a36e26a291c8c3d0b900746ea0db8486d27a7954f62b349dc9108",
     "tests/test_preparacao_regressao.py": "3590d7aa68fdb854824e06ffd794ffd6a6df829093c0120135ab127083fa1346"
   },
@@ -427,7 +437,7 @@
   "input_hashes": {
     "local_data/base_longitudinal.jsonl": "9eac60571308afcd94356ffdfad81c52492c79f0e7c12dda575824a33707d9df",
     "local_data/base_longitudinal.csv": "c4addf3e9b9f94ac9cb6d37fe0d3035a76bf541428e2e90bf943f908db9a54e1",
-    "reports/metadados_preparacao.json": "85ea91d4c0c32196b7ae72c86facae041a1bed4c79376eee8de68aaf12056e4e"
+    "reports/metadados_preparacao.json": "fde2360d2a67f7f97fc9b0aa34fb73e34b808f5a0f6a42921da031ad0e864c1d"
   },
   "cohort_schema": {
     "version": 1,
@@ -531,5 +541,10 @@
     ],
     "missing": "null no JSONL, campo vazio no CSV; sem imputacao, corte ou arredondamento",
     "split": "temporal fixo, sem embaralhamento; ordem por linha fisica de origem"
+  },
+  "relatorio_preservado_sem_mudanca_substantiva": {
+    "hash_gerado": "c45a8fe129b328f466431819d1dfe8fdc97d6308a26702b2d4124e085e2664c3",
+    "hash_preservado": "a5de35377ec6a898bc6e168f1d25c7f2f623a8afe584bbce4a6a39a0a04464e2",
+    "motivo": "Diferenca exclusiva de timestamp; evidencia da nova execucao permanece nos metadados."
   }
 }

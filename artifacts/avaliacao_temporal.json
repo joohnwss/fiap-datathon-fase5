@@ -1,0 +1,13 @@
+{
+  "status": "concluida",
+  "aberta_em": "2026-09-18T14:54:23.641763+00:00",
+  "configuracao_sha256": "85e1e2cd77fa3555f50553078e7dccb72e03152a4c9bb41e293811e99ac87444",
+  "concluida_em": "2026-09-18T14:56:54.748782+00:00",
+  "output_hashes": {
+    "reports/metricas_modelagem.json": "89ae329410c864ca8a4dfe129145dcabb1efc6f423b5fbc42977fcfd4f335e31",
+    "reports/relatorio_modelagem.md": "c4ba207735a341c15ccacd154b0ec5ea51ef565f92a212b7738669747112d8c1",
+    "artifacts/modelo_avaliado.joblib": "88098ab093fab4eccda475a340a85dd541ffda936a839ce79c3449a3b02dafab",
+    "artifacts/schema_modelo.json": "6df5fa1f9d7aae65e4c5442e03417761a0248dcc161de977fc0a0cd30cce5358",
+    "reports/curvas_modelagem.png": "a565ba82f707026d98cd01a1a04629c1b0d535bdb87fbfb909ab245ba44e56e9"
+  }
+}
