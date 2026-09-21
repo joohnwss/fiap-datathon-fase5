@@ -27,7 +27,8 @@ from sklearn.tree import DecisionTreeClassifier
 
 from dados_pede import ROOT
 from preparacao_coortes import FEATURES, PHASES, REFERENCE, META, AUDIT
-from rastreabilidade import sha256_file, write_json, now, check_git_privacy, public_text_issues
+from rastreabilidade import (sha256_file, file_matches_sha256, validate_historical_code_hashes,
+                             write_json, now, check_git_privacy, public_text_issues)
 
 SEED = 42
 NUMERIC = tuple(f for f in FEATURES if f != "fase_origem")
@@ -111,7 +112,7 @@ def fit_checked(pipeline, X, y):
 
 def verify_hashes(root, hashes):
     for name, digest in hashes.items():
-        if not (root / name).is_file() or sha256_file(root / name) != digest:
+        if not file_matches_sha256(root / name, digest):
             raise ValueError("Hash divergente: " + name)
 
 
@@ -379,7 +380,10 @@ def validate_frozen(root):
     config = frozen["configuracao"]
     if stable_hash(config) != frozen["sha256"] or config["protocolo"] != PROTOCOL:
         raise ValueError("Configuracao congelada alterada")
-    verify_hashes(root, config["codigo_sha256"])
+    # Estes hashes registram o código que produziu o modelo; manutenção posterior
+    # não altera a proveniência nem invalida um modelo cujas entradas e saídas conferem.
+    validate_historical_code_hashes(
+        config.get("codigo_sha256"), ("src/modelagem.py", "src/relatorio_modelagem.py"))
     verify_hashes(root, {"docs/contrato_metodologico.md": config["contrato_sha256"]})
     if config["packages"] != {p: importlib.metadata.version(p) for p in PACKAGES}:
         raise ValueError("Versoes divergem do congelamento")

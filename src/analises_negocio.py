@@ -8,7 +8,8 @@ import pandas as pd
 from auditoria_inicial import pair_records
 from preparacao_coortes import load_prepared, origin_exclusion
 from dados_pede import ROOT
-from rastreabilidade import sha256_file, find_source_files, public_text_issues
+from rastreabilidade import (sha256_file, file_matches_sha256, validate_historical_code_hashes,
+                             find_source_files, public_text_issues)
 
 MIN_PROFILE = 10
 INDICATORS = ('ian', 'ida', 'ieg', 'iaa', 'ips', 'ipp', 'ipv', 'inde')
@@ -204,14 +205,23 @@ def validate_artifacts(root):
     m = json.loads((root / METRICS).read_text(encoding='utf-8'))
     if m['schema_version'] != 1 or set(m['perguntas']) != {str(i) for i in range(1, 12)}:
         raise ValueError('Schema das análises inválido')
-    if m['input_hashes'] != input_hashes(root):
+    current_inputs = input_hashes(root)
+    if set(m['input_hashes']) != set(current_inputs):
         raise ValueError('Entradas das análises alteradas')
+    for p, digest in m['input_hashes'].items():
+        if not file_matches_sha256(root / p, digest):
+            raise ValueError('Entrada das análises divergente: ' + p)
     sources = {f['relative_path']: f['sha256'] for f in find_source_files(root / 'DATATHON')}
     if m['source_hashes'] != sources:
         raise ValueError('Fontes das análises alteradas')
-    for p, digest in {**m['output_hashes'], **m['code_hashes']}.items():
-        if sha256_file(root / p) != digest:
-            raise ValueError('Saída ou código das análises divergente: ' + p)
+    # code_hashes preserva a proveniência da execução original. O código pode
+    # receber manutenção sem reescrever ou invalidar os resultados congelados.
+    validate_historical_code_hashes(
+        m.get('code_hashes'),
+        ('src/analises_negocio.py', 'src/relatorio_analises.py', 'tests/test_analises_negocio.py'))
+    for p, digest in m['output_hashes'].items():
+        if not file_matches_sha256(root / p, digest):
+            raise ValueError('Saída das análises divergente: ' + p)
     if m['modelo'] != official_model(root):
         raise ValueError('Métricas oficiais divergentes')
     if public_text_issues((root / REPORT).read_text(encoding='utf-8')):

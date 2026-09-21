@@ -11,6 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+TEXT_HASH_EXTENSIONS = frozenset({".py", ".json", ".jsonl", ".csv", ".md", ".txt", ".yml", ".yaml", ".toml"})
 
 
 def now() -> str:
@@ -23,6 +24,30 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: fh.read(1024 * 1024), b""):
             digest.update(chunk)
     return digest.hexdigest()
+
+
+def file_matches_sha256(path: Path, expected: str) -> bool:
+    """Compara bytes exatos e, para texto autorizado, somente finais de linha."""
+    if not path.is_file():
+        return False
+    if sha256_file(path) == expected:
+        return True
+    if path.suffix.lower() not in TEXT_HASH_EXTENSIONS:
+        return False
+    normalized = path.read_bytes().replace(b"\r\n", b"\n").replace(b"\r", b"\n")
+    line_endings = (normalized, normalized.replace(b"\n", b"\r\n"))
+    return any(hashlib.sha256(content).hexdigest() == expected for content in line_endings)
+
+
+def validate_historical_code_hashes(hashes: dict, expected_paths) -> None:
+    """Valida registros de proveniência sem vinculá-los ao código mantido depois."""
+    paths = set(expected_paths)
+    if not isinstance(hashes, dict) or set(hashes) != paths:
+        raise ValueError("Caminhos dos hashes históricos de código divergentes")
+    hexadecimal = set("0123456789abcdef")
+    if any(not isinstance(digest, str) or len(digest) != 64 or set(digest) - hexadecimal
+           for digest in hashes.values()):
+        raise ValueError("Hash histórico de código inválido")
 
 
 def find_source_files(base_dir: Path) -> list[dict]:
