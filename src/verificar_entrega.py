@@ -47,6 +47,9 @@ def main():
     if (ROOT / "src/modelagem.py").exists():
         from modelagem import validate_artifacts as validate_modelagem
         checks.update(validate_modelagem(ROOT))
+    if (ROOT / "src/analises_negocio.py").exists():
+        from analises_negocio import validate_artifacts as validate_analises
+        checks.update(validate_analises(ROOT))
     history = {m["kind"]: historical_comparison(m.get("historical_baseline"), current_sources) for m in metas}
     public_paths = [ROOT / p for p in subprocess.run(["git", "ls-files", "--cached", "--others", "--exclude-standard"], cwd=ROOT,
                                                     capture_output=True, text=True, encoding="utf-8", check=True).stdout.splitlines()]

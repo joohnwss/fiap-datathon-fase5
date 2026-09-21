@@ -2,11 +2,11 @@
   "regeneravel": true,
   "schema_version": 2,
   "kind": "auditoria",
-  "started_at": "2026-09-18T14:52:45.302038+00:00",
-  "executed_at": "2026-09-18T14:52:55.125200+00:00",
+  "started_at": "2026-09-21T15:31:46.330968+00:00",
+  "executed_at": "2026-09-21T15:31:52.191925+00:00",
   "command": "python src/auditoria_inicial.py",
   "working_directory": ".",
-  "recovery_directory": "local_recovery/20260918T145245302038Z_auditoria",
+  "recovery_directory": "local_recovery/20260921T153146330968Z_auditoria",
   "source_file": "DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx",
   "inventory_count": 13,
   "source_hashes_before": {
@@ -86,8 +86,8 @@
     "docs/requisitos.md": "a53b3128dffb8d9e9000e6c4da24d624dd90deb166750bd1fdf99cf3b3f34a29",
     "docs/evidencias_documentais.md": "7c61975a9c82f9fdbe47c4f78206c9a2552ae502113bf458931edd7d6ac0a2ba",
     "docs/contrato_metodologico.md": "eb4aafec436ed5dcde0c231f9a87603a1ada9256fd5829fe6d299b8243a017cc",
-    "docs/status_projeto.md": "2172bd83ade7d6ba88b2acf9df9826619698b958e0bdbe757ce9ce640c9ea7c3",
-    "README.md": "517cd1b983caf0588a99665d8efc3952e32a4db2f596e04020564490fea8fb14"
+    "docs/status_projeto.md": "5f433ccc2a7006b00fbd00fdcd325a7c40b79e5cff73fe46ca4173504ef5400d",
+    "README.md": "e68226d9f1ae3ed281d8ef90d911baced7e56e1803e83987c945cd5ea7697fd8"
   },
   "privacy": {
     "diretorios_ignorados": [
@@ -106,20 +106,23 @@
     "python-docx": "1.2.0"
   },
   "code_hashes": {
+    "src/analises_negocio.py": "1359f0810a64b871f6f42038951439c0a1d42a749f099e63dd8d045b90dbbc75",
     "src/auditoria_inicial.py": "dd9ef82c8aaa40d2029ee660959c035c8916b5f2a629bd275bcd7cb4aca77996",
     "src/dados_pede.py": "b40f4e1fdd62af19350d8ec817dd169496aeb8a9472baf2f5e8493c222fe90c5",
     "src/modelagem.py": "5a90421afef4a1485c52a84dc9c66d06bc5343613942b95a0ad5884a1020a05f",
     "src/preparacao_coortes.py": "25f5c0e3d3e98a507bc85bf7fba9062facdb87e0dbc5e136d8b9cb485b76c951",
     "src/preparacao_longitudinal.py": "8e2825a62cff62d5796952107c3d29b9a3eb89a71d4b930df75ff03290a913ec",
     "src/rastreabilidade.py": "0ed9b81d8107fb6d886d1c0b9c8a69596017af9d5df089e6ebb12fcd52316acd",
+    "src/relatorio_analises.py": "7cb8e51ab8e6475fbffe137fe43d412d0814c663744c6cde1fec15c2ceac32f2",
     "src/relatorio_modelagem.py": "62ec192861cb9d7169781673cef519edba487aa7ec7a4a855c4fe6bfb389f25a",
     "src/relatorios_preparacao.py": "09c2461864bbf6e48e3c01b68e7c392ba89bd1edc0ab177bd8ccf2c79ac79646",
-    "src/verificar_entrega.py": "3d9d4c196b5405c331292910876604918da834e49014325475ebf9410fbba8b5"
+    "src/verificar_entrega.py": "e0b1d2a8f4a56e036ce85a62264362cc9450d28480cd8e0c33491c414fc6ce08"
   },
   "test_hashes": {
+    "tests/test_analises_negocio.py": "dbe05ed9619254f5582354ddc135399f01c6bd17d7ee600e8e23d475ec805bd4",
     "tests/test_auditoria_regressao.py": "3c8b9a05c7d496f08687f51aff36423d3e03f542cbe255013852a3e5f795c559",
     "tests/test_coortes_regressao.py": "0fe63f8e0e48ede7380206ef913508ce2bbda1382520b42f757b6aec44d73d1b",
-    "tests/test_modelagem_regressao.py": "2b868e7a67f38bcf1c0aaafbcdb6bf05e141f6ff02ebc505c3c28229dc44f39d",
+    "tests/test_modelagem_regressao.py": "bff09a602f6565f366c09c702117b5cf8e418337f2fc9dc875592be8a580db92",
     "tests/test_portabilidade_regressao.py": "831bc33de83a36e26a291c8c3d0b900746ea0db8486d27a7954f62b349dc9108",
     "tests/test_preparacao_regressao.py": "3590d7aa68fdb854824e06ffd794ffd6a6df829093c0120135ab127083fa1346"
   },

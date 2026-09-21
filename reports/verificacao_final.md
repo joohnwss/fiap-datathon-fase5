@@ -2,7 +2,7 @@
 
 Regenerável por `python src/verificar_entrega.py`.
 
-Início UTC: 2026-09-18T14:57:32.647058+00:00. Fim UTC: 2026-09-18T14:58:25.687517+00:00.
+Início UTC: 2026-09-21T15:35:05.989355+00:00. Fim UTC: 2026-09-21T15:35:41.520002+00:00.
 
 Comando: `python src/verificar_entrega.py`.
 
@@ -42,6 +42,10 @@ Comando: `python src/verificar_entrega.py`.
 | hashes_modelagem_conferidos | True |
 | modelo_avaliado_treinado_apenas_desenvolvimento | True |
 | metricas_modelagem_validas | True |
+| analises_11_perguntas | True |
+| analises_figuras | 10 |
+| analises_hashes_preservados | True |
+| analises_modelo_oficial_preservado | True |
 | amostras_individuais_em_documentos_publicos | 0 |
 | sem_amostras_individuais_detectadas | True |
 
@@ -54,9 +58,22 @@ Comando: `python src/verificar_entrega.py`.
 
 A comparação histórica usa os hashes transportados nos metadados. Sem baseline, consta como não disponível; não é requisito para verificar a integridade atual. Nenhuma pasta histórica local é necessária.
 
-Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `8fbe6e5188b353bcffa15b0e51e87d31e5eeac98582ebe63740d7776155dbbc8`.
+Testes executados: `python -m unittest discover -s tests -p "test_*.py" -v`. Saída completa local: `local_data/verificacao/testes.txt`. SHA-256: `3eb4893210b1d70f3b54dac9142740a0d4b50f5a3c06faccff7dead00076ff26`.
 
 ```text
+test_artifact_schema_integrity_figures (test_analises_negocio.AnalisesNegocioTests.test_artifact_schema_integrity_figures) ... ok
+test_denominators_and_direction (test_analises_negocio.AnalisesNegocioTests.test_denominators_and_direction) ... ok
+test_deterministic_without_model_calls (test_analises_negocio.AnalisesNegocioTests.test_deterministic_without_model_calls) ... ok
+test_longitudinal_delta_independently (test_analises_negocio.AnalisesNegocioTests.test_longitudinal_delta_independently) ... ok
+test_missing_is_not_zero (test_analises_negocio.AnalisesNegocioTests.test_missing_is_not_zero) ... ok
+test_official_values_read_from_artifacts (test_analises_negocio.AnalisesNegocioTests.test_official_values_read_from_artifacts) ... ok
+test_partition_rejects_unaccounted_observations (test_analises_negocio.AnalisesNegocioTests.test_partition_rejects_unaccounted_observations) ... ok
+test_phase_and_stone_separate (test_analises_negocio.AnalisesNegocioTests.test_phase_and_stone_separate) ... ok
+test_public_report_no_individuals_or_absolute_paths (test_analises_negocio.AnalisesNegocioTests.test_public_report_no_individuals_or_absolute_paths) ... ok
+test_small_profiles_and_complementary_suppression (test_analises_negocio.AnalisesNegocioTests.test_small_profiles_and_complementary_suppression) ... ok
+test_structural_ipp (test_analises_negocio.AnalisesNegocioTests.test_structural_ipp) ... ok
+test_validated_join_not_position_and_duplicates_fail (test_analises_negocio.AnalisesNegocioTests.test_validated_join_not_position_and_duplicates_fail) ... ok
+test_year_adjustment_removes_between_year_signal (test_analises_negocio.AnalisesNegocioTests.test_year_adjustment_removes_between_year_signal) ... ok
 test_phase_labels_and_year (test_auditoria_regressao.AuditoriaRegressionTests.test_phase_labels_and_year) ... ok
 test_ra_states_and_ian_expectation (test_auditoria_regressao.AuditoriaRegressionTests.test_ra_states_and_ian_expectation) ... ok
 test_repeated_headers_keep_original_metadata (test_auditoria_regressao.AuditoriaRegressionTests.test_repeated_headers_keep_original_metadata) ... ok
@@ -117,7 +134,7 @@ test_phase_rejects_fraction_and_unanchored_digits (test_preparacao_regressao.Pre
 test_type_after_first_twenty_rows_is_counted (test_preparacao_regressao.PreparacaoRegressionTests.test_type_after_first_twenty_rows_is_counted) ... ok
 
 ----------------------------------------------------------------------
-Ran 58 tests in 24.146s
+Ran 71 tests in 17.557s
 
 OK
 ```

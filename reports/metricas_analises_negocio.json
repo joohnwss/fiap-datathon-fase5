@@ -1,0 +1,5362 @@
+{
+  "schema_version": 1,
+  "command": "python src/analises_negocio.py",
+  "perguntas": {
+    "1": "IAN",
+    "2": "IDA",
+    "3": "IEG",
+    "4": "IAA",
+    "5": "IPS",
+    "6": "IPP",
+    "7": "IPV",
+    "8": "INDE",
+    "9": "Modelo",
+    "10": "Pedras",
+    "11": "Insights"
+  },
+  "privacidade": {
+    "minimo_perfil": 10,
+    "particoes_pequenas": "supressao integral"
+  },
+  "analises": {
+    "anuais": {
+      "2022": {
+        "total": 860,
+        "indicadores": {
+          "ian": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.424418604651163,
+            "mediana": 5.0,
+            "dp": 2.3896086667268013,
+            "q25": 5.0,
+            "q75": 10.0
+          },
+          "ida": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.092906976744185,
+            "mediana": 6.3,
+            "dp": 2.0462085477550587,
+            "q25": 4.8,
+            "q75": 7.6
+          },
+          "ieg": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.891162790697674,
+            "mediana": 8.3,
+            "dp": 1.6383404097636767,
+            "q25": 7.0,
+            "q75": 9.1
+          },
+          "iaa": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.274418604651164,
+            "mediana": 8.8,
+            "dp": 2.0649345854114407,
+            "q25": 7.9,
+            "q75": 9.5
+          },
+          "ips": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.904999999999999,
+            "mediana": 7.5,
+            "dp": 1.070706630769352,
+            "q25": 6.3,
+            "q75": 7.5
+          },
+          "ipp": {
+            "status": "sem_observacoes",
+            "total": 860,
+            "n": 0,
+            "ausentes": 860,
+            "cobertura": 0.0,
+            "media": null,
+            "mediana": null,
+            "dp": null,
+            "q25": null,
+            "q75": null
+          },
+          "ipv": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.253641860465116,
+            "mediana": 7.333,
+            "dp": 1.0933825108925763,
+            "q25": 6.722,
+            "q75": 7.917
+          },
+          "inde": {
+            "status": "disponivel",
+            "total": 860,
+            "n": 860,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.036175581395348,
+            "mediana": 7.197,
+            "dp": 1.0177733843057475,
+            "q25": 6.4855,
+            "q75": 7.75125
+          }
+        },
+        "ian_distribuicao": {
+          "status": "disponivel",
+          "denominador": 860,
+          "contagens": {
+            "2.5": 28,
+            "5.0": 573,
+            "10.0": 259,
+            "Outros valores": 0,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "2.5": 0.03255813953488372,
+            "5.0": 0.6662790697674419,
+            "10.0": 0.30116279069767443,
+            "Outros valores": 0.0,
+            "Ausente": 0.0
+          }
+        },
+        "categorias": {
+          "status": "disponivel",
+          "denominador": 860,
+          "contagens": {
+            "sem_defasagem": 259,
+            "moderada": 573,
+            "severa": 28,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "sem_defasagem": 0.30116279069767443,
+            "moderada": 0.6662790697674419,
+            "severa": 0.03255813953488372,
+            "Ausente": 0.0
+          }
+        },
+        "sinal_d": {
+          "status": "disponivel",
+          "denominador": 860,
+          "contagens": {
+            "D<0": 601,
+            "D=0": 247,
+            "D>0": 12,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "D<0": 0.6988372093023256,
+            "D=0": 0.2872093023255814,
+            "D>0": 0.013953488372093023,
+            "Ausente": 0.0
+          }
+        },
+        "ian_divergencias": {
+          "status": "disponivel",
+          "denominador": 860,
+          "contagens": {
+            "True": 0,
+            "False": 860,
+            "Indisponível": 0
+          },
+          "proporcoes": {
+            "True": 0.0,
+            "False": 1.0,
+            "Indisponível": 0.0
+          }
+        }
+      },
+      "2023": {
+        "total": 1014,
+        "indicadores": {
+          "ian": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 1014,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.243589743589744,
+            "mediana": 5.0,
+            "dp": 2.539584604576875,
+            "q25": 5.0,
+            "q75": 10.0
+          },
+          "ida": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 937,
+            "ausentes": 77,
+            "cobertura": 0.9240631163708086,
+            "media": 6.663393810032018,
+            "mediana": 6.8,
+            "dp": 1.5952769525126518,
+            "q25": 5.7,
+            "q75": 7.9
+          },
+          "ieg": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 938,
+            "ausentes": 76,
+            "cobertura": 0.9250493096646942,
+            "media": 8.699040511727079,
+            "mediana": 9.0,
+            "dp": 1.0840008193594644,
+            "q25": 8.1,
+            "q75": 9.5
+          },
+          "iaa": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 951,
+            "ausentes": 63,
+            "cobertura": 0.9378698224852071,
+            "media": 6.903049421661409,
+            "mediana": 8.5,
+            "dp": 3.5904143078153887,
+            "q25": 6.7,
+            "q75": 9.2
+          },
+          "ips": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 945,
+            "ausentes": 69,
+            "cobertura": 0.9319526627218935,
+            "media": 5.119714285714285,
+            "mediana": 5.0,
+            "dp": 2.090296645595059,
+            "q25": 2.52,
+            "q75": 7.52
+          },
+          "ipp": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 938,
+            "ausentes": 76,
+            "cobertura": 0.9250493096646942,
+            "media": 7.562955312716418,
+            "mediana": 7.65625,
+            "dp": 0.9842389367214707,
+            "q25": 7.083333333,
+            "q75": 8.125
+          },
+          "ipv": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 938,
+            "ausentes": 76,
+            "cobertura": 0.9250493096646942,
+            "media": 8.02789712153305,
+            "mediana": 8.045,
+            "dp": 0.9454265400496487,
+            "q25": 7.4625,
+            "q75": 8.66875
+          },
+          "inde": {
+            "status": "disponivel",
+            "total": 1014,
+            "n": 931,
+            "ausentes": 83,
+            "cobertura": 0.9181459566074951,
+            "media": 7.342309156809883,
+            "mediana": 7.408033333,
+            "dp": 0.901756787053934,
+            "q25": 6.72415,
+            "q75": 7.9960833335
+          }
+        },
+        "ian_distribuicao": {
+          "status": "disponivel",
+          "denominador": 1014,
+          "contagens": {
+            "2.5": 14,
+            "5.0": 538,
+            "10.0": 462,
+            "Outros valores": 0,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "2.5": 0.013806706114398421,
+            "5.0": 0.5305719921104537,
+            "10.0": 0.4556213017751479,
+            "Outros valores": 0.0,
+            "Ausente": 0.0
+          }
+        },
+        "categorias": {
+          "status": "disponivel",
+          "denominador": 1014,
+          "contagens": {
+            "sem_defasagem": 462,
+            "moderada": 538,
+            "severa": 14,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "sem_defasagem": 0.4556213017751479,
+            "moderada": 0.5305719921104537,
+            "severa": 0.013806706114398421,
+            "Ausente": 0.0
+          }
+        },
+        "sinal_d": {
+          "status": "disponivel",
+          "denominador": 1014,
+          "contagens": {
+            "D<0": 552,
+            "D=0": 420,
+            "D>0": 42,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "D<0": 0.5443786982248521,
+            "D=0": 0.41420118343195267,
+            "D>0": 0.04142011834319527,
+            "Ausente": 0.0
+          }
+        },
+        "ian_divergencias": {
+          "status": "disponivel",
+          "denominador": 1014,
+          "contagens": {
+            "True": 0,
+            "False": 1014,
+            "Indisponível": 0
+          },
+          "proporcoes": {
+            "True": 0.0,
+            "False": 1.0,
+            "Indisponível": 0.0
+          }
+        }
+      },
+      "2024": {
+        "total": 1156,
+        "indicadores": {
+          "ian": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1156,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.6838235294117645,
+            "mediana": 10.0,
+            "dp": 2.504055152705748,
+            "q25": 5.0,
+            "q75": 10.0
+          },
+          "ida": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1055,
+            "ausentes": 101,
+            "cobertura": 0.9126297577854672,
+            "media": 6.351421800947867,
+            "mediana": 6.75,
+            "dp": 2.1316392310304035,
+            "q25": 4.916666666666666,
+            "q75": 8.0
+          },
+          "ieg": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1156,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.374987581867446,
+            "mediana": 8.3333333335,
+            "dp": 2.846898969133493,
+            "q25": 6.464334276833334,
+            "q75": 9.438567460583334
+          },
+          "iaa": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1054,
+            "ausentes": 102,
+            "cobertura": 0.9117647058823529,
+            "media": 8.543562618595825,
+            "mediana": 8.751,
+            "dp": 1.4914504579552172,
+            "q25": 8.002,
+            "q75": 9.502
+          },
+          "ips": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1054,
+            "ausentes": 102,
+            "cobertura": 0.9117647058823529,
+            "media": 6.829670303605312,
+            "mediana": 7.51,
+            "dp": 1.4278926187412513,
+            "q25": 6.26,
+            "q75": 7.51
+          },
+          "ipp": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1054,
+            "ausentes": 102,
+            "cobertura": 0.9117647058823529,
+            "media": 7.548303091395635,
+            "mediana": 7.5,
+            "dp": 0.897219231500246,
+            "q25": 7.1875,
+            "q75": 8.125
+          },
+          "ipv": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1054,
+            "ausentes": 102,
+            "cobertura": 0.9117647058823529,
+            "media": 7.354267710306452,
+            "mediana": 7.5,
+            "dp": 1.0485411631586452,
+            "q25": 6.790625,
+            "q75": 8.085
+          },
+          "inde": {
+            "status": "disponivel",
+            "total": 1156,
+            "n": 1054,
+            "ausentes": 102,
+            "cobertura": 0.9117647058823529,
+            "media": 7.396685633864758,
+            "mediana": 7.540041325150002,
+            "dp": 1.0139145253747477,
+            "q25": 6.768097342783334,
+            "q75": 8.13954999995
+          }
+        },
+        "ian_distribuicao": {
+          "status": "suprimido: particao com celula < 10"
+        },
+        "categorias": {
+          "status": "suprimido: particao com celula < 10"
+        },
+        "sinal_d": {
+          "status": "disponivel",
+          "denominador": 1156,
+          "contagens": {
+            "D<0": 534,
+            "D=0": 485,
+            "D>0": 137,
+            "Ausente": 0
+          },
+          "proporcoes": {
+            "D<0": 0.4619377162629758,
+            "D=0": 0.4195501730103806,
+            "D>0": 0.1185121107266436,
+            "Ausente": 0.0
+          }
+        },
+        "ian_divergencias": {
+          "status": "disponivel",
+          "denominador": 1156,
+          "contagens": {
+            "True": 0,
+            "False": 1156,
+            "Indisponível": 0
+          },
+          "proporcoes": {
+            "True": 0.0,
+            "False": 1.0,
+            "Indisponível": 0.0
+          }
+        }
+      }
+    },
+    "ida_fase": {
+      "2022": {
+        "0": {
+          "status": "disponivel",
+          "total": 190,
+          "n": 190,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 7.140000000000002,
+          "mediana": 7.3,
+          "dp": 1.6750835089346328,
+          "q25": 6.1,
+          "q75": 8.375
+        },
+        "1": {
+          "status": "disponivel",
+          "total": 192,
+          "n": 192,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.4640625,
+          "mediana": 6.8,
+          "dp": 2.0623044489241535,
+          "q25": 5.3,
+          "q75": 7.8
+        },
+        "2": {
+          "status": "disponivel",
+          "total": 155,
+          "n": 155,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.406451612903226,
+          "mediana": 5.5,
+          "dp": 1.9978780112830117,
+          "q25": 4.0,
+          "q75": 7.05
+        },
+        "3": {
+          "status": "disponivel",
+          "total": 148,
+          "n": 148,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.141891891891892,
+          "mediana": 5.2,
+          "dp": 1.9291185648406173,
+          "q25": 3.8,
+          "q75": 6.6
+        },
+        "4": {
+          "status": "disponivel",
+          "total": 76,
+          "n": 76,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.052631578947368,
+          "mediana": 6.1,
+          "dp": 1.5473395390549571,
+          "q25": 5.15,
+          "q75": 7.3
+        },
+        "5": {
+          "status": "disponivel",
+          "total": 60,
+          "n": 60,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.873333333333333,
+          "mediana": 6.55,
+          "dp": 2.293015678959654,
+          "q25": 4.45,
+          "q75": 7.5
+        },
+        "6": {
+          "status": "disponivel",
+          "total": 18,
+          "n": 18,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.694444444444445,
+          "mediana": 6.85,
+          "dp": 1.5561915133246906,
+          "q25": 5.95,
+          "q75": 8.0
+        },
+        "7": {
+          "status": "disponivel",
+          "total": 21,
+          "n": 21,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.252380952380952,
+          "mediana": 5.0,
+          "dp": 2.181884288320315,
+          "q25": 3.8,
+          "q75": 7.3
+        }
+      },
+      "2023": {
+        "0": {
+          "status": "disponivel",
+          "total": 231,
+          "n": 231,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 7.422077922077922,
+          "mediana": 7.8,
+          "dp": 1.5219515541015705,
+          "q25": 6.5,
+          "q75": 8.55
+        },
+        "1": {
+          "status": "disponivel",
+          "total": 173,
+          "n": 173,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.814450867052024,
+          "mediana": 6.9,
+          "dp": 1.4891348214541447,
+          "q25": 6.0,
+          "q75": 7.9
+        },
+        "2": {
+          "status": "disponivel",
+          "total": 200,
+          "n": 199,
+          "ausentes": 1,
+          "cobertura": 0.995,
+          "media": 6.736683417085427,
+          "mediana": 6.8,
+          "dp": 1.5973813973381568,
+          "q25": 5.75,
+          "q75": 7.9
+        },
+        "3": {
+          "status": "disponivel",
+          "total": 132,
+          "n": 132,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.746969696969697,
+          "mediana": 5.7,
+          "dp": 1.5241285531092712,
+          "q25": 4.7,
+          "q75": 6.925000000000001
+        },
+        "4": {
+          "status": "disponivel",
+          "total": 94,
+          "n": 94,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.004255319148936,
+          "mediana": 6.1,
+          "dp": 1.2470106098156934,
+          "q25": 5.125,
+          "q75": 6.975
+        },
+        "5": {
+          "status": "disponivel",
+          "total": 65,
+          "n": 65,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.904615384615385,
+          "mediana": 6.0,
+          "dp": 1.389855069920823,
+          "q25": 5.0,
+          "q75": 7.1
+        },
+        "6": {
+          "status": "disponivel",
+          "total": 33,
+          "n": 33,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.809090909090909,
+          "mediana": 6.8,
+          "dp": 1.1848954691141633,
+          "q25": 6.2,
+          "q75": 7.7
+        },
+        "7": {
+          "status": "disponivel",
+          "total": 23,
+          "n": 10,
+          "ausentes": 13,
+          "cobertura": 0.43478260869565216,
+          "media": 7.81,
+          "mediana": 7.8,
+          "dp": 0.6838615844355249,
+          "q25": 7.55,
+          "q75": 7.975
+        },
+        "8": {
+          "status": "sem_observacoes",
+          "total": 63,
+          "n": 0,
+          "ausentes": 63,
+          "cobertura": 0.0,
+          "media": null,
+          "mediana": null,
+          "dp": null,
+          "q25": null,
+          "q75": null
+        }
+      },
+      "2024": {
+        "0": {
+          "status": "disponivel",
+          "total": 196,
+          "n": 196,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 7.32015306122449,
+          "mediana": 7.75,
+          "dp": 1.9437248082736078,
+          "q25": 6.1875,
+          "q75": 8.75
+        },
+        "1": {
+          "status": "disponivel",
+          "total": 185,
+          "n": 185,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.79054054054054,
+          "mediana": 7.25,
+          "dp": 1.9727366584567922,
+          "q25": 6.0,
+          "q75": 8.0
+        },
+        "2": {
+          "status": "disponivel",
+          "total": 185,
+          "n": 185,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.25,
+          "mediana": 6.5,
+          "dp": 2.008981193237659,
+          "q25": 4.75,
+          "q75": 7.75
+        },
+        "3": {
+          "status": "disponivel",
+          "total": 211,
+          "n": 211,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.347630331753554,
+          "mediana": 5.0,
+          "dp": 1.9812199406352748,
+          "q25": 4.0,
+          "q75": 6.833333333333333
+        },
+        "4": {
+          "status": "disponivel",
+          "total": 115,
+          "n": 115,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.8789855072463775,
+          "mediana": 5.666666666666667,
+          "dp": 2.012002347217125,
+          "q25": 4.5,
+          "q75": 7.5
+        },
+        "5": {
+          "status": "disponivel",
+          "total": 100,
+          "n": 100,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.453333333333334,
+          "mediana": 6.75,
+          "dp": 2.1279010698251373,
+          "q25": 5.0,
+          "q75": 8.208333333333332
+        },
+        "6": {
+          "status": "suprimido: complemento de privacidade"
+        },
+        "7": {
+          "status": "disponivel",
+          "total": 37,
+          "n": 37,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.81036036036036,
+          "mediana": 7.066666666666666,
+          "dp": 3.0573816547141415,
+          "q25": 5.483333333333333,
+          "q75": 7.666666666666667
+        },
+        "8": {
+          "status": "suprimido: n < 10"
+        },
+        "9": {
+          "status": "sem_observacoes",
+          "total": 38,
+          "n": 0,
+          "ausentes": 38,
+          "cobertura": 0.0,
+          "media": null,
+          "mediana": null,
+          "dp": null,
+          "q25": null,
+          "q75": null
+        }
+      },
+      "agregado": {
+        "0": {
+          "status": "disponivel",
+          "total": 617,
+          "n": 617,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 7.302836304700163,
+          "mediana": 7.5,
+          "dp": 1.713287233249257,
+          "q25": 6.3,
+          "q75": 8.5
+        },
+        "1": {
+          "status": "disponivel",
+          "total": 550,
+          "n": 550,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.6840909090909095,
+          "mediana": 7.0,
+          "dp": 1.8721223432840108,
+          "q25": 5.8,
+          "q75": 8.0
+        },
+        "2": {
+          "status": "disponivel",
+          "total": 540,
+          "n": 539,
+          "ausentes": 1,
+          "cobertura": 0.9981481481481481,
+          "media": 6.187105751391465,
+          "mediana": 6.3,
+          "dp": 1.9366538252826007,
+          "q25": 4.9,
+          "q75": 7.5
+        },
+        "3": {
+          "status": "disponivel",
+          "total": 491,
+          "n": 491,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.392973523421588,
+          "mediana": 5.3,
+          "dp": 1.863709959619059,
+          "q25": 4.0,
+          "q75": 6.816666666666666
+        },
+        "4": {
+          "status": "disponivel",
+          "total": 285,
+          "n": 285,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 5.966608187134503,
+          "mediana": 6.0,
+          "dp": 1.6649407132771206,
+          "q25": 4.833333333333333,
+          "q75": 7.2
+        },
+        "5": {
+          "status": "disponivel",
+          "total": 225,
+          "n": 225,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.140148148148148,
+          "mediana": 6.333333333333333,
+          "dp": 2.0042367025129986,
+          "q25": 4.8,
+          "q75": 7.666666666666667
+        },
+        "6": {
+          "status": "disponivel",
+          "total": 76,
+          "n": 76,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 6.9203947368421055,
+          "mediana": 7.166666666666667,
+          "dp": 1.2618610555789196,
+          "q25": 6.15,
+          "q75": 7.9
+        },
+        "7": {
+          "status": "disponivel",
+          "total": 81,
+          "n": 68,
+          "ausentes": 13,
+          "cobertura": 0.8395061728395061,
+          "media": 5.9321078431372545,
+          "mediana": 6.966666666666667,
+          "dp": 2.6806386398054163,
+          "q25": 4.55,
+          "q75": 7.8
+        },
+        "8": {
+          "status": "suprimido: n < 10"
+        },
+        "9": {
+          "status": "suprimido: complemento de privacidade"
+        }
+      }
+    },
+    "associacoes": {
+      "2022": {
+        "ieg x ida": {
+          "status": "estimada",
+          "n": 860,
+          "total": 860,
+          "ausentes_par": 0,
+          "rho": 0.5074485209371903,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "ieg x ipv": {
+          "status": "estimada",
+          "n": 860,
+          "total": 860,
+          "ausentes_par": 0,
+          "rho": 0.5403337196287981,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "iaa x ida": {
+          "status": "estimada",
+          "n": 860,
+          "total": 860,
+          "ausentes_par": 0,
+          "rho": 0.18285304545651968,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "iaa x ieg": {
+          "status": "estimada",
+          "n": 860,
+          "total": 860,
+          "ausentes_par": 0,
+          "rho": 0.2342203732022221,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        }
+      },
+      "2023": {
+        "ieg x ida": {
+          "status": "estimada",
+          "n": 937,
+          "total": 1014,
+          "ausentes_par": 77,
+          "rho": 0.44647904198529154,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "ieg x ipv": {
+          "status": "estimada",
+          "n": 938,
+          "total": 1014,
+          "ausentes_par": 76,
+          "rho": 0.4920178100044003,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "iaa x ida": {
+          "status": "estimada",
+          "n": 937,
+          "total": 1014,
+          "ausentes_par": 77,
+          "rho": 0.12686869195588227,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "iaa x ieg": {
+          "status": "estimada",
+          "n": 938,
+          "total": 1014,
+          "ausentes_par": 76,
+          "rho": 0.19131793011385964,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        }
+      },
+      "2024": {
+        "ieg x ida": {
+          "status": "estimada",
+          "n": 1055,
+          "total": 1156,
+          "ausentes_par": 101,
+          "rho": 0.5168115281612022,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "ieg x ipv": {
+          "status": "estimada",
+          "n": 1054,
+          "total": 1156,
+          "ausentes_par": 102,
+          "rho": 0.5509500395873729,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "iaa x ida": {
+          "status": "estimada",
+          "n": 1054,
+          "total": 1156,
+          "ausentes_par": 102,
+          "rho": 0.17842698273962446,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "iaa x ieg": {
+          "status": "estimada",
+          "n": 1054,
+          "total": 1156,
+          "ausentes_par": 102,
+          "rho": 0.23005620776709368,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        }
+      },
+      "ajustado_ano": {
+        "ieg x ida": {
+          "status": "estimada",
+          "n": 2852,
+          "total": 3030,
+          "ausentes_par": 178,
+          "rho": 0.4916695610200994,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "ieg x ipv": {
+          "status": "estimada",
+          "n": 2852,
+          "total": 3030,
+          "ausentes_par": 178,
+          "rho": 0.5218854759219859,
+          "direcao": "positiva",
+          "intensidade": "moderada"
+        },
+        "iaa x ida": {
+          "status": "estimada",
+          "n": 2851,
+          "total": 3030,
+          "ausentes_par": 179,
+          "rho": 0.16316185083982576,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "iaa x ieg": {
+          "status": "estimada",
+          "n": 2852,
+          "total": 3030,
+          "ausentes_par": 178,
+          "rho": 0.21242698922579714,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        }
+      }
+    },
+    "autoavaliacao": {
+      "2022": {
+        "iaa - ida": {
+          "status": "disponivel",
+          "total": 860,
+          "n": 860,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 2.1815116279069766,
+          "mediana": 2.2,
+          "dp": 2.585726026865823,
+          "q25": 0.6999999999999993,
+          "q75": 3.7
+        },
+        "iaa - ieg": {
+          "status": "disponivel",
+          "total": 860,
+          "n": 860,
+          "ausentes": 0,
+          "cobertura": 1.0,
+          "media": 0.3832558139534885,
+          "mediana": 0.40000000000000036,
+          "dp": 2.1816994379138017,
+          "q25": -0.5999999999999996,
+          "q75": 1.5999999999999996
+        }
+      },
+      "2023": {
+        "iaa - ida": {
+          "status": "disponivel",
+          "total": 1014,
+          "n": 937,
+          "ausentes": 77,
+          "cobertura": 0.9240631163708086,
+          "media": 0.2547491995731057,
+          "mediana": 1.2000000000000002,
+          "dp": 3.768132992052248,
+          "q25": -0.6999999999999993,
+          "q75": 2.799999999999999
+        },
+        "iaa - ieg": {
+          "status": "disponivel",
+          "total": 1014,
+          "n": 938,
+          "ausentes": 76,
+          "cobertura": 0.9250493096646942,
+          "media": -1.788272921108742,
+          "mediana": -0.5,
+          "dp": 3.5691030059316096,
+          "q25": -2.0999999999999996,
+          "q75": 0.40000000000000036
+        }
+      },
+      "2024": {
+        "iaa - ida": {
+          "status": "disponivel",
+          "total": 1156,
+          "n": 1054,
+          "ausentes": 102,
+          "cobertura": 0.9117647058823529,
+          "media": 2.1937049335863383,
+          "mediana": 2.0020000000000007,
+          "dp": 2.3179991016145594,
+          "q25": 0.7485000000000002,
+          "q75": 3.6679999999999993
+        },
+        "iaa - ieg": {
+          "status": "disponivel",
+          "total": 1156,
+          "n": 1054,
+          "ausentes": 102,
+          "cobertura": 0.9117647058823529,
+          "media": 0.45486656106378903,
+          "mediana": 0.21297619033333248,
+          "dp": 2.031064960855246,
+          "q25": -0.6944444444166666,
+          "q75": 1.4713472888749997
+        }
+      }
+    },
+    "longitudinal": {
+      "2022→2023": {
+        "n_correspondidos": 600,
+        "mudancas": {
+          "ida": {
+            "status": "disponivel",
+            "total": 600,
+            "n": 574,
+            "ausentes": 26,
+            "cobertura": 0.9566666666666667,
+            "media": 0.11515679442508715,
+            "mediana": 0.0,
+            "dp": 1.566912536435449,
+            "q25": -0.9000000000000004,
+            "q75": 1.0
+          },
+          "ieg": {
+            "status": "disponivel",
+            "total": 600,
+            "n": 574,
+            "ausentes": 26,
+            "cobertura": 0.9566666666666667,
+            "media": 0.23484320557491292,
+            "mediana": 0.20000000000000107,
+            "dp": 1.132205939530759,
+            "q25": -0.40000000000000036,
+            "q75": 0.8000000000000007
+          }
+        },
+        "ips": {
+          "ida": {
+            "associacao": {
+              "status": "estimada",
+              "n": 574,
+              "total": 600,
+              "ausentes_par": 26,
+              "rho": 0.028677761379707685,
+              "direcao": "positiva",
+              "intensidade": "fraca"
+            },
+            "sensibilidade": {
+              "0": {
+                "status": "disponivel",
+                "denominador": 574,
+                "contagens": {
+                  "queda": 285,
+                  "sem_queda": 289
+                },
+                "proporcoes": {
+                  "queda": 0.4965156794425087,
+                  "sem_queda": 0.5034843205574913
+                }
+              },
+              "0.5": {
+                "status": "disponivel",
+                "denominador": 574,
+                "contagens": {
+                  "queda": 201,
+                  "sem_queda": 373
+                },
+                "proporcoes": {
+                  "queda": 0.3501742160278746,
+                  "sem_queda": 0.6498257839721254
+                }
+              },
+              "1": {
+                "status": "disponivel",
+                "denominador": 574,
+                "contagens": {
+                  "queda": 132,
+                  "sem_queda": 442
+                },
+                "proporcoes": {
+                  "queda": 0.22996515679442509,
+                  "sem_queda": 0.7700348432055749
+                }
+              }
+            },
+            "perfis": {
+              "0": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 285,
+                  "n": 285,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.814736842105264,
+                  "mediana": 7.5,
+                  "dp": 1.103129519522574,
+                  "q25": 5.6,
+                  "q75": 7.5
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 289,
+                  "n": 289,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.925951557093425,
+                  "mediana": 7.5,
+                  "dp": 1.0160438039445079,
+                  "q25": 6.3,
+                  "q75": 7.5
+                }
+              },
+              "0.5": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 201,
+                  "n": 201,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.844278606965174,
+                  "mediana": 7.5,
+                  "dp": 1.098944767488362,
+                  "q25": 5.6,
+                  "q75": 7.5
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 373,
+                  "n": 373,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.884986595174262,
+                  "mediana": 7.5,
+                  "dp": 1.0407502527165224,
+                  "q25": 5.6,
+                  "q75": 7.5
+                }
+              },
+              "1": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 132,
+                  "n": 132,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.803030303030303,
+                  "mediana": 7.5,
+                  "dp": 1.1198377331975546,
+                  "q25": 5.6,
+                  "q75": 7.5
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 442,
+                  "n": 442,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.890950226244344,
+                  "mediana": 7.5,
+                  "dp": 1.0428721469946702,
+                  "q25": 5.7749999999999995,
+                  "q75": 7.5
+                }
+              }
+            },
+            "delta_por_ips": {
+              "abaixo_mediana": {
+                "status": "disponivel",
+                "total": 209,
+                "n": 209,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": 0.009090909090909101,
+                "mediana": -0.1999999999999993,
+                "dp": 1.332097693765088,
+                "q25": -0.9000000000000004,
+                "q75": 0.8999999999999995
+              },
+              "mediana_ou_acima": {
+                "status": "disponivel",
+                "total": 365,
+                "n": 365,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": 0.17589041095890415,
+                "mediana": 0.0,
+                "dp": 1.6854645523380245,
+                "q25": -0.9000000000000004,
+                "q75": 1.1
+              }
+            }
+          },
+          "ieg": {
+            "associacao": {
+              "status": "estimada",
+              "n": 574,
+              "total": 600,
+              "ausentes_par": 26,
+              "rho": -0.023970091546601874,
+              "direcao": "negativa",
+              "intensidade": "fraca"
+            },
+            "sensibilidade": {
+              "0": {
+                "status": "disponivel",
+                "denominador": 574,
+                "contagens": {
+                  "queda": 213,
+                  "sem_queda": 361
+                },
+                "proporcoes": {
+                  "queda": 0.3710801393728223,
+                  "sem_queda": 0.6289198606271778
+                }
+              },
+              "0.5": {
+                "status": "disponivel",
+                "denominador": 574,
+                "contagens": {
+                  "queda": 120,
+                  "sem_queda": 454
+                },
+                "proporcoes": {
+                  "queda": 0.20905923344947736,
+                  "sem_queda": 0.7909407665505227
+                }
+              },
+              "1": {
+                "status": "disponivel",
+                "denominador": 574,
+                "contagens": {
+                  "queda": 57,
+                  "sem_queda": 517
+                },
+                "proporcoes": {
+                  "queda": 0.09930313588850175,
+                  "sem_queda": 0.9006968641114983
+                }
+              }
+            },
+            "perfis": {
+              "0": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 213,
+                  "n": 213,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.905633802816902,
+                  "mediana": 7.5,
+                  "dp": 1.0353042562468888,
+                  "q25": 6.3,
+                  "q75": 7.5
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 361,
+                  "n": 361,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.850138504155123,
+                  "mediana": 7.5,
+                  "dp": 1.0763137877274456,
+                  "q25": 5.6,
+                  "q75": 7.5
+                }
+              },
+              "0.5": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 120,
+                  "n": 120,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.9175,
+                  "mediana": 7.5,
+                  "dp": 1.0211759986251476,
+                  "q25": 6.3,
+                  "q75": 7.5
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 454,
+                  "n": 454,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.858370044052863,
+                  "mediana": 7.5,
+                  "dp": 1.0716733978200363,
+                  "q25": 5.6,
+                  "q75": 7.5
+                }
+              },
+              "1": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 57,
+                  "n": 57,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.708771929824561,
+                  "mediana": 7.5,
+                  "dp": 1.1631669671563534,
+                  "q25": 5.6,
+                  "q75": 7.5
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 517,
+                  "n": 517,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 6.888588007736944,
+                  "mediana": 7.5,
+                  "dp": 1.0484971426894782,
+                  "q25": 6.3,
+                  "q75": 7.5
+                }
+              }
+            },
+            "delta_por_ips": {
+              "abaixo_mediana": {
+                "status": "disponivel",
+                "total": 209,
+                "n": 209,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": 0.2641148325358852,
+                "mediana": 0.20000000000000107,
+                "dp": 1.110917978961931,
+                "q25": -0.3000000000000007,
+                "q75": 0.8999999999999995
+              },
+              "mediana_ou_acima": {
+                "status": "disponivel",
+                "total": 365,
+                "n": 365,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": 0.21808219178082194,
+                "mediana": 0.20000000000000107,
+                "dp": 1.145392894746533,
+                "q25": -0.40000000000000036,
+                "q75": 0.8000000000000007
+              }
+            }
+          }
+        },
+        "ipv_futuro": {
+          "ida": {
+            "status": "estimada",
+            "n": 574,
+            "total": 600,
+            "ausentes_par": 26,
+            "rho": 0.4173783910344622,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "ieg": {
+            "status": "estimada",
+            "n": 574,
+            "total": 600,
+            "ausentes_par": 26,
+            "rho": 0.4119864659967291,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "iaa": {
+            "status": "estimada",
+            "n": 574,
+            "total": 600,
+            "ausentes_par": 26,
+            "rho": 0.180963634520128,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ips": {
+            "status": "estimada",
+            "n": 574,
+            "total": 600,
+            "ausentes_par": 26,
+            "rho": 0.18938127293082713,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          }
+        },
+        "pedras_transicoes": {
+          "status": "suprimido: particao com celula < 10"
+        },
+        "pedras_evolucao": {
+          "status": "disponivel",
+          "denominador": 570,
+          "contagens": {
+            "melhoria": 139,
+            "estabilidade": 292,
+            "piora": 139
+          },
+          "proporcoes": {
+            "melhoria": 0.24385964912280703,
+            "estabilidade": 0.512280701754386,
+            "piora": 0.24385964912280703
+          }
+        },
+        "ida_por_pedra_origem": {
+          "Quartzo": {
+            "status": "disponivel",
+            "total": 53,
+            "n": 49,
+            "ausentes": 4,
+            "cobertura": 0.9245283018867925,
+            "media": 1.8448979591836734,
+            "mediana": 1.7999999999999998,
+            "dp": 1.60741267576316,
+            "q25": 0.6999999999999997,
+            "q75": 2.9000000000000004
+          },
+          "Ágata": {
+            "status": "disponivel",
+            "total": 165,
+            "n": 159,
+            "ausentes": 6,
+            "cobertura": 0.9636363636363636,
+            "media": 0.4050314465408805,
+            "mediana": 0.20000000000000018,
+            "dp": 1.5689954353725972,
+            "q25": -0.7,
+            "q75": 1.2999999999999998
+          },
+          "Ametista": {
+            "status": "disponivel",
+            "total": 264,
+            "n": 256,
+            "ausentes": 8,
+            "cobertura": 0.9696969696969697,
+            "media": -0.07343749999999996,
+            "mediana": -0.10000000000000053,
+            "dp": 1.4153491566726981,
+            "q25": -1.0000000000000009,
+            "q75": 0.8000000000000007
+          },
+          "Topázio": {
+            "status": "disponivel",
+            "total": 118,
+            "n": 110,
+            "ausentes": 8,
+            "cobertura": 0.9322033898305084,
+            "media": -0.6354545454545455,
+            "mediana": -0.5499999999999998,
+            "dp": 1.1808554171716166,
+            "q25": -1.3749999999999998,
+            "q75": 0.0
+          }
+        }
+      },
+      "2023→2024": {
+        "n_correspondidos": 765,
+        "mudancas": {
+          "ida": {
+            "status": "disponivel",
+            "total": 765,
+            "n": 682,
+            "ausentes": 83,
+            "cobertura": 0.8915032679738563,
+            "media": -0.4784457478005865,
+            "mediana": -0.2999999999999998,
+            "dp": 1.8747566708888546,
+            "q25": -1.6458333333333335,
+            "q75": 0.7333333333333334
+          },
+          "ieg": {
+            "status": "disponivel",
+            "total": 765,
+            "n": 693,
+            "ausentes": 72,
+            "cobertura": 0.9058823529411765,
+            "media": -0.9465438014579125,
+            "mediana": -0.40000000000000036,
+            "dp": 1.8474495713657793,
+            "q25": -1.6783068783333333,
+            "q75": 0.13712121200000027
+          }
+        },
+        "ips": {
+          "ida": {
+            "associacao": {
+              "status": "estimada",
+              "n": 679,
+              "total": 765,
+              "ausentes_par": 86,
+              "rho": 0.027301318398704047,
+              "direcao": "positiva",
+              "intensidade": "fraca"
+            },
+            "sensibilidade": {
+              "0": {
+                "status": "disponivel",
+                "denominador": 679,
+                "contagens": {
+                  "queda": 388,
+                  "sem_queda": 291
+                },
+                "proporcoes": {
+                  "queda": 0.5714285714285714,
+                  "sem_queda": 0.42857142857142855
+                }
+              },
+              "0.5": {
+                "status": "disponivel",
+                "denominador": 679,
+                "contagens": {
+                  "queda": 303,
+                  "sem_queda": 376
+                },
+                "proporcoes": {
+                  "queda": 0.44624447717231225,
+                  "sem_queda": 0.5537555228276878
+                }
+              },
+              "1": {
+                "status": "disponivel",
+                "denominador": 679,
+                "contagens": {
+                  "queda": 242,
+                  "sem_queda": 437
+                },
+                "proporcoes": {
+                  "queda": 0.35640648011782033,
+                  "sem_queda": 0.6435935198821797
+                }
+              }
+            },
+            "perfis": {
+              "0": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 388,
+                  "n": 388,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.1732731958762885,
+                  "mediana": 5.0,
+                  "dp": 2.089761025765721,
+                  "q25": 2.52,
+                  "q75": 7.52
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 291,
+                  "n": 291,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.134604810996564,
+                  "mediana": 5.0,
+                  "dp": 2.1011323954684813,
+                  "q25": 2.52,
+                  "q75": 7.52
+                }
+              },
+              "0.5": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 303,
+                  "n": 303,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.107920792079208,
+                  "mediana": 5.0,
+                  "dp": 2.0777883922519282,
+                  "q25": 2.52,
+                  "q75": 7.52
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 376,
+                  "n": 376,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.196010638297872,
+                  "mediana": 5.0,
+                  "dp": 2.107446237167912,
+                  "q25": 2.52,
+                  "q75": 7.52
+                }
+              },
+              "1": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 242,
+                  "n": 242,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.073595041322314,
+                  "mediana": 5.0,
+                  "dp": 2.0496164728920414,
+                  "q25": 2.52,
+                  "q75": 7.52
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 437,
+                  "n": 437,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.202723112128146,
+                  "mediana": 5.0,
+                  "dp": 2.1178445959961962,
+                  "q25": 2.52,
+                  "q75": 7.52
+                }
+              }
+            },
+            "delta_por_ips": {
+              "abaixo_mediana": {
+                "status": "disponivel",
+                "total": 281,
+                "n": 281,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": -0.6231316725978646,
+                "mediana": -0.40000000000000036,
+                "dp": 1.871446558438811,
+                "q25": -1.7333333333333334,
+                "q75": 0.5999999999999996
+              },
+              "mediana_ou_acima": {
+                "status": "disponivel",
+                "total": 398,
+                "n": 398,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": -0.3835845896147404,
+                "mediana": -0.25,
+                "dp": 1.8765511187491948,
+                "q25": -1.5666666666666673,
+                "q75": 0.8624999999999989
+              }
+            }
+          },
+          "ieg": {
+            "associacao": {
+              "status": "estimada",
+              "n": 690,
+              "total": 765,
+              "ausentes_par": 75,
+              "rho": 0.019846265069962187,
+              "direcao": "positiva",
+              "intensidade": "fraca"
+            },
+            "sensibilidade": {
+              "0": {
+                "status": "disponivel",
+                "denominador": 690,
+                "contagens": {
+                  "queda": 461,
+                  "sem_queda": 229
+                },
+                "proporcoes": {
+                  "queda": 0.6681159420289855,
+                  "sem_queda": 0.3318840579710145
+                }
+              },
+              "0.5": {
+                "status": "disponivel",
+                "denominador": 690,
+                "contagens": {
+                  "queda": 326,
+                  "sem_queda": 364
+                },
+                "proporcoes": {
+                  "queda": 0.47246376811594204,
+                  "sem_queda": 0.527536231884058
+                }
+              },
+              "1": {
+                "status": "disponivel",
+                "denominador": 690,
+                "contagens": {
+                  "queda": 241,
+                  "sem_queda": 449
+                },
+                "proporcoes": {
+                  "queda": 0.3492753623188406,
+                  "sem_queda": 0.6507246376811594
+                }
+              }
+            },
+            "perfis": {
+              "0": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 461,
+                  "n": 461,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.138546637744034,
+                  "mediana": 5.0,
+                  "dp": 2.0760885705363092,
+                  "q25": 2.52,
+                  "q75": 7.52
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 229,
+                  "n": 229,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.248995633187773,
+                  "mediana": 5.02,
+                  "dp": 2.1052672758137922,
+                  "q25": 2.52,
+                  "q75": 7.52
+                }
+              },
+              "0.5": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 326,
+                  "n": 326,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.244631901840491,
+                  "mediana": 5.0,
+                  "dp": 2.0399026415894843,
+                  "q25": 3.14,
+                  "q75": 7.52
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 364,
+                  "n": 364,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.113021978021978,
+                  "mediana": 5.0,
+                  "dp": 2.125337811958991,
+                  "q25": 2.52,
+                  "q75": 7.52
+                }
+              },
+              "1": {
+                "queda": {
+                  "status": "disponivel",
+                  "total": 241,
+                  "n": 241,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.156265560165974,
+                  "mediana": 5.0,
+                  "dp": 2.0507773312861852,
+                  "q25": 2.52,
+                  "q75": 7.52
+                },
+                "sem_queda": {
+                  "status": "disponivel",
+                  "total": 449,
+                  "n": 449,
+                  "ausentes": 0,
+                  "cobertura": 1.0,
+                  "media": 5.185367483296213,
+                  "mediana": 5.0,
+                  "dp": 2.105246933877596,
+                  "q25": 2.52,
+                  "q75": 7.52
+                }
+              }
+            },
+            "delta_por_ips": {
+              "abaixo_mediana": {
+                "status": "disponivel",
+                "total": 281,
+                "n": 281,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": -0.8845903924478056,
+                "mediana": -0.3571428569999995,
+                "dp": 1.6666530167045321,
+                "q25": -1.7363636363333326,
+                "q75": 0.1454545454999998
+              },
+              "mediana_ou_acima": {
+                "status": "disponivel",
+                "total": 409,
+                "n": 409,
+                "ausentes": 0,
+                "cobertura": 1.0,
+                "media": -0.9981487733280358,
+                "mediana": -0.48181818200000137,
+                "dp": 1.9658789792645277,
+                "q25": -1.6583566759999995,
+                "q75": 0.12878787900000077
+              }
+            }
+          }
+        },
+        "ipv_futuro": {
+          "ida": {
+            "status": "estimada",
+            "n": 681,
+            "total": 765,
+            "ausentes_par": 84,
+            "rho": 0.4002124977593537,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "ieg": {
+            "status": "estimada",
+            "n": 681,
+            "total": 765,
+            "ausentes_par": 84,
+            "rho": 0.3874298796781435,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "iaa": {
+            "status": "estimada",
+            "n": 692,
+            "total": 765,
+            "ausentes_par": 73,
+            "rho": 0.11345645070512905,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ips": {
+            "status": "estimada",
+            "n": 689,
+            "total": 765,
+            "ausentes_par": 76,
+            "rho": 0.06939315921561554,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ipp": {
+            "status": "estimada",
+            "n": 681,
+            "total": 765,
+            "ausentes_par": 84,
+            "rho": 0.3539481354517887,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          }
+        },
+        "pedras_transicoes": {
+          "status": "suprimido: particao com celula < 10"
+        },
+        "pedras_evolucao": {
+          "status": "disponivel",
+          "denominador": 678,
+          "contagens": {
+            "melhoria": 164,
+            "estabilidade": 339,
+            "piora": 175
+          },
+          "proporcoes": {
+            "melhoria": 0.24188790560471976,
+            "estabilidade": 0.5,
+            "piora": 0.2581120943952802
+          }
+        },
+        "ida_por_pedra_origem": {
+          "Quartzo": {
+            "status": "disponivel",
+            "total": 42,
+            "n": 42,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": -0.4083333333333334,
+            "mediana": -0.18333333333333313,
+            "dp": 1.682047927483728,
+            "q25": -1.5125000000000002,
+            "q75": 0.6916666666666669
+          },
+          "Ágata": {
+            "status": "disponivel",
+            "total": 153,
+            "n": 152,
+            "ausentes": 1,
+            "cobertura": 0.9934640522875817,
+            "media": -0.3229166666666667,
+            "mediana": -0.07499999999999973,
+            "dp": 2.1369164966573995,
+            "q25": -1.6124999999999998,
+            "q75": 1.0
+          },
+          "Ametista": {
+            "status": "disponivel",
+            "total": 308,
+            "n": 300,
+            "ausentes": 8,
+            "cobertura": 0.974025974025974,
+            "media": -0.588388888888889,
+            "mediana": -0.40000000000000036,
+            "dp": 1.9477767954937222,
+            "q25": -1.8749999999999996,
+            "q75": 0.7625
+          },
+          "Topázio": {
+            "status": "disponivel",
+            "total": 187,
+            "n": 185,
+            "ausentes": 2,
+            "cobertura": 0.9893048128342246,
+            "media": -0.4595495495495495,
+            "mediana": -0.3000000000000007,
+            "dp": 1.5475501057503982,
+            "q25": -1.3000000000000007,
+            "q75": 0.5
+          }
+        }
+      }
+    },
+    "ipp": {
+      "2022": {
+        "status": "ausencia_estrutural"
+      },
+      "2023": {
+        "ipp x ian": {
+          "status": "estimada",
+          "n": 938,
+          "total": 1014,
+          "ausentes_par": 76,
+          "rho": 0.10581988008000633,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "ipp x d": {
+          "status": "estimada",
+          "n": 938,
+          "total": 1014,
+          "ausentes_par": 76,
+          "rho": 0.17320201608232066,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "por_categoria": {
+          "moderada": {
+            "status": "disponivel",
+            "total": 538,
+            "n": 536,
+            "ausentes": 2,
+            "cobertura": 0.9962825278810409,
+            "media": 7.504780783576493,
+            "mediana": 7.5,
+            "dp": 0.9917113225267241,
+            "q25": 6.875,
+            "q75": 8.125
+          },
+          "sem_defasagem": {
+            "status": "disponivel",
+            "total": 462,
+            "n": 388,
+            "ausentes": 74,
+            "cobertura": 0.8398268398268398,
+            "media": 7.665190077314433,
+            "mediana": 7.8125,
+            "dp": 0.9522244845806308,
+            "q25": 7.291666667,
+            "q75": 8.28125
+          },
+          "severa": {
+            "status": "disponivel",
+            "total": 14,
+            "n": 14,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.956845238071429,
+            "mediana": 7.578125,
+            "dp": 1.228228245809615,
+            "q25": 6.41927083325,
+            "q75": 7.890625
+          }
+        },
+        "mediana_ipp": 7.65625,
+        "perfis": {
+          "status": "disponivel",
+          "denominador": 938,
+          "contagens": {
+            "IPP abaixo da mediana / D<0": 287,
+            "IPP abaixo da mediana / D>=0": 164,
+            "IPP na mediana ou acima / D<0": 263,
+            "IPP na mediana ou acima / D>=0": 224
+          },
+          "proporcoes": {
+            "IPP abaixo da mediana / D<0": 0.30597014925373134,
+            "IPP abaixo da mediana / D>=0": 0.17484008528784648,
+            "IPP na mediana ou acima / D<0": 0.28038379530916846,
+            "IPP na mediana ou acima / D>=0": 0.23880597014925373
+          }
+        }
+      },
+      "2024": {
+        "ipp x ian": {
+          "status": "estimada",
+          "n": 1054,
+          "total": 1156,
+          "ausentes_par": 102,
+          "rho": 0.15969252770522133,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "ipp x d": {
+          "status": "estimada",
+          "n": 1054,
+          "total": 1156,
+          "ausentes_par": 102,
+          "rho": 0.18728905557837902,
+          "direcao": "positiva",
+          "intensidade": "fraca"
+        },
+        "por_categoria": {
+          "moderada": {
+            "status": "suprimido: complemento de privacidade"
+          },
+          "sem_defasagem": {
+            "status": "disponivel",
+            "total": 622,
+            "n": 520,
+            "ausentes": 102,
+            "cobertura": 0.8360128617363344,
+            "media": 7.687900641019231,
+            "mediana": 7.708333333,
+            "dp": 0.8426831318524316,
+            "q25": 7.291666667,
+            "q75": 8.25
+          },
+          "severa": {
+            "status": "suprimido: n < 10"
+          }
+        },
+        "mediana_ipp": 7.5,
+        "perfis": {
+          "status": "disponivel",
+          "denominador": 1054,
+          "contagens": {
+            "IPP abaixo da mediana / D<0": 213,
+            "IPP abaixo da mediana / D>=0": 149,
+            "IPP na mediana ou acima / D<0": 321,
+            "IPP na mediana ou acima / D>=0": 371
+          },
+          "proporcoes": {
+            "IPP abaixo da mediana / D<0": 0.20208728652751423,
+            "IPP abaixo da mediana / D>=0": 0.1413662239089184,
+            "IPP na mediana ou acima / D<0": 0.3045540796963947,
+            "IPP na mediana ou acima / D>=0": 0.3519924098671727
+          }
+        }
+      }
+    },
+    "ipv": {
+      "2022": {
+        "associacoes": {
+          "ida": {
+            "status": "estimada",
+            "n": 860,
+            "total": 860,
+            "ausentes_par": 0,
+            "rho": 0.6237652233536595,
+            "direcao": "positiva",
+            "intensidade": "forte"
+          },
+          "ieg": {
+            "status": "estimada",
+            "n": 860,
+            "total": 860,
+            "ausentes_par": 0,
+            "rho": 0.5403337196287981,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "iaa": {
+            "status": "estimada",
+            "n": 860,
+            "total": 860,
+            "ausentes_par": 0,
+            "rho": 0.2446447504515509,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ips": {
+            "status": "estimada",
+            "n": 860,
+            "total": 860,
+            "ausentes_par": 0,
+            "rho": 0.1899288487725274,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          }
+        },
+        "por_fase": {
+          "0": {
+            "status": "disponivel",
+            "total": 190,
+            "n": 190,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.557915789473684,
+            "mediana": 7.5,
+            "dp": 0.833924440046606,
+            "q25": 7.167,
+            "q75": 8.0
+          },
+          "1": {
+            "status": "disponivel",
+            "total": 192,
+            "n": 192,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.360833333333333,
+            "mediana": 7.333,
+            "dp": 0.9390913416665171,
+            "q25": 6.93725,
+            "q75": 7.917
+          },
+          "2": {
+            "status": "disponivel",
+            "total": 155,
+            "n": 155,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.339780645161292,
+            "mediana": 7.5,
+            "dp": 0.8672266234993449,
+            "q25": 6.833,
+            "q75": 7.861000000000001
+          },
+          "3": {
+            "status": "disponivel",
+            "total": 148,
+            "n": 148,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.5485945945945945,
+            "mediana": 6.5625,
+            "dp": 1.3150494046115615,
+            "q25": 5.687250000000001,
+            "q75": 7.3855
+          },
+          "4": {
+            "status": "disponivel",
+            "total": 76,
+            "n": 76,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.206157894736842,
+            "mediana": 7.417,
+            "dp": 1.1247762331845574,
+            "q25": 6.5,
+            "q75": 7.843500000000001
+          },
+          "5": {
+            "status": "disponivel",
+            "total": 60,
+            "n": 60,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.2606666666666655,
+            "mediana": 7.285,
+            "dp": 1.268531670424533,
+            "q25": 6.26075,
+            "q75": 8.03125
+          },
+          "6": {
+            "status": "disponivel",
+            "total": 18,
+            "n": 18,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.215944444444442,
+            "mediana": 8.6945,
+            "dp": 1.5500916281160788,
+            "q25": 7.2917499999999995,
+            "q75": 9.528
+          },
+          "7": {
+            "status": "disponivel",
+            "total": 21,
+            "n": 21,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.180714285714286,
+            "mediana": 7.222,
+            "dp": 0.8621136898841789,
+            "q25": 6.778,
+            "q75": 7.556
+          }
+        }
+      },
+      "2023": {
+        "associacoes": {
+          "ida": {
+            "status": "estimada",
+            "n": 937,
+            "total": 1014,
+            "ausentes_par": 77,
+            "rho": 0.5512658555210789,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "ieg": {
+            "status": "estimada",
+            "n": 938,
+            "total": 1014,
+            "ausentes_par": 76,
+            "rho": 0.4920178100044003,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "iaa": {
+            "status": "estimada",
+            "n": 938,
+            "total": 1014,
+            "ausentes_par": 76,
+            "rho": 0.15526612713827495,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ips": {
+            "status": "estimada",
+            "n": 932,
+            "total": 1014,
+            "ausentes_par": 82,
+            "rho": 0.0724533799075313,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ipp": {
+            "status": "estimada",
+            "n": 938,
+            "total": 1014,
+            "ausentes_par": 76,
+            "rho": 0.5123800434094488,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          }
+        },
+        "por_fase": {
+          "0": {
+            "status": "disponivel",
+            "total": 231,
+            "n": 231,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.319148629151515,
+            "mediana": 8.5,
+            "dp": 1.2883014682044909,
+            "q25": 7.505,
+            "q75": 9.34
+          },
+          "1": {
+            "status": "disponivel",
+            "total": 173,
+            "n": 173,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.098554913300578,
+            "mediana": 8.166666667,
+            "dp": 0.6355912670660545,
+            "q25": 7.78,
+            "q75": 8.503333333
+          },
+          "2": {
+            "status": "disponivel",
+            "total": 200,
+            "n": 200,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.210120833315,
+            "mediana": 8.283333333,
+            "dp": 0.8200701793668022,
+            "q25": 7.6158333334999995,
+            "q75": 8.783333333
+          },
+          "3": {
+            "status": "disponivel",
+            "total": 132,
+            "n": 132,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.575416666666667,
+            "mediana": 7.585,
+            "dp": 0.6964667623209393,
+            "q25": 7.1725,
+            "q75": 7.9725
+          },
+          "4": {
+            "status": "disponivel",
+            "total": 94,
+            "n": 94,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.9491489361702135,
+            "mediana": 7.94125,
+            "dp": 0.827332606042069,
+            "q25": 7.39125,
+            "q75": 8.4925
+          },
+          "5": {
+            "status": "disponivel",
+            "total": 65,
+            "n": 65,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.451846153846153,
+            "mediana": 7.5875,
+            "dp": 0.7038943397886777,
+            "q25": 6.9625,
+            "q75": 7.8775
+          },
+          "6": {
+            "status": "disponivel",
+            "total": 33,
+            "n": 33,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.72780303030303,
+            "mediana": 7.63,
+            "dp": 0.43820468140245855,
+            "q25": 7.465,
+            "q75": 7.84
+          },
+          "7": {
+            "status": "disponivel",
+            "total": 23,
+            "n": 10,
+            "ausentes": 13,
+            "cobertura": 0.43478260869565216,
+            "media": 7.880750000000001,
+            "mediana": 8.13125,
+            "dp": 0.9397953751866531,
+            "q25": 7.3775,
+            "q75": 8.621875
+          },
+          "8": {
+            "status": "sem_observacoes",
+            "total": 63,
+            "n": 0,
+            "ausentes": 63,
+            "cobertura": 0.0,
+            "media": null,
+            "mediana": null,
+            "dp": null,
+            "q25": null,
+            "q75": null
+          }
+        }
+      },
+      "2024": {
+        "associacoes": {
+          "ida": {
+            "status": "estimada",
+            "n": 1054,
+            "total": 1156,
+            "ausentes_par": 102,
+            "rho": 0.5480298299200126,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "ieg": {
+            "status": "estimada",
+            "n": 1054,
+            "total": 1156,
+            "ausentes_par": 102,
+            "rho": 0.5509500395873729,
+            "direcao": "positiva",
+            "intensidade": "moderada"
+          },
+          "iaa": {
+            "status": "estimada",
+            "n": 1054,
+            "total": 1156,
+            "ausentes_par": 102,
+            "rho": 0.16330274768187525,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ips": {
+            "status": "estimada",
+            "n": 1054,
+            "total": 1156,
+            "ausentes_par": 102,
+            "rho": 0.04157378424945195,
+            "direcao": "positiva",
+            "intensidade": "fraca"
+          },
+          "ipp": {
+            "status": "estimada",
+            "n": 1054,
+            "total": 1156,
+            "ausentes_par": 102,
+            "rho": 0.7051056862888887,
+            "direcao": "positiva",
+            "intensidade": "forte"
+          }
+        },
+        "por_fase": {
+          "0": {
+            "status": "disponivel",
+            "total": 196,
+            "n": 196,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.283265306107143,
+            "mediana": 7.5,
+            "dp": 0.9391766539886259,
+            "q25": 6.93624999975,
+            "q75": 7.83
+          },
+          "1": {
+            "status": "disponivel",
+            "total": 185,
+            "n": 185,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.501909909918919,
+            "mediana": 7.835,
+            "dp": 1.1181308879745842,
+            "q25": 6.915,
+            "q75": 8.17
+          },
+          "2": {
+            "status": "disponivel",
+            "total": 185,
+            "n": 185,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.213878378345947,
+            "mediana": 7.383333333,
+            "dp": 1.1495095241762971,
+            "q25": 6.606666667,
+            "q75": 7.915
+          },
+          "3": {
+            "status": "disponivel",
+            "total": 211,
+            "n": 211,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.952834123227487,
+            "mediana": 6.966,
+            "dp": 1.038827782919346,
+            "q25": 6.248749999999999,
+            "q75": 7.546250000000001
+          },
+          "4": {
+            "status": "disponivel",
+            "total": 115,
+            "n": 115,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.843004347826087,
+            "mediana": 8.0,
+            "dp": 0.9485058673199781,
+            "q25": 7.3923333335,
+            "q75": 8.5415
+          },
+          "5": {
+            "status": "disponivel",
+            "total": 100,
+            "n": 100,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.557458333369999,
+            "mediana": 7.47875,
+            "dp": 0.8895788232665858,
+            "q25": 6.930000000000001,
+            "q75": 8.34687500025
+          },
+          "6": {
+            "status": "disponivel",
+            "total": 25,
+            "n": 25,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.75792,
+            "mediana": 7.872,
+            "dp": 0.6677296059533878,
+            "q25": 7.266,
+            "q75": 8.2
+          },
+          "7": {
+            "status": "disponivel",
+            "total": 37,
+            "n": 37,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.642432432405405,
+            "mediana": 7.5,
+            "dp": 0.5984406942112179,
+            "q25": 7.5,
+            "q75": 7.5
+          },
+          "8": {
+            "status": "sem_observacoes",
+            "total": 64,
+            "n": 0,
+            "ausentes": 64,
+            "cobertura": 0.0,
+            "media": null,
+            "mediana": null,
+            "dp": null,
+            "q25": null,
+            "q75": null
+          },
+          "9": {
+            "status": "sem_observacoes",
+            "total": 38,
+            "n": 0,
+            "ausentes": 38,
+            "cobertura": 0.0,
+            "media": null,
+            "mediana": null,
+            "dp": null,
+            "q25": null,
+            "q75": null
+          }
+        }
+      }
+    },
+    "inde": {
+      "2022": {
+        "criterio": "alto >= mediana dos casos completos do ano; baixo < mediana",
+        "medianas": {
+          "ida": 6.3,
+          "ieg": 8.3,
+          "ips": 7.5
+        },
+        "total": 860,
+        "n_completos": 860,
+        "perfis_publicados": {
+          "IDA alto / IEG alto / IPS alto": {
+            "status": "disponivel",
+            "total": 222,
+            "n": 222,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.956022522522523,
+            "mediana": 7.943,
+            "dp": 0.4740393710255466,
+            "q25": 7.596500000000001,
+            "q75": 8.26325
+          },
+          "IDA alto / IEG alto / IPS baixo": {
+            "status": "disponivel",
+            "total": 92,
+            "n": 92,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.669945652173911,
+            "mediana": 7.5915,
+            "dp": 0.5344752456593729,
+            "q25": 7.28275,
+            "q75": 8.12475
+          },
+          "IDA alto / IEG baixo / IPS alto": {
+            "status": "disponivel",
+            "total": 82,
+            "n": 82,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.335231707317072,
+            "mediana": 7.4225,
+            "dp": 0.4874564443671596,
+            "q25": 7.0040000000000004,
+            "q75": 7.67175
+          },
+          "IDA alto / IEG baixo / IPS baixo": {
+            "status": "disponivel",
+            "total": 55,
+            "n": 55,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.102436363636364,
+            "mediana": 7.022,
+            "dp": 0.47775473188486983,
+            "q25": 6.8425,
+            "q75": 7.444
+          },
+          "IDA baixo / IEG alto / IPS alto": {
+            "status": "disponivel",
+            "total": 78,
+            "n": 78,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.134679487179487,
+            "mediana": 7.116,
+            "dp": 0.49002662248350415,
+            "q25": 6.80125,
+            "q75": 7.4065
+          },
+          "IDA baixo / IEG alto / IPS baixo": {
+            "status": "disponivel",
+            "total": 51,
+            "n": 51,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.821235294117646,
+            "mediana": 6.731,
+            "dp": 0.5519934995354671,
+            "q25": 6.481999999999999,
+            "q75": 7.140000000000001
+          },
+          "IDA baixo / IEG baixo / IPS alto": {
+            "status": "disponivel",
+            "total": 172,
+            "n": 172,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.1293546511627905,
+            "mediana": 6.2585,
+            "dp": 0.8318743978737952,
+            "q25": 5.59375,
+            "q75": 6.722250000000001
+          },
+          "IDA baixo / IEG baixo / IPS baixo": {
+            "status": "disponivel",
+            "total": 108,
+            "n": 108,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 5.81925,
+            "mediana": 5.869,
+            "dp": 0.9355907836687903,
+            "q25": 5.3004999999999995,
+            "q75": 6.66675
+          }
+        },
+        "nota": "Perfis com menos de 10 não publicados; sem margens desses perfis."
+      },
+      "2023": {
+        "criterio": "alto >= mediana dos casos completos do ano; baixo < mediana",
+        "medianas": {
+          "ida": 6.8,
+          "ieg": 9.0,
+          "ips": 5.0,
+          "ipp": 7.65625
+        },
+        "total": 1014,
+        "n_completos": 931,
+        "perfis_publicados": {
+          "IDA alto / IEG alto / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 107,
+            "n": 107,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.20687951713084,
+            "mediana": 8.2282,
+            "dp": 0.573357689925419,
+            "q25": 7.9400333335,
+            "q75": 8.5498875
+          },
+          "IDA alto / IEG alto / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 79,
+            "n": 79,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.251553270050634,
+            "mediana": 8.2852,
+            "dp": 0.5432944994167207,
+            "q25": 7.8308666665,
+            "q75": 8.667449999999999
+          },
+          "IDA alto / IEG alto / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 87,
+            "n": 87,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.917316666678159,
+            "mediana": 7.935466667,
+            "dp": 0.49962885812613805,
+            "q25": 7.6199083335,
+            "q75": 8.2917833335
+          },
+          "IDA alto / IEG alto / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 37,
+            "n": 37,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.625735135135135,
+            "mediana": 7.7687,
+            "dp": 0.7337113925319133,
+            "q25": 7.1215,
+            "q75": 8.1932
+          },
+          "IDA alto / IEG baixo / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 59,
+            "n": 59,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.724912570559322,
+            "mediana": 7.840341667,
+            "dp": 0.6553957848959395,
+            "q25": 7.379575,
+            "q75": 8.130866666500001
+          },
+          "IDA alto / IEG baixo / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 44,
+            "n": 44,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.503145833272728,
+            "mediana": 7.4968541665,
+            "dp": 0.7146386833455434,
+            "q25": 7.0135000000000005,
+            "q75": 8.05557499975
+          },
+          "IDA alto / IEG baixo / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 26,
+            "n": 26,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.431825320461538,
+            "mediana": 7.4689625,
+            "dp": 0.37556363050243713,
+            "q25": 7.23895833325,
+            "q75": 7.7099333332499995
+          },
+          "IDA alto / IEG baixo / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 31,
+            "n": 31,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.967984946258065,
+            "mediana": 7.0169,
+            "dp": 0.4530150607841804,
+            "q25": 6.7454333335,
+            "q75": 7.2822
+          },
+          "IDA baixo / IEG alto / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 42,
+            "n": 42,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.702646825357143,
+            "mediana": 7.7458458335,
+            "dp": 0.6263853446356964,
+            "q25": 7.26407291675,
+            "q75": 8.17711458325
+          },
+          "IDA baixo / IEG alto / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 51,
+            "n": 51,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.269517810411764,
+            "mediana": 7.375916667,
+            "dp": 0.5110827212767163,
+            "q25": 6.9582250000000005,
+            "q75": 7.6568166665
+          },
+          "IDA baixo / IEG alto / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 48,
+            "n": 48,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.301486805479166,
+            "mediana": 7.3397375,
+            "dp": 0.48651860010364184,
+            "q25": 7.09358958325,
+            "q75": 7.686908333
+          },
+          "IDA baixo / IEG alto / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 23,
+            "n": 23,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.970834420304347,
+            "mediana": 6.964616667,
+            "dp": 0.5929305865277468,
+            "q25": 6.5647541665,
+            "q75": 7.5397
+          },
+          "IDA baixo / IEG baixo / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 60,
+            "n": 60,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.950117638883333,
+            "mediana": 6.9475583335,
+            "dp": 0.6343207802750229,
+            "q25": 6.443656250249999,
+            "q75": 7.465997917
+          },
+          "IDA baixo / IEG baixo / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 105,
+            "n": 105,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.429068730142857,
+            "mediana": 6.5207,
+            "dp": 0.6320372731325345,
+            "q25": 6.084875,
+            "q75": 6.846333333
+          },
+          "IDA baixo / IEG baixo / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 53,
+            "n": 53,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.6482122642075465,
+            "mediana": 6.780741667,
+            "dp": 0.5716116232891815,
+            "q25": 6.250166667,
+            "q75": 7.075033333
+          },
+          "IDA baixo / IEG baixo / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 79,
+            "n": 79,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.20389050635443,
+            "mediana": 6.2707,
+            "dp": 0.7649125796677739,
+            "q25": 5.7144541664999995,
+            "q75": 6.747045833
+          }
+        },
+        "nota": "Perfis com menos de 10 não publicados; sem margens desses perfis."
+      },
+      "2024": {
+        "criterio": "alto >= mediana dos casos completos do ano; baixo < mediana",
+        "medianas": {
+          "ida": 6.75,
+          "ieg": 8.59220243125,
+          "ips": 7.51,
+          "ipp": 7.5
+        },
+        "total": 1156,
+        "n_completos": 1054,
+        "perfis_publicados": {
+          "IDA alto / IEG alto / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 193,
+            "n": 193,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.404355295297238,
+            "mediana": 8.3971318182,
+            "dp": 0.46601365115929505,
+            "q25": 8.052279017,
+            "q75": 8.743607059266667
+          },
+          "IDA alto / IEG alto / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 26,
+            "n": 26,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.892325274073078,
+            "mediana": 7.895529235700001,
+            "dp": 0.39472117945296464,
+            "q25": 7.581453472225,
+            "q75": 8.18793495365
+          },
+          "IDA alto / IEG alto / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 128,
+            "n": 128,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 8.32023838586849,
+            "mediana": 8.278964920983334,
+            "dp": 0.40287514189977475,
+            "q25": 8.045155214775,
+            "q75": 8.621210984850002
+          },
+          "IDA alto / IEG alto / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 22,
+            "n": 22,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.649429724230305,
+            "mediana": 7.680699472633334,
+            "dp": 0.443573748951032,
+            "q25": 7.37157829385,
+            "q75": 7.9212624999750005
+          },
+          "IDA alto / IEG baixo / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 76,
+            "n": 76,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.816595755676317,
+            "mediana": 7.858861404400001,
+            "dp": 0.464604954705493,
+            "q25": 7.590437967950001,
+            "q75": 8.142810189633334
+          },
+          "IDA alto / IEG baixo / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 29,
+            "n": 29,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.334806905639081,
+            "mediana": 7.429623555266667,
+            "dp": 0.4660830143776192,
+            "q25": 6.882960606066668,
+            "q75": 7.6221531746
+          },
+          "IDA alto / IEG baixo / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 31,
+            "n": 31,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.4385824261268825,
+            "mediana": 7.419398245666667,
+            "dp": 0.5742143589568894,
+            "q25": 7.05604540045,
+            "q75": 7.799010731566668
+          },
+          "IDA alto / IEG baixo / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 26,
+            "n": 26,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.842121958996155,
+            "mediana": 6.980081386133334,
+            "dp": 0.7309712619880906,
+            "q25": 6.429931060575001,
+            "q75": 7.353830134850001
+          },
+          "IDA baixo / IEG alto / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 73,
+            "n": 73,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.722225550138356,
+            "mediana": 7.641184313700001,
+            "dp": 0.3983758343507536,
+            "q25": 7.400477922133334,
+            "q75": 8.0443904763
+          },
+          "IDA baixo / IEG alto / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 25,
+            "n": 25,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.313117988497335,
+            "mediana": 7.341187280733334,
+            "dp": 0.5186988297427577,
+            "q25": 6.941692592633334,
+            "q75": 7.684639869300001
+          },
+          "IDA baixo / IEG alto / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 36,
+            "n": 36,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 7.447898733178704,
+            "mediana": 7.498898474400001,
+            "dp": 0.4312092297502982,
+            "q25": 7.2448838745,
+            "q75": 7.767620535733334
+          },
+          "IDA baixo / IEG alto / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 24,
+            "n": 24,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.9333468547861115,
+            "mediana": 7.044168362183334,
+            "dp": 0.635355663561284,
+            "q25": 6.509149145950001,
+            "q75": 7.4636401785499995
+          },
+          "IDA baixo / IEG baixo / IPS alto / IPP alto": {
+            "status": "disponivel",
+            "total": 100,
+            "n": 100,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.790010491632668,
+            "mediana": 6.883038266450001,
+            "dp": 0.715937751633402,
+            "q25": 6.565280808100001,
+            "q75": 7.247375595225
+          },
+          "IDA baixo / IEG baixo / IPS alto / IPP baixo": {
+            "status": "disponivel",
+            "total": 109,
+            "n": 109,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.430306971757677,
+            "mediana": 6.563952941199999,
+            "dp": 0.6412327678951137,
+            "q25": 6.035771224300001,
+            "q75": 6.8480623189
+          },
+          "IDA baixo / IEG baixo / IPS baixo / IPP alto": {
+            "status": "disponivel",
+            "total": 55,
+            "n": 55,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 6.509955934004243,
+            "mediana": 6.712378053800001,
+            "dp": 0.8250218057348645,
+            "q25": 6.311802063416668,
+            "q75": 7.051244588700001
+          },
+          "IDA baixo / IEG baixo / IPS baixo / IPP baixo": {
+            "status": "disponivel",
+            "total": 101,
+            "n": 101,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 5.953451273022443,
+            "mediana": 5.9004061924,
+            "dp": 0.7822014452076926,
+            "q25": 5.457877193033333,
+            "q75": 6.5940333333000005
+          }
+        },
+        "nota": "Perfis com menos de 10 não publicados; sem margens desses perfis."
+      }
+    },
+    "pedras": {
+      "2022": {
+        "distribuicao": {
+          "status": "disponivel",
+          "denominador": 860,
+          "contagens": {
+            "Quartzo": 132,
+            "Ágata": 250,
+            "Ametista": 348,
+            "Topázio": 130,
+            "Indisponível": 0
+          },
+          "proporcoes": {
+            "Quartzo": 0.15348837209302327,
+            "Ágata": 0.29069767441860467,
+            "Ametista": 0.4046511627906977,
+            "Topázio": 0.1511627906976744,
+            "Indisponível": 0.0
+          }
+        },
+        "indicadores": {
+          "Ametista": {
+            "ian": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.6738505747126435,
+              "mediana": 5.0,
+              "dp": 2.441672337701575,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.011206896551724,
+              "mediana": 7.1,
+              "dp": 1.205900829295839,
+              "q25": 6.275,
+              "q75": 7.8
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.618965517241378,
+              "mediana": 8.8,
+              "dp": 0.8872371187339864,
+              "q25": 8.1,
+              "q75": 9.3
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.731896551724137,
+              "mediana": 9.0,
+              "dp": 0.9834596760989088,
+              "q25": 8.225000000000001,
+              "q75": 9.5
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.069540229885057,
+              "mediana": 7.5,
+              "dp": 0.9807030449396177,
+              "q25": 6.9,
+              "q75": 7.5
+            },
+            "ipp": {
+              "status": "sem_observacoes",
+              "total": 348,
+              "n": 0,
+              "ausentes": 348,
+              "cobertura": 0.0,
+              "media": null,
+              "mediana": null,
+              "dp": null,
+              "q25": null,
+              "q75": null
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.62971264367816,
+              "mediana": 7.583,
+              "dp": 0.64456456106766,
+              "q25": 7.25,
+              "q75": 8.0
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 348,
+              "n": 348,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.528436781609196,
+              "mediana": 7.509,
+              "dp": 0.2757716217205542,
+              "q25": 7.30275,
+              "q75": 7.7455
+            }
+          },
+          "Quartzo": {
+            "ian": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.246212121212121,
+              "mediana": 5.0,
+              "dp": 1.9006790792489676,
+              "q25": 5.0,
+              "q75": 5.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 3.141666666666667,
+              "mediana": 3.05,
+              "dp": 1.4661077757716576,
+              "q25": 2.3,
+              "q75": 4.1
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.25909090909091,
+              "mediana": 5.3,
+              "dp": 1.47384083293711,
+              "q25": 4.175,
+              "q75": 6.2
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.420454545454546,
+              "mediana": 7.9,
+              "dp": 3.5412883892636278,
+              "q25": 5.4,
+              "q75": 9.0
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.552272727272728,
+              "mediana": 7.5,
+              "dp": 1.169032085383075,
+              "q25": 5.0,
+              "q75": 7.5
+            },
+            "ipp": {
+              "status": "sem_observacoes",
+              "total": 132,
+              "n": 0,
+              "ausentes": 132,
+              "cobertura": 0.0,
+              "media": null,
+              "mediana": null,
+              "dp": null,
+              "q25": null,
+              "q75": null
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.80439393939394,
+              "mediana": 5.9375,
+              "dp": 1.0888386470695746,
+              "q25": 5.0,
+              "q75": 6.67725
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 132,
+              "n": 132,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.242909090909091,
+              "mediana": 5.418,
+              "dp": 0.604332506102387,
+              "q25": 4.9355,
+              "q75": 5.6775
+            }
+          },
+          "Topázio": {
+            "ian": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.384615384615385,
+              "mediana": 10.0,
+              "dp": 2.347304624076537,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.24846153846154,
+              "mediana": 8.2,
+              "dp": 0.8893194519724223,
+              "q25": 7.7,
+              "q75": 9.0
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 9.283846153846154,
+              "mediana": 9.3,
+              "dp": 0.5576534232737824,
+              "q25": 9.0,
+              "q75": 9.7
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 9.173076923076923,
+              "mediana": 9.5,
+              "dp": 0.8037497838053851,
+              "q25": 8.575,
+              "q75": 10.0
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.345384615384616,
+              "mediana": 7.5,
+              "dp": 0.9426263440874546,
+              "q25": 7.5,
+              "q75": 7.5
+            },
+            "ipp": {
+              "status": "sem_observacoes",
+              "total": 130,
+              "n": 0,
+              "ausentes": 130,
+              "cobertura": 0.0,
+              "media": null,
+              "mediana": null,
+              "dp": null,
+              "q25": null,
+              "q75": null
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.425461538461539,
+              "mediana": 8.417,
+              "dp": 0.7081348703695318,
+              "q25": 7.917,
+              "q75": 8.944
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 130,
+              "n": 130,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.366546153846153,
+              "mediana": 8.2745,
+              "dp": 0.27688346166154737,
+              "q25": 8.15175,
+              "q75": 8.5115
+            }
+          },
+          "Ágata": {
+            "ian": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.68,
+              "mediana": 5.0,
+              "dp": 1.8029427083627905,
+              "q25": 5.0,
+              "q75": 5.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.252,
+              "mediana": 5.2,
+              "dp": 1.3948038972008168,
+              "q25": 4.4,
+              "q75": 6.2
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.5436000000000005,
+              "mediana": 7.5,
+              "dp": 1.145472596738795,
+              "q25": 6.8,
+              "q75": 8.4
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.1492,
+              "mediana": 8.5,
+              "dp": 1.9691443517202203,
+              "q25": 7.9,
+              "q75": 9.2
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.6331999999999995,
+              "mediana": 7.5,
+              "dp": 1.0751939023780053,
+              "q25": 5.6,
+              "q75": 7.5
+            },
+            "ipp": {
+              "status": "sem_observacoes",
+              "total": 250,
+              "n": 0,
+              "ausentes": 250,
+              "cobertura": 0.0,
+              "media": null,
+              "mediana": null,
+              "dp": null,
+              "q25": null,
+              "q75": null
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.8860079999999995,
+              "mediana": 6.944,
+              "dp": 0.7056841961349983,
+              "q25": 6.417,
+              "q75": 7.417
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 250,
+              "n": 250,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.606,
+              "mediana": 6.657,
+              "dp": 0.2870816879954716,
+              "q25": 6.36475,
+              "q75": 6.84675
+            }
+          }
+        }
+      },
+      "2023": {
+        "distribuicao": {
+          "status": "disponivel",
+          "denominador": 1014,
+          "contagens": {
+            "Quartzo": 72,
+            "Ágata": 246,
+            "Ametista": 381,
+            "Topázio": 232,
+            "Indisponível": 83
+          },
+          "proporcoes": {
+            "Quartzo": 0.07100591715976332,
+            "Ágata": 0.24260355029585798,
+            "Ametista": 0.3757396449704142,
+            "Topázio": 0.22879684418145957,
+            "Indisponível": 0.08185404339250493
+          }
+        },
+        "indicadores": {
+          "Ametista": {
+            "ian": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.119422572178478,
+              "mediana": 5.0,
+              "dp": 2.484063030477265,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.869028871391075,
+              "mediana": 6.8,
+              "dp": 1.085326219067718,
+              "q25": 6.2,
+              "q75": 7.6
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.946456692913385,
+              "mediana": 9.1,
+              "dp": 0.7677508445477421,
+              "q25": 8.5,
+              "q75": 9.5
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.52020997375328,
+              "mediana": 8.5,
+              "dp": 2.9914238746624093,
+              "q25": 7.5,
+              "q75": 9.2
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 4.957926509186351,
+              "mediana": 5.0,
+              "dp": 2.0556245445774133,
+              "q25": 2.52,
+              "q75": 7.52
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.632272528422573,
+              "mediana": 7.8125,
+              "dp": 0.9337058164807032,
+              "q25": 7.1875,
+              "q75": 8.28125
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.14225065616273,
+              "mediana": 8.17,
+              "dp": 0.7158273592745393,
+              "q25": 7.7125,
+              "q75": 8.59
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 381,
+              "n": 381,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.510856299202101,
+              "mediana": 7.5408,
+              "dp": 0.2831804353458534,
+              "q25": 7.265533333,
+              "q75": 7.749391667
+            }
+          },
+          "Quartzo": {
+            "ian": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.3125,
+              "mediana": 5.0,
+              "dp": 1.8259427431900626,
+              "q25": 5.0,
+              "q75": 5.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 4.593055555555556,
+              "mediana": 4.4,
+              "dp": 1.2528644800299886,
+              "q25": 3.75,
+              "q75": 5.425000000000001
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.122222222222222,
+              "mediana": 7.3,
+              "dp": 1.272263395333235,
+              "q25": 6.475,
+              "q75": 7.95
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 2.251388888888889,
+              "mediana": 0.0,
+              "dp": 3.61514782802396,
+              "q25": 0.0,
+              "q75": 5.8
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 4.1305555555555555,
+              "mediana": 3.14,
+              "dp": 1.9681033186615096,
+              "q25": 2.52,
+              "q75": 5.172499999999999
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.678964120388889,
+              "mediana": 6.875,
+              "dp": 1.0275411479871426,
+              "q25": 6.25,
+              "q75": 7.5
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.861145833333334,
+              "mediana": 6.9183333335,
+              "dp": 0.833090028285658,
+              "q25": 6.489375,
+              "q75": 7.338125
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 72,
+              "n": 72,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.549967245375,
+              "mediana": 5.6814958335,
+              "dp": 0.45155522736408604,
+              "q25": 5.33404166675,
+              "q75": 5.8886562497499995
+            }
+          },
+          "Topázio": {
+            "ian": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.491379310344827,
+              "mediana": 10.0,
+              "dp": 2.299993185215473,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.133620689655173,
+              "mediana": 8.3,
+              "dp": 0.9293151568201319,
+              "q25": 7.5,
+              "q75": 8.8
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 9.426293103448277,
+              "mediana": 9.5,
+              "dp": 0.5118069680972743,
+              "q25": 9.2,
+              "q75": 9.8
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.960775862068965,
+              "mediana": 9.0,
+              "dp": 1.0071885785003676,
+              "q25": 8.5,
+              "q75": 9.5
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.202844827586205,
+              "mediana": 7.52,
+              "dp": 1.9377278638959043,
+              "q25": 5.0,
+              "q75": 7.52
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.060479525853449,
+              "mediana": 8.125,
+              "dp": 0.7987439125332966,
+              "q25": 7.5,
+              "q75": 8.75
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.808987068965518,
+              "mediana": 8.813749999999999,
+              "dp": 0.7362943206806705,
+              "q25": 8.2975,
+              "q75": 9.30000000025
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 232,
+              "n": 232,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.441459015797415,
+              "mediana": 8.380516666999998,
+              "dp": 0.31975315275943983,
+              "q25": 8.19145625,
+              "q75": 8.6527375
+            }
+          },
+          "Ágata": {
+            "ian": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.067073170731708,
+              "mediana": 5.0,
+              "dp": 2.143945716533074,
+              "q25": 5.0,
+              "q75": 5.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.5873983739837385,
+              "mediana": 5.55,
+              "dp": 1.422057915177787,
+              "q25": 4.725,
+              "q75": 6.5
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.104065040650406,
+              "mediana": 8.2,
+              "dp": 1.0605272754035588,
+              "q25": 7.5,
+              "q75": 8.9
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.382113821138211,
+              "mediana": 7.5,
+              "dp": 4.135392931414856,
+              "q25": 0.0,
+              "q75": 9.0
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 4.694837398373983,
+              "mediana": 5.0,
+              "dp": 1.9211685894171284,
+              "q25": 2.52,
+              "q75": 6.27
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.2515667344146335,
+              "mediana": 7.34375,
+              "dp": 0.9165974374314494,
+              "q25": 6.875,
+              "q75": 7.8125
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.47439024390244,
+              "mediana": 7.503333333,
+              "dp": 0.7668471842597492,
+              "q25": 7.085,
+              "q75": 7.946666667
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 246,
+              "n": 246,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.569257892934958,
+              "mediana": 6.5968666665,
+              "dp": 0.27296921113184347,
+              "q25": 6.35019166675,
+              "q75": 6.80502499975
+            }
+          }
+        }
+      },
+      "2024": {
+        "distribuicao": {
+          "status": "disponivel",
+          "denominador": 1156,
+          "contagens": {
+            "Quartzo": 112,
+            "Ágata": 225,
+            "Ametista": 391,
+            "Topázio": 326,
+            "Indisponível": 102
+          },
+          "proporcoes": {
+            "Quartzo": 0.09688581314878893,
+            "Ágata": 0.19463667820069205,
+            "Ametista": 0.3382352941176471,
+            "Topázio": 0.2820069204152249,
+            "Indisponível": 0.08823529411764706
+          }
+        },
+        "indicadores": {
+          "Ametista": {
+            "ian": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.186700767263427,
+              "mediana": 5.0,
+              "dp": 2.4834688539806007,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.565643648763854,
+              "mediana": 6.75,
+              "dp": 1.49245885158866,
+              "q25": 5.5,
+              "q75": 7.666666666666667
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.460795750973572,
+              "mediana": 8.674948240500001,
+              "dp": 1.1139034952452491,
+              "q25": 7.777405635166668,
+              "q75": 9.318181818
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.710792838874681,
+              "mediana": 8.751,
+              "dp": 0.8316444417460195,
+              "q25": 8.168,
+              "q75": 9.502
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.938350383631714,
+              "mediana": 7.51,
+              "dp": 1.2601104052132797,
+              "q25": 6.26,
+              "q75": 7.51
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.575567455242966,
+              "mediana": 7.5,
+              "dp": 0.6380059096088215,
+              "q25": 7.21875,
+              "q75": 7.96875
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.43891986359335,
+              "mediana": 7.5,
+              "dp": 0.676458343677999,
+              "q25": 7.056666667,
+              "q75": 7.836333333500001
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 391,
+              "n": 391,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.534212997167435,
+              "mediana": 7.549644444400001,
+              "dp": 0.28581265869232514,
+              "q25": 7.3002111518333335,
+              "q75": 7.786966666666667
+            }
+          },
+          "Quartzo": {
+            "ian": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.361607142857143,
+              "mediana": 5.0,
+              "dp": 2.2732381767506915,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 3.1123511904761907,
+              "mediana": 3.1666666666666665,
+              "dp": 1.825868978104337,
+              "q25": 2.0,
+              "q75": 4.1875
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.041595458200297,
+              "mediana": 5.22598162075,
+              "dp": 1.9098888861488283,
+              "q25": 4.0862496315,
+              "q75": 6.252314814833333
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.22419642857143,
+              "mediana": 8.334,
+              "dp": 3.0321396686296,
+              "q25": 7.06275,
+              "q75": 9.002
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.9600446428571425,
+              "mediana": 6.26,
+              "dp": 1.8660288379645122,
+              "q25": 5.01,
+              "q75": 7.51
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.469959077392858,
+              "mediana": 6.666666667,
+              "dp": 1.0769663993006051,
+              "q25": 6.041666667,
+              "q75": 7.5
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.838324404767858,
+              "mediana": 6.01875,
+              "dp": 1.1067230716591687,
+              "q25": 5.17649999975,
+              "q75": 6.730499999999999
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 112,
+              "n": 112,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.400034939856726,
+              "mediana": 5.490589028866667,
+              "dp": 0.4843119839242762,
+              "q25": 5.0787281232,
+              "q75": 5.801205075533334
+            }
+          },
+          "Topázio": {
+            "ian": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.803680981595091,
+              "mediana": 10.0,
+              "dp": 2.136449666599733,
+              "q25": 10.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.187321063394682,
+              "mediana": 8.25,
+              "dp": 1.0575084964291896,
+              "q25": 7.5,
+              "q75": 8.883333333333333
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 9.395049168041922,
+              "mediana": 9.542629217916666,
+              "dp": 0.6255129058643677,
+              "q25": 9.089497459375,
+              "q75": 9.885416666916667
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 9.003383435582823,
+              "mediana": 9.168,
+              "dp": 0.801315781546542,
+              "q25": 8.502,
+              "q75": 9.585
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.085437116564417,
+              "mediana": 7.51,
+              "dp": 1.2568084352663231,
+              "q25": 6.26,
+              "q75": 7.51
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.186477505104296,
+              "mediana": 8.125,
+              "dp": 0.6536828754979639,
+              "q25": 7.6328125,
+              "q75": 8.59375
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.216254089975461,
+              "mediana": 8.17,
+              "dp": 0.5887238359142857,
+              "q25": 7.83,
+              "q75": 8.655000000249998
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 326,
+              "n": 326,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.467622768167077,
+              "mediana": 8.407183333316667,
+              "dp": 0.33792368904728276,
+              "q25": 8.191470562775,
+              "q75": 8.696338798725002
+            }
+          },
+          "Ágata": {
+            "ian": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.533333333333333,
+              "mediana": 5.0,
+              "dp": 2.3466351289818,
+              "q25": 5.0,
+              "q75": 10.0
+            },
+            "ida": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 4.924148148148149,
+              "mediana": 4.833333333333333,
+              "dp": 1.3922464852076992,
+              "q25": 4.0,
+              "q75": 6.0
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.066087937368889,
+              "mediana": 7.204968943999999,
+              "dp": 1.2934407327564084,
+              "q25": 6.1363636360000005,
+              "q75": 7.909090909
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.243475555555555,
+              "mediana": 8.502,
+              "dp": 1.5645231218266347,
+              "q25": 7.917,
+              "q75": 9.002
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.703111111111111,
+              "mediana": 7.51,
+              "dp": 1.5141431780026826,
+              "q25": 6.26,
+              "q75": 7.51
+            },
+            "ipp": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.113055555551111,
+              "mediana": 7.1875,
+              "dp": 0.7176979122584404,
+              "q25": 6.71875,
+              "q75": 7.5
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.7128414814755555,
+              "mediana": 6.773333333,
+              "dp": 0.7782271078127198,
+              "q25": 6.163333333,
+              "q75": 7.2475
+            },
+            "inde": {
+              "status": "disponivel",
+              "total": 225,
+              "n": 225,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.59991306895363,
+              "mediana": 6.649708333333334,
+              "dp": 0.2744534330245566,
+              "q25": 6.4118666668,
+              "q75": 6.821885606
+            }
+          }
+        }
+      }
+    },
+    "perdas": {
+      "2022→2023": {
+        "populacao": "elegiveis na origem conforme contrato",
+        "desfecho": {
+          "status": "disponivel",
+          "denominador": 259,
+          "contagens": {
+            "destino_ausente": 70,
+            "destino_sem_defasagem_valida": 0,
+            "desfecho_observado": 189
+          },
+          "proporcoes": {
+            "destino_ausente": 0.2702702702702703,
+            "destino_sem_defasagem_valida": 0.0,
+            "desfecho_observado": 0.7297297297297297
+          }
+        },
+        "distribuicao": {
+          "status": "disponivel",
+          "denominador": 259,
+          "contagens": {
+            "encontrados": 189,
+            "nao_encontrados": 70
+          },
+          "proporcoes": {
+            "encontrados": 0.7297297297297297,
+            "nao_encontrados": 0.2702702702702703
+          }
+        },
+        "perfis": {
+          "encontrados": {
+            "ida": {
+              "status": "disponivel",
+              "total": 189,
+              "n": 189,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.784126984126983,
+              "mediana": 7.0,
+              "dp": 1.5823366457189205,
+              "q25": 5.8,
+              "q75": 7.9
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 189,
+              "n": 189,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.546031746031746,
+              "mediana": 8.8,
+              "dp": 1.1757060436667357,
+              "q25": 8.1,
+              "q75": 9.4
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 189,
+              "n": 189,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.565608465608467,
+              "mediana": 9.0,
+              "dp": 1.6800558106016785,
+              "q25": 8.0,
+              "q75": 9.5
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 189,
+              "n": 189,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.948677248677249,
+              "mediana": 7.5,
+              "dp": 1.0616430694822174,
+              "q25": 6.3,
+              "q75": 7.5
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 189,
+              "n": 189,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.596354497354496,
+              "mediana": 7.5,
+              "dp": 0.8789098096223588,
+              "q25": 7.167,
+              "q75": 8.222
+            }
+          },
+          "nao_encontrados": {
+            "ida": {
+              "status": "disponivel",
+              "total": 70,
+              "n": 70,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 5.631428571428572,
+              "mediana": 5.65,
+              "dp": 2.0437634266468754,
+              "q25": 4.725,
+              "q75": 6.8
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 70,
+              "n": 70,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.434285714285712,
+              "mediana": 7.9,
+              "dp": 1.7345496608284,
+              "q25": 6.45,
+              "q75": 8.8
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 70,
+              "n": 70,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.942857142857143,
+              "mediana": 8.8,
+              "dp": 2.64435803165644,
+              "q25": 7.9,
+              "q75": 9.5
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 70,
+              "n": 70,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.920000000000001,
+              "mediana": 7.5,
+              "dp": 1.1346454467608251,
+              "q25": 6.3,
+              "q75": 7.5
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 70,
+              "n": 70,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.876785714285713,
+              "mediana": 7.007,
+              "dp": 1.251514130996057,
+              "q25": 6.03125,
+              "q75": 7.653
+            }
+          }
+        },
+        "fases": {
+          "encontrados": {
+            "status": "suprimido: particao com celula < 10"
+          },
+          "nao_encontrados": {
+            "status": "suprimido: particao com celula < 10"
+          }
+        },
+        "defasagem": {
+          "encontrados": {
+            "status": "disponivel",
+            "total": 189,
+            "n": 189,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 0.07407407407407407,
+            "mediana": 0.0,
+            "dp": 0.31759537822688727,
+            "q25": 0.0,
+            "q75": 0.0
+          },
+          "nao_encontrados": {
+            "status": "disponivel",
+            "total": 70,
+            "n": 70,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 0.014285714285714285,
+            "mediana": 0.0,
+            "dp": 0.11952286093343938,
+            "q25": 0.0,
+            "q75": 0.0
+          }
+        }
+      },
+      "2023→2024": {
+        "populacao": "elegiveis na origem conforme contrato",
+        "desfecho": {
+          "status": "disponivel",
+          "denominador": 399,
+          "contagens": {
+            "destino_ausente": 88,
+            "destino_sem_defasagem_valida": 0,
+            "desfecho_observado": 311
+          },
+          "proporcoes": {
+            "destino_ausente": 0.22055137844611528,
+            "destino_sem_defasagem_valida": 0.0,
+            "desfecho_observado": 0.7794486215538847
+          }
+        },
+        "distribuicao": {
+          "status": "disponivel",
+          "denominador": 399,
+          "contagens": {
+            "encontrados": 311,
+            "nao_encontrados": 88
+          },
+          "proporcoes": {
+            "encontrados": 0.7794486215538847,
+            "nao_encontrados": 0.22055137844611528
+          }
+        },
+        "perfis": {
+          "encontrados": {
+            "ida": {
+              "status": "disponivel",
+              "total": 311,
+              "n": 300,
+              "ausentes": 11,
+              "cobertura": 0.9646302250803859,
+              "media": 6.989666666666666,
+              "mediana": 7.05,
+              "dp": 1.3921638875703797,
+              "q25": 6.1,
+              "q75": 7.9
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 311,
+              "n": 300,
+              "ausentes": 11,
+              "cobertura": 0.9646302250803859,
+              "media": 9.075,
+              "mediana": 9.3,
+              "dp": 0.8375839198208589,
+              "q25": 8.7,
+              "q75": 9.7
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 311,
+              "n": 311,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.172990353697748,
+              "mediana": 8.5,
+              "dp": 3.42364318261149,
+              "q25": 7.1,
+              "q75": 9.35
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 311,
+              "n": 311,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 4.926848874598071,
+              "mediana": 5.0,
+              "dp": 2.1622439896172274,
+              "q25": 2.52,
+              "q75": 7.52
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 311,
+              "n": 300,
+              "ausentes": 11,
+              "cobertura": 0.9646302250803859,
+              "media": 8.2576611111,
+              "mediana": 8.2891666665,
+              "dp": 0.854915341717343,
+              "q25": 7.74125,
+              "q75": 8.84
+            }
+          },
+          "nao_encontrados": {
+            "ida": {
+              "status": "disponivel",
+              "total": 88,
+              "n": 88,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.680681818181819,
+              "mediana": 7.0,
+              "dp": 1.830574180040552,
+              "q25": 5.375,
+              "q75": 8.325000000000001
+            },
+            "ieg": {
+              "status": "disponivel",
+              "total": 88,
+              "n": 88,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 8.330681818181818,
+              "mediana": 8.4,
+              "dp": 1.0762170821639487,
+              "q25": 7.675,
+              "q75": 9.1
+            },
+            "iaa": {
+              "status": "disponivel",
+              "total": 88,
+              "n": 88,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 6.610227272727273,
+              "mediana": 8.3,
+              "dp": 3.652083007350871,
+              "q25": 6.175,
+              "q75": 9.05
+            },
+            "ips": {
+              "status": "disponivel",
+              "total": 88,
+              "n": 87,
+              "ausentes": 1,
+              "cobertura": 0.9886363636363636,
+              "media": 5.3468965517241385,
+              "mediana": 5.0,
+              "dp": 2.113483463299189,
+              "q25": 3.145,
+              "q75": 7.52
+            },
+            "ipv": {
+              "status": "disponivel",
+              "total": 88,
+              "n": 88,
+              "ausentes": 0,
+              "cobertura": 1.0,
+              "media": 7.912907196977272,
+              "mediana": 8.045,
+              "dp": 0.9860959633689534,
+              "q25": 7.359375,
+              "q75": 8.59125
+            }
+          }
+        },
+        "fases": {
+          "encontrados": {
+            "status": "suprimido: particao com celula < 10"
+          },
+          "nao_encontrados": {
+            "status": "suprimido: particao com celula < 10"
+          }
+        },
+        "defasagem": {
+          "encontrados": {
+            "status": "disponivel",
+            "total": 311,
+            "n": 311,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 0.12218649517684887,
+            "mediana": 0.0,
+            "dp": 0.3739799597152825,
+            "q25": 0.0,
+            "q75": 0.0
+          },
+          "nao_encontrados": {
+            "status": "disponivel",
+            "total": 88,
+            "n": 88,
+            "ausentes": 0,
+            "cobertura": 1.0,
+            "media": 0.07954545454545454,
+            "mediana": 0.0,
+            "dp": 0.272138863686403,
+            "q25": 0.0,
+            "q75": 0.0
+          }
+        }
+      }
+    }
+  },
+  "modelo": {
+    "modelo": "logistica",
+    "limiar": 0.26696679375725973,
+    "preditores": [
+      "ida",
+      "ieg",
+      "iaa",
+      "ips",
+      "ipv",
+      "fase_origem",
+      "defasagem_origem"
+    ],
+    "tipo": "modelo avaliado",
+    "oof": {
+      "n": 189,
+      "eventos": 60,
+      "prevalencia": 0.31746031746031744,
+      "average_precision": 0.6648719587525226,
+      "roc_auc": 0.8142118863049096,
+      "precisao": 0.532608695652174,
+      "recall": 0.8166666666666667,
+      "f1": 0.6447368421052632,
+      "brier": 0.16040225856108906,
+      "matriz_confusao": [
+        [
+          86,
+          43
+        ],
+        [
+          11,
+          49
+        ]
+      ],
+      "previstos_risco": 92,
+      "proporcao_risco": 0.48677248677248675
+    },
+    "temporal": {
+      "n": 311,
+      "eventos": 84,
+      "prevalencia": 0.27009646302250806,
+      "average_precision": 0.6210621783235775,
+      "roc_auc": 0.8044367526746381,
+      "precisao": 0.6415094339622641,
+      "recall": 0.40476190476190477,
+      "f1": 0.49635036496350365,
+      "brier": 0.17353575823783782,
+      "matriz_confusao": [
+        [
+          208,
+          19
+        ],
+        [
+          50,
+          34
+        ]
+      ],
+      "previstos_risco": 53,
+      "proporcao_risco": 0.17041800643086816
+    },
+    "diferencas": {
+      "average_precision": -0.04380978042894512,
+      "roc_auc": -0.009775133630271493,
+      "precisao": 0.10890073831009017,
+      "recall": -0.4119047619047619,
+      "f1": -0.1483864771417595,
+      "brier": 0.013133499676748761
+    },
+    "intervalos": {
+      "completo": {
+        "average_precision": {
+          "ic95": [
+            0.51943739023063,
+            0.7249887982437538
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "roc_auc": {
+          "ic95": [
+            0.7510827548377205,
+            0.8535952474265349
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.5094339622641509,
+            0.767452242524917
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "recall": {
+          "ic95": [
+            0.3020613704819277,
+            0.512202743902439
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "f1": {
+          "ic95": [
+            0.3880597014925373,
+            0.5974335188620901
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "brier": {
+          "ic95": [
+            0.14089580699597443,
+            0.20877688494784669
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "casos_completos": {
+        "average_precision": {
+          "ic95": [
+            0.5209481454282907,
+            0.7264472164621135
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "roc_auc": {
+          "ic95": [
+            0.7412356940769468,
+            0.8480241929688398
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.5094339622641509,
+            0.767452242524917
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "recall": {
+          "ic95": [
+            0.3020613704819277,
+            0.512202743902439
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "f1": {
+          "ic95": [
+            0.3880597014925373,
+            0.5974335188620901
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "brier": {
+          "ic95": [
+            0.14623184818791682,
+            0.21553520887481145
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "sem_repetidos": {
+        "average_precision": {
+          "ic95": [
+            0.6234069291300615,
+            0.8102744889179911
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "roc_auc": {
+          "ic95": [
+            0.7413320848580058,
+            0.8605080403467499
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.5897435897435898,
+            0.8709677419354839
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "recall": {
+          "ic95": [
+            0.2857142857142857,
+            0.5068493150684932
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "f1": {
+          "ic95": [
+            0.3999137931034483,
+            0.6218487394957983
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "brier": {
+          "ic95": [
+            0.1801966064421612,
+            0.2703886637044727
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "repetidos": {
+        "average_precision": {
+          "ic95": [
+            0.100578231292517,
+            0.6993332348821011
+          ],
+          "validas": 1998,
+          "invalidas": 2
+        },
+        "roc_auc": {
+          "ic95": [
+            0.5463390120606616,
+            0.927915432991347
+          ],
+          "validas": 1998,
+          "invalidas": 2
+        },
+        "precisao": {
+          "ic95": [
+            0.08333333333333333,
+            0.625
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "recall": {
+          "ic95": [
+            0.14285714285714285,
+            0.8584821428571436
+          ],
+          "validas": 1998,
+          "invalidas": 2
+        },
+        "f1": {
+          "ic95": [
+            0.1111111111111111,
+            0.6666666666666666
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "brier": {
+          "ic95": [
+            0.035857863246423934,
+            0.11386037485888696
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "diferenca_sem_repetidos_menos_completo": {
+        "average_precision": {
+          "ic95": [
+            0.037618583258736724,
+            0.16076733914992267
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "roc_auc": {
+          "ic95": [
+            -0.03759133029003006,
+            0.0312811152062578
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.015036505975233209,
+            0.17769741048593343
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "recall": {
+          "ic95": [
+            -0.04938453319377664,
+            0.023729339652605007
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "f1": {
+          "ic95": [
+            -0.027985049079054664,
+            0.056327051571616764
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "brier": {
+          "ic95": [
+            0.031200628354667873,
+            0.07223538920121438
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      }
+    },
+    "distribuicao": {
+      "numericos": {
+        "ida": {
+          "media_desenvolvimento": 6.784126984126983,
+          "media_teste": 6.989666666666666,
+          "diferenca_padronizada": 0.13791954756895153,
+          "ausentes_desenvolvimento": 0,
+          "ausentes_teste": 11
+        },
+        "ieg": {
+          "media_desenvolvimento": 8.546031746031746,
+          "media_teste": 9.075,
+          "diferenca_padronizada": 0.5182189674181463,
+          "ausentes_desenvolvimento": 0,
+          "ausentes_teste": 11
+        },
+        "iaa": {
+          "media_desenvolvimento": 8.565608465608467,
+          "media_teste": 7.172990353697748,
+          "diferenca_padronizada": -0.5164238558168607,
+          "ausentes_desenvolvimento": 0,
+          "ausentes_teste": 0
+        },
+        "ips": {
+          "media_desenvolvimento": 6.948677248677249,
+          "media_teste": 4.926848874598071,
+          "diferenca_padronizada": -1.1870144645241478,
+          "ausentes_desenvolvimento": 0,
+          "ausentes_teste": 0
+        },
+        "ipv": {
+          "media_desenvolvimento": 7.596354497354496,
+          "media_teste": 8.257661111100001,
+          "diferenca_padronizada": 0.7627566089579729,
+          "ausentes_desenvolvimento": 0,
+          "ausentes_teste": 11
+        },
+        "defasagem_origem": {
+          "media_desenvolvimento": 0.07407407407407407,
+          "media_teste": 0.12218649517684887,
+          "diferenca_padronizada": 0.1386784743452671,
+          "ausentes_desenvolvimento": 0,
+          "ausentes_teste": 0
+        }
+      },
+      "desenvolvimento": {
+        "n": 189,
+        "numericos": {
+          "ida": {
+            "disponiveis": 189,
+            "ausentes": 0,
+            "media": 6.784126984126983,
+            "mediana": 7.0,
+            "dp": 1.5823366457189205
+          },
+          "ieg": {
+            "disponiveis": 189,
+            "ausentes": 0,
+            "media": 8.546031746031746,
+            "mediana": 8.8,
+            "dp": 1.1757060436667357
+          },
+          "iaa": {
+            "disponiveis": 189,
+            "ausentes": 0,
+            "media": 8.565608465608467,
+            "mediana": 9.0,
+            "dp": 1.6800558106016785
+          },
+          "ips": {
+            "disponiveis": 189,
+            "ausentes": 0,
+            "media": 6.948677248677249,
+            "mediana": 7.5,
+            "dp": 1.0616430694822174
+          },
+          "ipv": {
+            "disponiveis": 189,
+            "ausentes": 0,
+            "media": 7.596354497354496,
+            "mediana": 7.5,
+            "dp": 0.8789098096223588
+          },
+          "defasagem_origem": {
+            "disponiveis": 189,
+            "ausentes": 0,
+            "media": 0.07407407407407407,
+            "mediana": 0.0,
+            "dp": 0.31759537822688727
+          }
+        },
+        "fase": {
+          "0": 54,
+          "3": 47,
+          "2": 30,
+          "1": 21,
+          "4": 17,
+          "5": 15,
+          "7": "<10",
+          "6": "<10"
+        }
+      },
+      "teste": {
+        "n": 311,
+        "numericos": {
+          "ida": {
+            "disponiveis": 300,
+            "ausentes": 11,
+            "media": 6.989666666666666,
+            "mediana": 7.05,
+            "dp": 1.3921638875703797
+          },
+          "ieg": {
+            "disponiveis": 300,
+            "ausentes": 11,
+            "media": 9.075,
+            "mediana": 9.3,
+            "dp": 0.8375839198208589
+          },
+          "iaa": {
+            "disponiveis": 311,
+            "ausentes": 0,
+            "media": 7.172990353697748,
+            "mediana": 8.5,
+            "dp": 3.42364318261149
+          },
+          "ips": {
+            "disponiveis": 311,
+            "ausentes": 0,
+            "media": 4.926848874598071,
+            "mediana": 5.0,
+            "dp": 2.1622439896172274
+          },
+          "ipv": {
+            "disponiveis": 300,
+            "ausentes": 11,
+            "media": 8.257661111100001,
+            "mediana": 8.2891666665,
+            "dp": 0.854915341717343
+          },
+          "defasagem_origem": {
+            "disponiveis": 311,
+            "ausentes": 0,
+            "media": 0.12218649517684887,
+            "mediana": 0.0,
+            "dp": 0.3739799597152825
+          }
+        },
+        "fase": {
+          "0": 81,
+          "2": 65,
+          "3": 51,
+          "4": 40,
+          "1": 33,
+          "5": 20,
+          "7": 15,
+          "6": "<10"
+        }
+      }
+    },
+    "interpretabilidade": {
+      "tipo": "coeficientes_log_odds",
+      "intercepto": -1.2533761748461223,
+      "valores": {
+        "numericos__ida": -0.24385469066661758,
+        "numericos__ieg": 0.4050855157547072,
+        "numericos__iaa": -0.02249970822627047,
+        "numericos__ips": 0.4739734034250789,
+        "numericos__ipv": -1.1332860129608853,
+        "numericos__defasagem_origem": -0.9484874319611244,
+        "fase__fase_origem_0": 0.688232573473674,
+        "fase__fase_origem_1": 1.0620267627563382,
+        "fase__fase_origem_2": 0.27121273070967644,
+        "fase__fase_origem_3": -1.1449195684541582,
+        "fase__fase_origem_4": -0.040057498860948164,
+        "fase__fase_origem_5": 0.18557654736075013,
+        "fase__fase_origem_6": -0.42797025540073946,
+        "fase__fase_origem_7": -0.5958989105283784
+      },
+      "nota": "Numericos por um desvio padrao do desenvolvimento; fase one-hot sem referencia descartada, contrastes entre fases sao diferencas entre coeficientes. Associacoes condicionais, nao causais."
+    }
+  },
+  "figuras": [
+    "reports/figures/01_defasagem.png",
+    "reports/figures/02_ida.png",
+    "reports/figures/03_associacoes.png",
+    "reports/figures/04_ips.png",
+    "reports/figures/05_ipp.png",
+    "reports/figures/06_ipv.png",
+    "reports/figures/07_inde.png",
+    "reports/figures/08_pedras.png",
+    "reports/figures/09_modelo.png",
+    "reports/figures/10_insights.png"
+  ],
+  "input_hashes": {
+    "artifacts/avaliacao_temporal.json": "8ed72824e20d51044240ba330f5f734fcb6e558b5c00fed40bd7d24fbf2c7cef",
+    "artifacts/configuracao_congelada.json": "b95914c31aa1eb89d3e6bfe9e493cd0f58932ee49e9e9b9434a060d27455f5dd",
+    "artifacts/modelo_avaliado.joblib": "88098ab093fab4eccda475a340a85dd541ffda936a839ce79c3449a3b02dafab",
+    "artifacts/schema_modelo.json": "6df5fa1f9d7aae65e4c5442e03417761a0248dcc161de977fc0a0cd30cce5358",
+    "docs/contrato_metodologico.md": "eb4aafec436ed5dcde0c231f9a87603a1ada9256fd5829fe6d299b8243a017cc",
+    "docs/registro_decisoes.md": "d34201456dc3c4b8d606b52fdcb530e81a80d5b298b43c92041e23b2be8fc2a8",
+    "local_data/base_longitudinal.csv": "c4addf3e9b9f94ac9cb6d37fe0d3035a76bf541428e2e90bf943f908db9a54e1",
+    "local_data/base_longitudinal.jsonl": "9eac60571308afcd94356ffdfad81c52492c79f0e7c12dda575824a33707d9df",
+    "local_data/coorte_desenvolvimento.csv": "36be981c4456a60f1cf59e1dc83096565fb196132f1407f673056c8e202e0292",
+    "local_data/coorte_teste_temporal.csv": "ca58b905a5f2d5c4d66a2d5b5218b86fdd08307a223e3312937755839a04b877",
+    "local_data/coortes_modelagem.jsonl": "330812eb10a0981c6a268445aa10f4572bc1d2c68b3891569dc65c645ecb9802",
+    "reports/metricas_modelagem.json": "89ae329410c864ca8a4dfe129145dcabb1efc6f423b5fbc42977fcfd4f335e31",
+    "reports/relatorio_modelagem.md": "c4ba207735a341c15ccacd154b0ec5ea51ef565f92a212b7738669747112d8c1"
+  },
+  "source_hashes": {
+    "BASE DE DADOS PEDE 2024 - DATATHON.xlsx": "05779754185f7c9cb1c166b881a1489643d30355cff2ec468e4c266f41b6d1a9",
+    "Bases antigas/Base de dados - Passos Mágicos.zip": "71cc75f1fbd4b4f19c52fdafa01776deb6eeeab8f25353c4106b6fb26adef552",
+    "Bases antigas/DATATHON-PASSOS-MÁGICOS.ipynb": "47b93c9d47b5686bf8fc42dde83ae3207d7dffedf6ac8157be573b5b82193ce1",
+    "Bases antigas/PEDE_PASSOS_DATASET_FIAP.csv": "28f6563b2feb849cd29bae29c5d3433df49d47a2383c3f28033dc547de7a6133",
+    "Bases antigas/PEDE_PASSOS_DATASET_FIAP.xlsx": "67509da73f74d1e0677f2996855b8cb33081b3969bd9bc85a9789d1713025b3d",
+    "desvendando_passos.pdf": "594694ae2859bd9259ee6feb1b07198a43e18e6700047eb34eea490b5c0ecb8c",
+    "Dicionário Dados Datathon.pdf": "c141a779a02d34e829e6892ba3c505f00b1510fc2de7761a66b75b9f30239e00",
+    "Links adicionais da passos.docx": "5d72421f1d3f3e823c1b1702d10ec39e77f26cd897b9354aa2900ce64e3b29ea",
+    "PEDE_ Pontos importantes.docx": "ee2a6cd6e0d53f9108497cf6975f27d178b03de19ff55db3905e2d03a23b75bc",
+    "POSTECH - Datathon - Fase 5 (1).pdf": "ac333680d88bc7d33c47379bcd3eb53d1ebaa599922f96bc28e0fc16062320ec",
+    "Relatorio PEDE2022.pdf": "34314dcc09fe36865809c290cd6fe2493c3af875f366b3686a145e80a0010020",
+    "Relatório PEDE2020.pdf": "618599418db1b9f830caa5a3cab7bf729613cca987f1243f497b4e1fb02e4a4a",
+    "Relatório PEDE2021.pdf": "859ce95807a5508da43d05219c9e355056183786ce2b0c7cd0f02e340c6570b8"
+  },
+  "code_hashes": {
+    "src/analises_negocio.py": "1359f0810a64b871f6f42038951439c0a1d42a749f099e63dd8d045b90dbbc75",
+    "src/relatorio_analises.py": "7cb8e51ab8e6475fbffe137fe43d412d0814c663744c6cde1fec15c2ceac32f2",
+    "tests/test_analises_negocio.py": "dbe05ed9619254f5582354ddc135399f01c6bd17d7ee600e8e23d475ec805bd4"
+  },
+  "output_hashes": {
+    "reports/relatorio_analises_negocio.md": "32ad56ebad390161c76e3644b2038cbcb15fa4560fef5e121450c77b94aa622e",
+    "reports/figures/01_defasagem.png": "ada3be52a16bc3e0de39d9b541078a90034a09c07ec0e03528134a3077961120",
+    "reports/figures/02_ida.png": "1a0a63e70809f5db0cc7a2e137c98c32ac8cf31b776fab44f72cb92d532923b2",
+    "reports/figures/03_associacoes.png": "019f5b76075b8e98a6a130f0789675efdf5d201891574d325e5ec21b26b8ae05",
+    "reports/figures/04_ips.png": "56ab0da30a9013b0ce6e229ddb6fe0591f611e770b82c3af890d7cde9368f78f",
+    "reports/figures/05_ipp.png": "2f029ce362b5d25ef5251bfebf58eded4294e7608ebbae62dc17293d7f01c590",
+    "reports/figures/06_ipv.png": "0434ff8bdce6547a921e9dd09bca1f2c88c7ee116d9769ec66bd4ab4543973e4",
+    "reports/figures/07_inde.png": "e3c8c692b3347055ea50cf61e59bece8be51ffd12c1fbeff1be33c2131b434f0",
+    "reports/figures/08_pedras.png": "3ac1c4879e342d37acffbb017dab4b3e3dbbe47e68a871428a07c18cc7c491f7",
+    "reports/figures/09_modelo.png": "5eaf5c4a930cf2a4a521556507591af84ecbc47d6fc03630899967818b7d5187",
+    "reports/figures/10_insights.png": "38a96ca9d093d574d8be3e17e7a9f9506ac2f254fe37a87de1e1c0a4890bb554"
+  }
+}

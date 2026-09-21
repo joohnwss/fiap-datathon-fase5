@@ -21,8 +21,14 @@ Resultados e pendências: [relatório de preparação](reports/relatorio_prepara
 Evidência das verificações: [verificação final](reports/verificacao_final.md).
 O enunciado completo e as evidências de leitura textual/visual estão documentados em
 [evidências documentais](docs/evidencias_documentais.md). Os requisitos finais incluem
-análise de negócio, notebook preditivo, GitHub, apresentação, Streamlit Community Cloud
+notebook preditivo, GitHub, apresentação, Streamlit Community Cloud
 e vídeo de até cinco minutos; essas entregas ficam para rodadas posteriores.
+
+As [11 análises de negócio](reports/relatorio_analises_negocio.md) estão concluídas,
+com [métricas agregadas](reports/metricas_analises_negocio.json) e dez figuras em
+`reports/figures/`. Reutilizam a base longitudinal e as junções validadas,
+preservam ausências e suprimem grupos pequenos. A seção preditiva lê os
+artefatos oficiais; não treina nem reavalia o modelo.
 
 ## Execução reproduzível
 
@@ -36,6 +42,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe src/preparacao_longitudinal.py
 .\.venv\Scripts\python.exe src/preparacao_coortes.py
 .\.venv\Scripts\python.exe src/modelagem.py
+.\.venv\Scripts\python.exe src/analises_negocio.py
 .\.venv\Scripts\python.exe src/verificar_entrega.py
 ```
 
@@ -92,6 +99,8 @@ e, separadamente, o inventário da execução anterior. Nenhum comando faz commi
 | `artifacts/modelo_avaliado.joblib` e `artifacts/schema_modelo.json` | Pipeline treinado somente em 2022→2023 e contrato de entrada/limiar. |
 | `artifacts/avaliacao_temporal.json` | Registro de abertura única e integridade das saídas. |
 | `reports/relatorio_modelagem.md`, `reports/metricas_modelagem.json` e `reports/curvas_modelagem.png` | Avaliação, intervalos, análises agregadas, interpretabilidade e limitações. |
+| `src/analises_negocio.py` e `src/relatorio_analises.py` | Cálculos observacionais, relatório das 11 perguntas e dez figuras agregadas. |
+| `tests/test_analises_negocio.py` | Regressões de ausências, junções, denominadores, privacidade, determinismo e integridade dos artefatos. |
 | `src/rastreabilidade.py` | Cópia de recuperação, inventários, hashes e proteção contra versionamento de dados individuais. |
 | `src/relatorios_preparacao.py` | Mapa e relatórios agregados regeneráveis. |
 | `src/verificar_entrega.py` | Executa testes e confere hashes, registros, arquivos serializados e exclusões do Git; produz evidência final. |

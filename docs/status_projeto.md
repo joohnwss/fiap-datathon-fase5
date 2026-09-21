@@ -21,8 +21,8 @@ está em [verificação final](../reports/verificacao_final.md).
 
 O [contrato metodológico](contrato_metodologico.md) está aprovado. A modelagem
 conta com coortes validadas e pipeline de avaliação temporal. Os marcos seguros
-são `v0.1-fundacao-dados` e `v0.2-coortes`. A modelagem foi implementada na branch
-`feat/modelagem`, sem commit, merge, push ou nova tag.
+são `v0.1-fundacao-dados`, `v0.2-coortes` e `v0.3-modelagem-avaliada`.
+Esta rodada está na branch `feat/analises-negocio`, sem operações de publicação.
 O [relatório de coortes](../reports/relatorio_coortes_modelagem.md) apresenta
 as contagens calculadas, a cobertura e os fluxos de inclusão e exclusão.
 
@@ -77,6 +77,7 @@ python -m venv .venv
 .\.venv\Scripts\python.exe src\preparacao_longitudinal.py
 .\.venv\Scripts\python.exe src\preparacao_coortes.py
 .\.venv\Scripts\python.exe src\modelagem.py
+.\.venv\Scripts\python.exe src\analises_negocio.py
 .\.venv\Scripts\python.exe src\verificar_entrega.py
 ```
 
@@ -131,8 +132,9 @@ relatórios identificados como regeneráveis devem ser alterados em seu gerador.
 
 ## Próximas entregas
 
-1. Realizar as análises das 11 perguntas, incluindo os perfis de perda de acompanhamento,
-   com cobertura e limites observacionais.
+1. Revisar em grupo as [11 análises concluídas](../reports/relatorio_analises_negocio.md),
+   suas métricas e dez figuras agregadas, incluindo perda de acompanhamento,
+   cobertura e limites observacionais. Modelo e limiar permanecem congelados.
 2. Construir o notebook reproduzível, com engenharia de atributos e divisão temporal.
 3. Revisar os resultados da modelagem já implementada, preservando o congelamento
    e as métricas oficiais. A auditoria por gênero ficou limitada pela ausência
@@ -144,9 +146,9 @@ relatórios identificados como regeneráveis devem ser alterados em seu gerador.
 7. Produzir o vídeo de até cinco minutos, com ao menos uma pessoa do grupo.
 8. Concluir a revisão final de requisitos, reprodutibilidade, privacidade e entregas.
 
-A preparação das coortes e o pipeline de modelagem estão concluídos. O ponto
-de continuidade são as análises de negócio e a integração do pipeline existente
-ao notebook, ainda pendentes. Não realizar nova seleção com o teste temporal.
+A preparação das coortes, a modelagem e as análises de negócio estão concluídas.
+O ponto de continuidade é a revisão do relatório e, em rodada posterior,
+a integração do pipeline ao notebook. Não realizar nova seleção com o teste temporal.
 Consultar o [registro de decisões](registro_decisoes.md), as
 [evidências documentais](evidencias_documentais.md) e o
 [relatório de preparação](../reports/relatorio_preparacao_inicial.md) antes de
