@@ -128,19 +128,19 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ### TASK 007 — Notebook final reproduzível
 
-- **Estado:** READY.
+- **Estado:** DONE.
 - **Objetivo:** criar o notebook final como narrativa reproduzível dos dados, metodologia, resultados congelados e conclusões, sem repetir a avaliação temporal.
 - **Dependências:** TASKs 001–006.
 - **Entregáveis:** notebook executável; instruções de execução; células de validação de ambiente e integridade; visualizações e conclusões alinhadas aos resultados oficiais.
 - **Critérios de aceite:** execução limpa em ambiente documentado; resultados consistentes com artefatos congelados; ausência de caminhos absolutos e dados pessoais; notebook sem retreino ou recalibração oficial.
 - **Restrições importantes:** consumir artefatos existentes; não reabrir teste temporal; não alterar limiar, métricas ou modelo; não embutir dados privados.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
-- **Evidências de conclusão:** a produzir: notebook versionado, execução registrada, diff revisado e testes aprovados.
+- **Executor:** Jônatas Silva — implementação assistida por Claude.
+- **Revisor:** GPT/Codex — revisão técnica independente em 22/09/2026.
+- **Evidências de conclusão:** notebook criado em `notebooks/datathon_fase5.ipynb`, com 22 seções e 86 células (57 Markdown e 29 de código); execução integral aprovada; execução pública automatizada sem `DATATHON/`, `local_data/` e `local_recovery/` aprovada; modelo, sete preditores, limiar e métricas conferidos diretamente contra os artefatos oficiais; 11 respostas de negócio conferidas; dez gráficos agregados e as curvas oficiais validados por hash; ausência de treinamento, reavaliação e recalibração confirmada por análise AST das células de código; privacidade, caminhos portáveis e ausência de dados individuais validadas; 61 testes específicos do notebook aprovados em `tests/test_notebook_final.py`; 140 testes totais aprovados na suíte completa, com zero falhas, zero erros e zero skips; instalação reproduzível a partir do `requirements.txt` principal, que agora também inclui `notebooks/requirements-notebook.txt`; revisão independente com parecer **APPROVED**; nenhum artefato congelado alterado; versionado no commit de conclusão desta TASK.
 
 ### TASK 008 — Definição do artefato operacional
 
-- **Estado:** DRAFT.
+- **Estado:** READY.
 - **Objetivo:** decidir qual artefato e fluxo de inferência serão usados pela aplicação sem confundir demonstração operacional com nova avaliação do modelo.
 - **Dependências:** TASK 007 e decisão explícita de produto.
 - **Entregáveis:** decisão arquitetural registrada; contrato de entrada e saída; estratégia de carregamento; tratamento de erros e limitações.
@@ -263,8 +263,8 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 | 004 | 2 | Modelagem e avaliação temporal | DONE | 003 |
 | 005 | 2 | Análises e perguntas de negócio | DONE | 002, 004 |
 | 006 | 3 | Portabilidade dos hashes LF/CRLF | DONE | 001–005 |
-| 007 | 3 | Notebook final reproduzível | READY | 001–006 |
-| 008 | 3 | Definição do artefato operacional | DRAFT | 007 e decisão de produto |
+| 007 | 3 | Notebook final reproduzível | DONE | 001–006 |
+| 008 | 3 | Definição do artefato operacional | READY | 007 e decisão de produto |
 | 009 | 4 | Aplicação Streamlit | BLOCKED | 008 |
 | 010 | 4 | Testes da aplicação e privacidade | BLOCKED | 009 |
 | 011 | 4 | Deploy no Streamlit Community Cloud | BLOCKED | 010 |
@@ -276,15 +276,15 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ## Caminho crítico
 
-O caminho crítico do trabalho restante é:
+A TASK 007 foi concluída. O caminho crítico do trabalho restante é:
 
-`TASK 007 → TASK 008 → TASK 009 → TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
+`TASK 008 → TASK 009 → TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
 
 Cada TASK desse caminho deve fornecer seus entregáveis e evidências à seguinte. Decisões preparatórias podem ser discutidas antecipadamente, mas nenhuma TASK bloqueada muda de estado antes do atendimento formal de sua dependência.
 
 ## Próxima TASK
 
-**TASK 007 — Notebook final reproduzível.** Ela está READY e inicia o caminho crítico do trabalho restante.
+**TASK 008 — Definição do artefato operacional.** Ela está READY e inicia o caminho crítico do trabalho restante.
 
 ## Checklist para mudança de estado
 
