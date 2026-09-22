@@ -140,21 +140,21 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ### TASK 008 — Definição do artefato operacional
 
-- **Estado:** READY.
+- **Estado:** DONE.
 - **Objetivo:** decidir qual artefato e fluxo de inferência serão usados pela aplicação sem confundir demonstração operacional com nova avaliação do modelo.
 - **Dependências:** TASK 007 e decisão explícita de produto.
 - **Entregáveis:** decisão arquitetural registrada; contrato de entrada e saída; estratégia de carregamento; tratamento de erros e limitações.
 - **Critérios de aceite:** alternativa escolhida e justificada; compatibilidade com schema e limiar congelados; riscos de privacidade e operação documentados; aprovação antes da implementação da aplicação.
 - **Restrições importantes:** não substituir, sobrescrever ou confundir o modelo oficialmente avaliado com eventual artefato operacional; qualquer retreinamento operacional somente poderá ocorrer após decisão explícita, deverá gerar artefato separado e não poderá herdar as métricas da avaliação temporal oficial; não alterar schema ou limiar; não usar o teste temporal como dado operacional.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
-- **Evidências de conclusão:** a produzir: registro de decisão aprovado e contrato operacional verificável.
+- **Executor:** Jônatas Silva — implementação assistida por Claude.
+- **Revisor:** GPT/Codex — revisão técnica independente em 22/09/2026.
+- **Evidências de conclusão:** decisão documentada em `docs/decisao_modelo_operacional.md` — utilização direta do modelo oficialmente avaliado (`artifacts/modelo_avaliado.joblib`), sem retreinamento nem recalibração; contrato dos sete preditores definido na ordem oficial; classe positiva e `predict_proba` conferidos contra o objeto `joblib` real; limiar congelado (`0.26696679375725973`) preservado como única regra de decisão; validador público definido (reaproveitando `modelagem.validate_frozen` por inteiro); cinco artefatos públicos de inferência identificados (`artifacts/modelo_avaliado.joblib`, `artifacts/schema_modelo.json`, `artifacts/configuracao_congelada.json`, `artifacts/avaliacao_temporal.json`, `reports/metricas_modelagem.json`); `docs/contrato_metodologico.md` registrado como dependência pública adicional de integridade; `modelagem.validate_artifacts` explicitamente proibida no deploy público por depender de hashes privados em `local_data/`; ausência de dependência de `DATATHON/`, `local_data/` e `local_recovery/` confirmada; tratamento de erros, privacidade e limitações documentados; revisão independente com parecer **APPROVED**; versionado no commit de conclusão desta TASK.
 
 ## FASE 4 — Aplicação e publicação
 
 ### TASK 009 — Aplicação Streamlit
 
-- **Estado:** BLOCKED pela TASK 008.
+- **Estado:** READY.
 - **Objetivo:** implementar uma interface Streamlit clara e segura para demonstração do artefato operacional aprovado.
 - **Dependências:** TASK 008.
 - **Entregáveis:** aplicação Streamlit; fluxo de entrada e resultado; mensagens de validação; instruções locais.
@@ -264,8 +264,8 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 | 005 | 2 | Análises e perguntas de negócio | DONE | 002, 004 |
 | 006 | 3 | Portabilidade dos hashes LF/CRLF | DONE | 001–005 |
 | 007 | 3 | Notebook final reproduzível | DONE | 001–006 |
-| 008 | 3 | Definição do artefato operacional | READY | 007 e decisão de produto |
-| 009 | 4 | Aplicação Streamlit | BLOCKED | 008 |
+| 008 | 3 | Definição do artefato operacional | DONE | 007 e decisão de produto |
+| 009 | 4 | Aplicação Streamlit | READY | 008 |
 | 010 | 4 | Testes da aplicação e privacidade | BLOCKED | 009 |
 | 011 | 4 | Deploy no Streamlit Community Cloud | BLOCKED | 010 |
 | 012 | 5 | Documentação final | BLOCKED | 007, 011 |
@@ -276,15 +276,15 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ## Caminho crítico
 
-A TASK 007 foi concluída. O caminho crítico do trabalho restante é:
+As TASKs 007 e 008 foram concluídas. O caminho crítico do trabalho restante é:
 
-`TASK 008 → TASK 009 → TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
+`TASK 009 → TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
 
 Cada TASK desse caminho deve fornecer seus entregáveis e evidências à seguinte. Decisões preparatórias podem ser discutidas antecipadamente, mas nenhuma TASK bloqueada muda de estado antes do atendimento formal de sua dependência.
 
 ## Próxima TASK
 
-**TASK 008 — Definição do artefato operacional.** Ela está READY e inicia o caminho crítico do trabalho restante.
+**TASK 009 — Aplicação Streamlit.** Ela está READY e inicia o caminho crítico do trabalho restante.
 
 ## Checklist para mudança de estado
 
