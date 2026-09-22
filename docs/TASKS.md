@@ -154,19 +154,19 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ### TASK 009 — Aplicação Streamlit
 
-- **Estado:** READY.
+- **Estado:** DONE.
 - **Objetivo:** implementar uma interface Streamlit clara e segura para demonstração do artefato operacional aprovado.
 - **Dependências:** TASK 008.
 - **Entregáveis:** aplicação Streamlit; fluxo de entrada e resultado; mensagens de validação; instruções locais.
 - **Critérios de aceite:** aplicação inicia sem erro; respeita contrato operacional; resultados determinísticos; interface não expõe dados privados; limitações visíveis.
 - **Restrições importantes:** implementar somente a decisão da TASK 008; não recalibrar, retreinar ou alterar resultados congelados.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
-- **Evidências de conclusão:** a produzir: código versionado, execução local registrada e revisão funcional.
+- **Executor:** Jônatas Silva — implementação assistida por Claude.
+- **Revisor:** GPT/Codex — revisão técnica independente em 22/09/2026.
+- **Evidências de conclusão:** aplicação criada em `streamlit_app.py`, com módulo de inferência independente (sem dependência de Streamlit) em `src/inferencia.py`; Streamlit com versão fixada (`streamlit==1.64.0`) em `requirements.txt`, sem alterar nenhuma dependência já congelada; configuração pública em `.streamlit/config.toml` (tema sóbrio, estatísticas de uso desativadas, sem porta fixa). Modelo oficialmente avaliado (`artifacts/modelo_avaliado.joblib`) carregado sem retreinamento; validador público dos seis caminhos implementado (reaproveitando `modelagem.validate_frozen` por inteiro); `modelagem.validate_artifacts` explicitamente proibida e nunca chamada; ausência de dependência de `DATATHON/`, `local_data/` e `local_recovery/` confirmada. Os sete preditores são validados na ordem oficial; chaves ausentes e chaves extras no payload são rejeitadas (`InputValidationError`); valores numéricos ausentes só são aceitos quando a chave correspondente está presente no payload; a classe positiva é validada como o inteiro `1` (tipo estrito, rejeitando `bool`/`str`/`float`); o retorno de `predict_proba` é validado quanto a formato, número de classes e probabilidades finitas em `[0, 1]`; o limiar congelado (`0.26696679375725973`) é lido dos artefatos e aplicado sem ajuste. Nenhuma entrada do usuário é persistida, logada ou reaproveitada entre sessões; a interface usa linguagem não causal e exibe as limitações oficiais (queda de recall no teste temporal, subestimação de risco, necessidade de supervisão humana). Inferências com dados inteiramente sintéticos aprovadas (probabilidade em `[0, 1]`, classificação coerente com o limiar); casos adversariais sintéticos (chaves ausentes/extras, classe positiva inválida, formatos inválidos de `predict_proba`) corretamente rejeitados com `PublicValidationError`/`InputValidationError`, sem vazar mensagens internas. Smoke test headless aprovado: inicialização sem erro, endpoint `/_stcore/health` com HTTP 200 (`ok`), página principal com HTTP 200 sem indício de traceback, processo encerrado por completo ao final. Revisão independente com parecer **APPROVED**; versionado no commit de conclusão desta TASK.
 
 ### TASK 010 — Testes da aplicação e privacidade
 
-- **Estado:** BLOCKED pela TASK 009.
+- **Estado:** READY.
 - **Objetivo:** validar comportamento funcional, falhas controladas, privacidade e aderência ao contrato da aplicação.
 - **Dependências:** TASK 009.
 - **Entregáveis:** testes automatizados e roteiro manual; casos válidos e inválidos; verificação de privacidade; relatório de resultados.
@@ -265,8 +265,8 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 | 006 | 3 | Portabilidade dos hashes LF/CRLF | DONE | 001–005 |
 | 007 | 3 | Notebook final reproduzível | DONE | 001–006 |
 | 008 | 3 | Definição do artefato operacional | DONE | 007 e decisão de produto |
-| 009 | 4 | Aplicação Streamlit | READY | 008 |
-| 010 | 4 | Testes da aplicação e privacidade | BLOCKED | 009 |
+| 009 | 4 | Aplicação Streamlit | DONE | 008 |
+| 010 | 4 | Testes da aplicação e privacidade | READY | 009 |
 | 011 | 4 | Deploy no Streamlit Community Cloud | BLOCKED | 010 |
 | 012 | 5 | Documentação final | BLOCKED | 007, 011 |
 | 013 | 5 | Apresentação gerencial | DRAFT | 012 |
@@ -276,15 +276,15 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ## Caminho crítico
 
-As TASKs 007 e 008 foram concluídas. O caminho crítico do trabalho restante é:
+As TASKs 007, 008 e 009 foram concluídas. O caminho crítico do trabalho restante é:
 
-`TASK 009 → TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
+`TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
 
 Cada TASK desse caminho deve fornecer seus entregáveis e evidências à seguinte. Decisões preparatórias podem ser discutidas antecipadamente, mas nenhuma TASK bloqueada muda de estado antes do atendimento formal de sua dependência.
 
 ## Próxima TASK
 
-**TASK 009 — Aplicação Streamlit.** Ela está READY e inicia o caminho crítico do trabalho restante.
+**TASK 010 — Testes da aplicação e privacidade.** Ela está READY e inicia o caminho crítico do trabalho restante.
 
 ## Checklist para mudança de estado
 

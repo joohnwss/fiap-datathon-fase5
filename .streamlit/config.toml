@@ -1,0 +1,20 @@
+# Configuração da aplicação pública (TASK 009). Nenhuma porta é fixada aqui
+# (o Community Cloud e o smoke test local definem a porta externamente).
+
+[browser]
+# Desativa o envio de estatísticas de uso do Streamlit para terceiros.
+gatherUsageStats = false
+
+[theme]
+# Tema sóbrio e acessível (contraste alto, sem cores vibrantes), adequado
+# para uma aplicação acadêmica.
+base = "light"
+primaryColor = "#2E5077"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#F2F4F7"
+textColor = "#1F2933"
+font = "sans serif"
+
+[client]
+# Mensagens de erro do framework não devem expor stack trace bruto ao público.
+showErrorDetails = false
