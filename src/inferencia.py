@@ -311,6 +311,10 @@ def validate_inputs(raw_inputs: dict) -> dict:
     completamente ausente do payload é um erro de contrato, não uma
     ausência de indicador, e por isso nunca é preenchida silenciosamente.
     """
+    if not isinstance(raw_inputs, dict):
+        raise InputValidationError(
+            f"Payload inválido: esperado um dicionário, obtido {type(raw_inputs).__name__}")
+
     chaves_informadas = set(raw_inputs)
     chaves_oficiais = set(FEATURES)
     ausentes = sorted(chaves_oficiais - chaves_informadas)

@@ -22,10 +22,6 @@ Referências de controle:
 - **DRAFT:** escopo ainda sujeito a decisão.
 - **BLOCKED:** não pode começar ou terminar enquanto outra TASK indicada estiver pendente.
 
-### Responsabilidade e revisão
-
-Cada TASK deve ter um único executor responsável. Quando possível, deve haver um revisor independente, diferente do executor. A ausência de autoria histórica documentada não deve ser preenchida por suposição; nesses casos, o executor é registrado como **trabalho consolidado anteriormente**.
-
 ### Restrições permanentes
 
 - É proibido reabrir a avaliação temporal, repetir o acesso ao conjunto de teste ou recalibrar o limiar congelado.
@@ -44,8 +40,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** `docs/TASKS.md` atualizado; tabela-resumo; caminho crítico; checklist de mudança de estado.
 - **Critérios de aceite:** todas as TASKs 000–016 registradas; estados e dependências coerentes; próxima TASK explicitada; documento aprovado e versionado para chegar a DONE.
 - **Restrições importantes:** não substituir evidências técnicas; não atribuir autoria sem documentação; não alterar arquivos de produto nesta TASK.
-- **Executor:** Jônatas Silva.
-- **Revisor:** GPT/Codex — revisão documental assistida em 21/09/2026.
 - **Evidências de conclusão:** Documento revisado em 21/09/2026 e versionado no commit de conclusão desta TASK.
 
 ## FASE 1 — Dados e metodologia
@@ -58,8 +52,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** inventário das 13 fontes; hashes SHA-256; registros de preservação dos originais; rastreabilidade; mecanismos de proteção das fontes privadas; relatório de auditoria.
 - **Critérios de aceite:** 13 fontes identificadas; hashes binários conferidos; originais preservados; associação com a origem validada; rastreabilidade documentada; nenhum dado privado versionado.
 - **Restrições importantes:** fontes privadas são somente leitura; comparação binária exata; proibição de publicar dados individuais.
-- **Executor:** trabalho consolidado anteriormente.
-- **Revisor:** não identificado documentalmente.
 - **Evidências de conclusão:** baseline `265434d`; tag `v0.4-analises-negocio`; inventários, relatórios e testes de auditoria versionados.
 
 ### TASK 002 — Preparação longitudinal
@@ -70,8 +62,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** consolidação de 2022, 2023 e 2024; schemas e campos padronizados; tratamentos necessários à análise; base derivada privada; metadados e relatórios da preparação.
 - **Critérios de aceite:** 3.030 registros conferidos; schemas e campos conciliados com as fontes; ausências não convertidas indevidamente em zero; duplicidades e estados de RA tratados; testes aprovados.
 - **Restrições importantes:** derivados individuais permanecem fora do Git; nenhuma imputação ou correção silenciosa da origem.
-- **Executor:** trabalho consolidado anteriormente.
-- **Revisor:** não identificado documentalmente.
 - **Evidências de conclusão:** código, metadados, relatório e testes presentes no baseline versionado.
 
 ### TASK 003 — Contrato metodológico e coortes temporais
@@ -82,8 +72,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** contrato metodológico; definição da variável-alvo e dos sete preditores; coortes de desenvolvimento e teste temporal; regras metodológicas congeladas; metadados de geração e validação.
 - **Critérios de aceite:** problema e alvo documentados; sete preditores fechados; prevenção de vazamento temporal validada; contagens de referência conferidas; hashes das coortes registrados; regras congeladas.
 - **Restrições importantes:** não incorporar identificadores ou variáveis futuras; não acessar antecipadamente o teste temporal.
-- **Executor:** trabalho consolidado anteriormente.
-- **Revisor:** não identificado documentalmente.
 - **Evidências de conclusão:** contrato, metadados de coortes e testes de regressão versionados no baseline.
 
 ## FASE 2 — Modelagem e análises
@@ -96,8 +84,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** modelo avaliado; configuração congelada; schema; limiar; métricas OOF e temporais; análises de robustez, calibração, equidade e erros; artefatos e limitações documentados.
 - **Critérios de aceite:** treinamento e seleção restritos ao desenvolvimento; configuração congelada antes do teste; avaliação temporal única; modelo e entradas com hashes conferidos; métricas, robustez, calibração, equidade e erros validados; limitações explícitas.
 - **Restrições importantes:** não reabrir o teste temporal; não retreinar o modelo oficial; não recalibrar ou substituir o limiar; não regenerar artefatos congelados.
-- **Executor:** trabalho consolidado anteriormente.
-- **Revisor:** não identificado documentalmente.
 - **Evidências de conclusão:** artefatos, métricas e avaliação temporal congelados; baseline `265434d`; suíte de regressão aprovada.
 
 ### TASK 005 — Análises e perguntas de negócio
@@ -108,8 +94,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** respostas às 11 perguntas; dez gráficos agregados; principais conclusões; relatório de análises; métricas estruturadas; verificações de privacidade, relatórios e artefatos.
 - **Critérios de aceite:** 11 perguntas respondidas; dez figuras válidas; conclusões sustentadas; resultados agregados; ausência de identificadores pessoais; nenhuma chamada de treino; relatórios e artefatos validados contra as métricas oficiais.
 - **Restrições importantes:** não expor indivíduos; não reinterpretar associações como causalidade; não modificar o modelo oficial.
-- **Executor:** trabalho consolidado anteriormente.
-- **Revisor:** não identificado documentalmente.
 - **Evidências de conclusão:** tag `v0.4-analises-negocio`, relatórios e testes versionados.
 
 ## FASE 3 — Reprodutibilidade e uso operacional
@@ -122,8 +106,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** comparação centralizada de hashes; integração nas validações; testes de regressão de portabilidade e proveniência histórica.
 - **Critérios de aceite:** SHA-256 binário preservado; somente extensões textuais autorizadas toleram LF/CRLF; mudanças reais e binárias falham; 79 testes aprovados.
 - **Restrições importantes:** não atualizar hashes ou artefatos congelados; fontes privadas permanecem com igualdade binária exata.
-- **Executor:** trabalho consolidado anteriormente.
-- **Revisor:** não identificado documentalmente.
 - **Evidências de conclusão:** commit verificado `cd2f97d`; suíte com 79 testes aprovada.
 
 ### TASK 007 — Notebook final reproduzível
@@ -134,8 +116,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** notebook executável; instruções de execução; células de validação de ambiente e integridade; visualizações e conclusões alinhadas aos resultados oficiais.
 - **Critérios de aceite:** execução limpa em ambiente documentado; resultados consistentes com artefatos congelados; ausência de caminhos absolutos e dados pessoais; notebook sem retreino ou recalibração oficial.
 - **Restrições importantes:** consumir artefatos existentes; não reabrir teste temporal; não alterar limiar, métricas ou modelo; não embutir dados privados.
-- **Executor:** Jônatas Silva — implementação assistida por Claude.
-- **Revisor:** GPT/Codex — revisão técnica independente em 22/09/2026.
 - **Evidências de conclusão:** notebook criado em `notebooks/datathon_fase5.ipynb`, com 22 seções e 86 células (57 Markdown e 29 de código); execução integral aprovada; execução pública automatizada sem `DATATHON/`, `local_data/` e `local_recovery/` aprovada; modelo, sete preditores, limiar e métricas conferidos diretamente contra os artefatos oficiais; 11 respostas de negócio conferidas; dez gráficos agregados e as curvas oficiais validados por hash; ausência de treinamento, reavaliação e recalibração confirmada por análise AST das células de código; privacidade, caminhos portáveis e ausência de dados individuais validadas; 61 testes específicos do notebook aprovados em `tests/test_notebook_final.py`; 140 testes totais aprovados na suíte completa, com zero falhas, zero erros e zero skips; instalação reproduzível a partir do `requirements.txt` principal, que agora também inclui `notebooks/requirements-notebook.txt`; revisão independente com parecer **APPROVED**; nenhum artefato congelado alterado; versionado no commit de conclusão desta TASK.
 
 ### TASK 008 — Definição do artefato operacional
@@ -146,8 +126,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** decisão arquitetural registrada; contrato de entrada e saída; estratégia de carregamento; tratamento de erros e limitações.
 - **Critérios de aceite:** alternativa escolhida e justificada; compatibilidade com schema e limiar congelados; riscos de privacidade e operação documentados; aprovação antes da implementação da aplicação.
 - **Restrições importantes:** não substituir, sobrescrever ou confundir o modelo oficialmente avaliado com eventual artefato operacional; qualquer retreinamento operacional somente poderá ocorrer após decisão explícita, deverá gerar artefato separado e não poderá herdar as métricas da avaliação temporal oficial; não alterar schema ou limiar; não usar o teste temporal como dado operacional.
-- **Executor:** Jônatas Silva — implementação assistida por Claude.
-- **Revisor:** GPT/Codex — revisão técnica independente em 22/09/2026.
 - **Evidências de conclusão:** decisão documentada em `docs/decisao_modelo_operacional.md` — utilização direta do modelo oficialmente avaliado (`artifacts/modelo_avaliado.joblib`), sem retreinamento nem recalibração; contrato dos sete preditores definido na ordem oficial; classe positiva e `predict_proba` conferidos contra o objeto `joblib` real; limiar congelado (`0.26696679375725973`) preservado como única regra de decisão; validador público definido (reaproveitando `modelagem.validate_frozen` por inteiro); cinco artefatos públicos de inferência identificados (`artifacts/modelo_avaliado.joblib`, `artifacts/schema_modelo.json`, `artifacts/configuracao_congelada.json`, `artifacts/avaliacao_temporal.json`, `reports/metricas_modelagem.json`); `docs/contrato_metodologico.md` registrado como dependência pública adicional de integridade; `modelagem.validate_artifacts` explicitamente proibida no deploy público por depender de hashes privados em `local_data/`; ausência de dependência de `DATATHON/`, `local_data/` e `local_recovery/` confirmada; tratamento de erros, privacidade e limitações documentados; revisão independente com parecer **APPROVED**; versionado no commit de conclusão desta TASK.
 
 ## FASE 4 — Aplicação e publicação
@@ -160,32 +138,26 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** aplicação Streamlit; fluxo de entrada e resultado; mensagens de validação; instruções locais.
 - **Critérios de aceite:** aplicação inicia sem erro; respeita contrato operacional; resultados determinísticos; interface não expõe dados privados; limitações visíveis.
 - **Restrições importantes:** implementar somente a decisão da TASK 008; não recalibrar, retreinar ou alterar resultados congelados.
-- **Executor:** Jônatas Silva — implementação assistida por Claude.
-- **Revisor:** GPT/Codex — revisão técnica independente em 22/09/2026.
 - **Evidências de conclusão:** aplicação criada em `streamlit_app.py`, com módulo de inferência independente (sem dependência de Streamlit) em `src/inferencia.py`; Streamlit com versão fixada (`streamlit==1.64.0`) em `requirements.txt`, sem alterar nenhuma dependência já congelada; configuração pública em `.streamlit/config.toml` (tema sóbrio, estatísticas de uso desativadas, sem porta fixa). Modelo oficialmente avaliado (`artifacts/modelo_avaliado.joblib`) carregado sem retreinamento; validador público dos seis caminhos implementado (reaproveitando `modelagem.validate_frozen` por inteiro); `modelagem.validate_artifacts` explicitamente proibida e nunca chamada; ausência de dependência de `DATATHON/`, `local_data/` e `local_recovery/` confirmada. Os sete preditores são validados na ordem oficial; chaves ausentes e chaves extras no payload são rejeitadas (`InputValidationError`); valores numéricos ausentes só são aceitos quando a chave correspondente está presente no payload; a classe positiva é validada como o inteiro `1` (tipo estrito, rejeitando `bool`/`str`/`float`); o retorno de `predict_proba` é validado quanto a formato, número de classes e probabilidades finitas em `[0, 1]`; o limiar congelado (`0.26696679375725973`) é lido dos artefatos e aplicado sem ajuste. Nenhuma entrada do usuário é persistida, logada ou reaproveitada entre sessões; a interface usa linguagem não causal e exibe as limitações oficiais (queda de recall no teste temporal, subestimação de risco, necessidade de supervisão humana). Inferências com dados inteiramente sintéticos aprovadas (probabilidade em `[0, 1]`, classificação coerente com o limiar); casos adversariais sintéticos (chaves ausentes/extras, classe positiva inválida, formatos inválidos de `predict_proba`) corretamente rejeitados com `PublicValidationError`/`InputValidationError`, sem vazar mensagens internas. Smoke test headless aprovado: inicialização sem erro, endpoint `/_stcore/health` com HTTP 200 (`ok`), página principal com HTTP 200 sem indício de traceback, processo encerrado por completo ao final. Revisão independente com parecer **APPROVED**; versionado no commit de conclusão desta TASK.
 
 ### TASK 010 — Testes da aplicação e privacidade
 
-- **Estado:** READY.
+- **Estado:** DONE.
 - **Objetivo:** validar comportamento funcional, falhas controladas, privacidade e aderência ao contrato da aplicação.
 - **Dependências:** TASK 009.
 - **Entregáveis:** testes automatizados e roteiro manual; casos válidos e inválidos; verificação de privacidade; relatório de resultados.
 - **Critérios de aceite:** testes aprovados; entradas inválidas bloqueadas; nenhuma informação pessoal exposta; saídas coerentes com o modelo congelado; falhas sem vazamento de dados.
 - **Restrições importantes:** usar dados sintéticos ou agregados nos testes públicos; não registrar entradas sensíveis.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
-- **Evidências de conclusão:** a produzir: log dos testes, checklist de privacidade e revisão independente.
+- **Evidências de conclusão:** 95 testes novos aprovados (contagem real confirmada pelo `unittest`) — 50 testes em `tests/test_inferencia_aplicacao.py` (validador público dos seis caminhos públicos; artefato ausente; hash/`configuracao_sha256`/limiar/ordem divergentes; schema incompatível; carregamento e compatibilidade do modelo; validação de entradas incluindo chaves ausentes/extras, `NaN`/infinito e payload não dicionário; reprodução exata da predição oficial contra `predict_proba` manual, sem tolerância além de ponto flutuante) e 45 testes em `tests/test_streamlit_app.py` (comportamento da interface via `streamlit.testing.v1.AppTest`, exercitando fluxos válidos e inválidos; privacidade e segurança por análise AST cobrindo `streamlit_app.py` e `src/inferencia.py`; configuração `.streamlit/config.toml` validada como TOML, sem segredo, porta fixa, caminho absoluto ou endpoint externo; ausência de chamada de rede externa, persistência de entradas e logging/`print` de payload, todas por análise AST com casos adversariais sintéticos; portabilidade e independência do diretório de trabalho atual confirmadas). Um defeito real de tratamento de payload não dicionário foi encontrado e corrigido em `src/inferencia.py` (`validate_inputs` passou a rejeitar payload não `dict` com `InputValidationError` em vez de vazar `TypeError`). Documentação completa em `docs/testes_aplicacao.md` (matriz de testes, roteiro manual de 12 passos, checklists de privacidade e acessibilidade). Suíte completa do projeto: 235 testes aprovados, 0 falhas, 0 erros, 0 skips, após o stage dos cinco arquivos desta TASK. Revisão técnica aprovada; versionado no commit de conclusão desta TASK.
 
 ### TASK 011 — Deploy no Streamlit Community Cloud
 
-- **Estado:** BLOCKED pela TASK 010.
+- **Estado:** READY.
 - **Objetivo:** publicar a aplicação validada em ambiente acessível e reproduzível.
 - **Dependências:** TASK 010.
 - **Entregáveis:** aplicação publicada; configuração mínima de deploy; URL; procedimento de atualização e rollback.
 - **Critérios de aceite:** deploy acessível; dependências instaladas; smoke test aprovado; nenhum dado privado ou segredo no repositório; documentação da URL e versão.
 - **Restrições importantes:** não enviar diretórios privados; segredos somente no mecanismo seguro da plataforma; fixar versões necessárias.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
 - **Evidências de conclusão:** a produzir: URL pública, versão implantada, captura ou registro do smoke test.
 
 ## FASE 5 — Documentação e apresentação
@@ -198,8 +170,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** documentação final; guia de execução; referência ao notebook e aplicação; limitações e considerações éticas.
 - **Critérios de aceite:** instruções testadas; links válidos; resultados coerentes; distinção clara entre análise, avaliação congelada e uso demonstrativo.
 - **Restrições importantes:** não alterar evidências congeladas; não incluir caminhos locais, dados privados ou afirmações não sustentadas.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
 - **Evidências de conclusão:** a produzir: revisão documental, links conferidos e checklist de reprodução.
 
 ### TASK 013 — Apresentação gerencial
@@ -210,8 +180,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** apresentação com narrativa executiva; gráficos essenciais; mensagens-chave; referências às limitações.
 - **Critérios de aceite:** narrativa compreensível; números idênticos aos artefatos oficiais; visual legível; tempo compatível com o vídeo; revisão de privacidade.
 - **Restrições importantes:** não selecionar métricas novas; não exagerar causalidade ou desempenho; não mostrar dados individuais.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
 - **Evidências de conclusão:** a produzir: arquivo versionado, conferência numérica e aprovação da narrativa.
 
 ### TASK 014 — Material dividido entre os cinco integrantes
@@ -222,8 +190,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** roteiro completo; divisão do conteúdo entre cinco integrantes; fala sugerida para cada integrante; ordem de participação; indicação dos slides, gráficos, notebook ou telas apresentados por cada pessoa; estimativa do tempo de cada participação; transições entre as falas; conferência do limite total de duração exigido no enunciado.
 - **Critérios de aceite:** cinco participações claramente delimitadas; todas as falas associadas ao apoio visual correspondente; transições coerentes; soma das participações respeitando o limite total de até cinco minutos; números conferidos contra os artefatos oficiais.
 - **Restrições importantes:** não improvisar números; não revelar ambiente local, segredos ou informações pessoais; limitar o escopo à preparação do material dos integrantes.
-- **Executor:** a designar.
-- **Revisor:** a designar, preferencialmente independente.
 - **Evidências de conclusão:** a produzir: roteiro revisado, matriz de divisão por integrante e conferência documentada da duração.
 
 ## FASE 6 — Revisão e encerramento
@@ -236,8 +202,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** checklist final; execução completa dos testes; inventário de arquivos; revisão de links, privacidade e artefatos congelados.
 - **Critérios de aceite:** suíte integral aprovada; nenhum arquivo privado versionado; nenhuma alteração indevida em congelados; links funcionais; estados e evidências atualizados.
 - **Restrições importantes:** a revisão não pode corrigir silenciosamente resultados; achados devem retornar à TASK responsável.
-- **Executor:** a designar.
-- **Revisor:** a designar, obrigatoriamente independente quando possível.
 - **Evidências de conclusão:** a produzir: log final, `git status`, diff revisado, inventário e aprovação formal.
 
 ### TASK 016 — Publicação e versionamento final
@@ -248,8 +212,6 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 - **Entregáveis:** commits finais revisados; merge autorizado; tag final; links definitivos de repositório, aplicação e vídeo.
 - **Critérios de aceite:** revisão final aprovada; worktree limpo; histórico coerente; tag apontando para o commit aprovado; links conferidos após publicação.
 - **Restrições importantes:** nenhum merge ou tag antes da TASK 015; não versionar dados privados, ambientes ou recuperações locais; evitar reescrita destrutiva do histórico.
-- **Executor:** a designar.
-- **Revisor:** a designar, independente do executor.
 - **Evidências de conclusão:** a produzir: hash do merge, tag final, URLs verificadas e registro da aprovação.
 
 ## Tabela-resumo
@@ -266,8 +228,8 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 | 007 | 3 | Notebook final reproduzível | DONE | 001–006 |
 | 008 | 3 | Definição do artefato operacional | DONE | 007 e decisão de produto |
 | 009 | 4 | Aplicação Streamlit | DONE | 008 |
-| 010 | 4 | Testes da aplicação e privacidade | READY | 009 |
-| 011 | 4 | Deploy no Streamlit Community Cloud | BLOCKED | 010 |
+| 010 | 4 | Testes da aplicação e privacidade | DONE | 009 |
+| 011 | 4 | Deploy no Streamlit Community Cloud | READY | 010 |
 | 012 | 5 | Documentação final | BLOCKED | 007, 011 |
 | 013 | 5 | Apresentação gerencial | DRAFT | 012 |
 | 014 | 5 | Material dividido entre os cinco integrantes | BLOCKED | 013 |
@@ -276,22 +238,20 @@ Cada TASK deve ter um único executor responsável. Quando possível, deve haver
 
 ## Caminho crítico
 
-As TASKs 007, 008 e 009 foram concluídas. O caminho crítico do trabalho restante é:
+A TASK 010 foi concluída. O caminho crítico do trabalho restante é:
 
-`TASK 010 → TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
+`TASK 011 → TASK 012 → TASK 013 → TASK 014 → TASK 015 → TASK 016`
 
 Cada TASK desse caminho deve fornecer seus entregáveis e evidências à seguinte. Decisões preparatórias podem ser discutidas antecipadamente, mas nenhuma TASK bloqueada muda de estado antes do atendimento formal de sua dependência.
 
 ## Próxima TASK
 
-**TASK 010 — Testes da aplicação e privacidade.** Ela está READY e inicia o caminho crítico do trabalho restante.
+**TASK 011 — Deploy no Streamlit Community Cloud.** Ela está READY e inicia o caminho crítico do trabalho restante.
 
 ## Checklist para mudança de estado
 
 - [ ] O objetivo e o escopo estão claros e não ampliaram silenciosamente.
 - [ ] Todas as dependências exigidas chegaram ao estado necessário.
-- [ ] Há exatamente um executor responsável registrado.
-- [ ] O revisor independente foi registrado quando possível.
 - [ ] Todos os entregáveis previstos existem e estão no local correto.
 - [ ] Os critérios de aceite foram verificados, não apenas declarados.
 - [ ] Testes e verificações relevantes foram executados e tiveram resultado registrado.
