@@ -1,12 +1,11 @@
 # Auditoria de fórmulas institucionais — calculadoras de indicadores
 
-Revisão de 25/09/2026 (rodada de correção). **Substitui integralmente** a
-versão anterior deste documento: a auditoria de 25/09/2026 (primeira rodada)
-classificou IDA, IEG, IAA, IPS, IPP e IPV como não reproduzíveis a partir de
-`DATATHON/PEDE_ Pontos importantes.docx`, mas essa leitura foi incompleta —
-o texto plano do documento não foi cruzado com as **imagens/tabelas
+Revisão de 25/09/2026. Uma primeira leitura de
+`DATATHON/PEDE_ Pontos importantes.docx` havia classificado IDA, IEG, IAA,
+IPS, IPP e IPV como não reproduzíveis, mas essa leitura foi incompleta — o
+texto plano do documento não foi cruzado com as **imagens/tabelas
 incorporadas** (`word/media/imageN.png`), que contêm as fórmulas e escalas
-completas para vários indicadores. Esta rodada releu o arquivo por completo
+completas para vários indicadores. Esta revisão releu o arquivo por completo
 — texto (via `python-docx`) e as 10 imagens incorporadas, uma a uma — e
 corrige o veredito onde a evidência visual estava disponível e era
 inequívoca.
@@ -18,13 +17,13 @@ sete campos em `inferencia.FEATURES`). Uma calculadora só é implementada
 quando o valor calculado é exatamente o que o modelo já espera naquele
 campo — nunca um oitavo campo novo.
 
-## Fontes consultadas nesta rodada
+## Fontes consultadas nesta revisão
 
 - `DATATHON/PEDE_ Pontos importantes.docx` — texto integral (`python-docx`,
   todos os parágrafos não vazios) **e as 10 imagens incorporadas**
   (`word/media/image1.png` a `image10.png`), extraídas do pacote OOXML e
-  inspecionadas visualmente uma a uma nesta rodada.
-- `DATATHON/Dicionário Dados Datathon.pdf` (já lido em rodada anterior).
+  inspecionadas visualmente uma a uma nesta revisão.
+- `DATATHON/Dicionário Dados Datathon.pdf` (já lido em revisão anterior).
 - `docs/evidencias_documentais.md`, `docs/mapa_campos.md`,
   `docs/contrato_metodologico.md` (contexto e domínio oficial dos sete
   preditores).
@@ -37,7 +36,7 @@ campo — nunca um oitavo campo novo.
   confirmado com o exemplo da linha 280/2024: fase efetiva 2, fase ideal 3,
   D = −1).
 - **Reproduzível:** sim — já implementada (`calcular_defasagem`), sem
-  alteração de lógica nesta rodada.
+  alteração de lógica nesta revisão.
 - **Observação corrigida:** a fase ideal usada no cálculo deve vir do
   registro institucional ou de confirmação humana — nunca ser derivada
   silenciosamente da idade (ver seção "Idade e fase ideal" abaixo).
@@ -48,7 +47,7 @@ campo — nunca um oitavo campo novo.
   −2≤D<0 → 5 (Moderada); D<−2 → 2,5 (Severa).
 - **Reproduzível:** sim — já implementada (`ian_pela_defasagem`), idêntica à
   regra em `src/dados_pede.py:expected_ian_value`. Sem alteração de lógica
-  nesta rodada; passa a ser exibida sistematicamente junto da defasagem no
+  nesta revisão; passa a ser exibida sistematicamente junto da defasagem no
   formulário (situação + valor do IAN), sempre como informação educacional,
   nunca como oitavo preditor.
 
@@ -80,7 +79,7 @@ campo — nunca um oitavo campo novo.
   ficha, já que `fase_origem` só aceita "0"–"7".
 - **Reproduzível:** sim, para fases 0–7, com as três notas informadas
   diretamente pelo usuário (nunca reconstruída a partir da base histórica,
-  onde a cobertura de Inglês é majoritariamente ausente — ver rodada
+  onde a cobertura de Inglês é majoritariamente ausente — ver revisão
   anterior). A calculadora não afirma reproduzir o IDA histórico de nenhum
   estudante da base; é uma ferramenta de apoio ao preenchimento de um caso
   novo, a partir de três notas que o próprio usuário fornece.
@@ -103,7 +102,7 @@ campo — nunca um oitavo campo novo.
 ### IAA — Indicador de Autoavaliação
 
 - **Fonte:** Tabela 40 (`image7.png`) + Figura 10 (`image9.png`) —
-  **corrige o veredito da rodada anterior**. A tabela documenta, de forma
+  **corrige o veredito da revisão anterior**. A tabela documenta, de forma
   completa e fechada: exatamente 6 perguntas fixas; 4 alternativas
   possíveis por pergunta (A/B/C/D, com pictogramas); valor em pontos de
   cada alternativa, **diferente conforme o grupo de fases** (Fases 0 a 2:
@@ -159,7 +158,7 @@ campo — nunca um oitavo campo novo.
   Figura 3 (`image3.png`) apresenta as faixas como um gráfico de barras
   (3,0–6,1–7,2–8,2–9,4), sem notação explícita de inclusão/exclusão nas
   fronteiras (não há "≥"/"<" no gráfico, ao contrário da Tabela 41 do IAN).
-  A auditoria de rodada anterior também já havia registrado divergência
+  A auditoria de revisão anterior também já havia registrado divergência
   entre esta figura e a faixa de Pedra do Dicionário de Dados. Sem
   confirmação inequívoca dos limites, a aplicação **não classifica** o INDE
   calculado em nenhuma Pedra — mostra apenas o valor numérico, com nota
@@ -171,7 +170,7 @@ campo — nunca um oitavo campo novo.
 
 ## Resumo das classificações (corrigido)
 
-| Indicador | Classificação | Calculadora implementada nesta rodada |
+| Indicador | Classificação | Calculadora implementada nesta revisão |
 | --- | --- | --- |
 | Defasagem | FÓRMULA OFICIAL CONFIRMADA | Já existia (mantida) |
 | IAN | FÓRMULA OFICIAL CONFIRMADA | Já existia (mantida) |
@@ -188,7 +187,7 @@ campo — nunca um oitavo campo novo.
 
 ## Por que nenhuma fórmula foi inventada
 
-Toda fórmula implementada nesta rodada (defasagem, IAN, IDA, IAA, INDE) tem
+Toda fórmula implementada nesta revisão (defasagem, IAN, IDA, IAA, INDE) tem
 uma citação direta a um texto ou tabela/imagem específica do documento
 fonte, com os valores exatos reproduzidos sem arredondamento adicional,
 sem peso presumido e sem substituição de dado ausente. Onde a fonte não

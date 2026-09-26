@@ -4,7 +4,7 @@
 
 Esta revisão cria uma camada pública independente para responder literalmente
 às 11 perguntas do PDF do Datathon. Os artefatos históricos permanecem
-intactos nesta rodada, mas não são consumidos pela aplicação nem pelo notebook
+intactos nesta revisão, mas não são consumidos pela aplicação nem pelo notebook
 público.
 
 ## Regra de privacidade
@@ -81,16 +81,16 @@ Cada item de `perguntas` contém: `numero`, `topico`, `pergunta`, `status`,
 `como_interpretar`, `observamos`, `significado`, `uso_ong`, `limites`,
 `populacao_periodo` e `fonte_exata`.
 
-## Limite desta rodada
+## Limite desta revisão
 
 Os artefatos históricos rastreados ainda existem na árvore do repositório e no
 histórico remoto. Portanto, a criação desta camada não encerra a remediação do
 repositório público. A retirada ou substituição dos arquivos históricos será
 objeto da próxima revisão autorizada.
 
-## Auditoria de divulgação conjunta (24/09/2026)
+## Auditoria de divulgação conjunta
 
-Uma auditoria comparativa independente recomendou, entre outros pontos,
+Uma auditoria comparativa recomendou, entre outros pontos,
 confirmar formalmente que nenhuma combinação de números publicados nas 11
 perguntas permite reconstruir uma célula suprimida. Duas células estão
 suprimidas hoje: a divisão exata do grupo "com defasagem" de 2024 entre

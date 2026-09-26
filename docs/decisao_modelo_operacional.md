@@ -63,7 +63,7 @@ histórico não faz parte do escopo autorizado desta TASK.
 - Reduz risco metodológico e operacional: retreinar agora, sem um processo de
   validação equivalente ao já realizado (seleção apenas no desenvolvimento,
   congelamento antes do teste, avaliação temporal única), reabriria decisões
-  já encerradas e exigiria nova rodada completa de validação antes de poder
+  já encerradas e exigiria nova revisão completa de validação antes de poder
   ser usado com a mesma confiança.
 
 ## 4. Artefatos oficiais
@@ -437,7 +437,7 @@ em documentação técnica), as limitações já registradas na avaliação ofic
 - **Retreinamento final com as duas transições rotuladas** (a opção
   originalmente prevista no [contrato metodológico](contrato_metodologico.md)
   e no [registro de decisões](registro_decisoes.md) de 17/09/2026). **Não
-  adotada nesta entrega** porque exigiria uma nova rodada completa de
+  adotada nesta entrega** porque exigiria uma nova revisão completa de
   validação (nova seleção, novo congelamento, e — para manter o mesmo padrão
   metodológico do projeto — um novo horizonte de avaliação, já que não
   restaria um terceiro ano reservado para testar esse novo artefato sem

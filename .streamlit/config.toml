@@ -1,5 +1,5 @@
-# Configuração da aplicação pública (TASK 009). Nenhuma porta é fixada aqui
-# (o Community Cloud e o smoke test local definem a porta externamente).
+# Configuração da aplicação pública. Nenhuma porta é fixada aqui (o
+# Community Cloud e o smoke test local definem a porta externamente).
 
 [browser]
 # Desativa o envio de estatísticas de uso do Streamlit para terceiros.

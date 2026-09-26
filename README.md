@@ -1,43 +1,60 @@
 # Tech Challenge Fase 5 — Associação Passos Mágicos
 
-Grupo: Victor, Jonatas, Izadora, Laura e Lucas.
+Grupo: Victor, Jônatas, Izadora, Laura e Lucas.
 
-## Estado do projeto
+## Sobre o projeto
 
-Auditoria corrigida e primeira base longitudinal conservadora dos anos 2022–2024,
-usando somente `DATATHON/BASE DE DADOS PEDE 2024 - DATATHON.xlsx`.
-O [contrato metodológico](docs/contrato_metodologico.md) está aprovado e a
-[preparação das coortes](reports/relatorio_coortes_modelagem.md) está concluída.
-A modelagem preditiva está implementada, com seleção exclusiva em 2022→2023,
-congelamento e avaliação temporal única em 2023→2024. Consulte o
-[relatório de modelagem](reports/relatorio_modelagem.md) e a
-[configuração congelada](artifacts/configuracao_congelada.json).
-O [status do projeto](docs/status_projeto.md)
-reúne o marco concluído, as pendências e as instruções para continuidade pelo grupo.
-O modelo avaliado foi treinado somente em 2022→2023. O modelo operacional,
-a aplicação, a apresentação e a publicação permanecem para etapas posteriores.
+A Associação Passos Mágicos atua na transformação da vida de crianças e
+jovens em situação de vulnerabilidade social por meio da educação. Todos os
+anos, a instituição aplica o PEDE (Pesquisa Extensiva do Desenvolvimento
+Educacional), uma avaliação multidimensional dos estudantes atendidos — que
+reúne indicadores de aprendizagem, engajamento, autoavaliação, aspectos
+psicossociais e trajetória escolar.
 
-Resultados e pendências: [relatório de preparação](reports/relatorio_preparacao_inicial.md).
-Evidência das verificações: [verificação final](reports/verificacao_final.md).
-O enunciado completo e as evidências de leitura textual/visual estão documentados em
-[evidências documentais](docs/evidencias_documentais.md). Os requisitos finais incluem
-notebook preditivo, GitHub, apresentação, Streamlit Community Cloud
-e vídeo de até cinco minutos; essas entregas ficam para rodadas posteriores.
+Este projeto parte da base do PEDE de 2022 a 2024 para responder onze
+perguntas de negócio sobre a trajetória dos estudantes e treinar um modelo
+que estima o risco de um(a) estudante entrar em defasagem escolar no ano
+seguinte, a partir de sete indicadores já usados pela instituição. O
+resultado é entregue em três formatos complementares:
 
-As [11 análises de negócio](reports/relatorio_analises_negocio.md) estão concluídas,
-com [métricas agregadas](reports/metricas_analises_negocio.json) e dez figuras em
-`reports/figures/`. Reutilizam a base longitudinal e as junções validadas,
-preservam ausências e suprimem grupos pequenos. A seção preditiva lê os
-artefatos oficiais; não treina nem reavalia o modelo.
+- um **notebook** que apresenta a metodologia, os resultados e as
+  limitações de forma reproduzível, sem tocar em dados privados;
+- uma **aplicação Streamlit** para o dia a dia da equipe pedagógica, com um
+  panorama das onze perguntas respondidas e uma ficha para avaliar um caso
+  individual;
+- um **relatório sobre o modelo e suas limitações**, em HTML/PDF, para
+  consulta da equipe e apoio à apresentação.
 
-## Execução reproduzível
+A aplicação está publicada em
+**[datathon-fase5-grupo44.streamlit.app](https://datathon-fase5-grupo44.streamlit.app)**.
 
-Requer Python 3.12 e os originais locais. A pasta `DATATHON/` não é distribuída no Git.
+## Como rodar localmente
+
+Requer Python 3.12. Os arquivos originais da base (`DATATHON/`) não são
+distribuídos neste repositório — sem eles, os passos de auditoria e
+preparação abaixo não têm o que ler, mas o notebook, a aplicação e o
+relatório do modelo funcionam normalmente a partir dos artefatos já
+publicados.
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
 .\.venv\Scripts\python.exe -m unittest discover -s tests -p "test_*.py" -v
+```
+
+No Linux/macOS, use `.venv/bin/python` no lugar de
+`.\.venv\Scripts\python.exe`.
+
+Para abrir a aplicação:
+
+```powershell
+.\.venv\Scripts\python.exe -m streamlit run streamlit_app.py
+```
+
+Para reproduzir a auditoria e a preparação dos dados a partir dos
+originais (exige `DATATHON/` local):
+
+```powershell
 .\.venv\Scripts\python.exe src/auditoria_inicial.py
 .\.venv\Scripts\python.exe src/preparacao_longitudinal.py
 .\.venv\Scripts\python.exe src/preparacao_coortes.py
@@ -46,84 +63,35 @@ python -m venv .venv
 .\.venv\Scripts\python.exe src/verificar_entrega.py
 ```
 
-Execute a partir da raiz do projeto. No Linux/macOS, use `.venv/bin/python`
-no lugar de `.\.venv\Scripts\python.exe`. A preparação é independente da execução
-prévia da auditoria. As coortes consomem a base longitudinal já preparada;
-a verificação final confere preparação e modelagem: use a ordem acima.
+Execute a partir da raiz do projeto, nessa ordem: a preparação consome a
+base longitudinal já auditada, e a modelagem consome as coortes já
+preparadas. O script de modelagem treina e seleciona o modelo apenas sobre
+os dados de 2022→2023; a avaliação sobre 2023→2024 acontece uma única vez
+e fica registrada — rodar de novo apenas confere os resultados já
+gravados, sem reabrir a escolha do modelo ou do limiar.
 
-Na primeira execução de modelagem, o script compara quatro modelos com cinco
-folds estratificados, escolhe o limiar OOF com recall mínimo de 80%, grava o
-congelamento, ajusta o modelo e abre o teste temporal. `--somente-desenvolvimento`
-permite encerrar após o congelamento, antes de abrir o teste. Uma vez registrada
-a avaliação, novas execuções apenas verificam hashes e resultados existentes;
-não selecionam nem avaliam novamente. Uma avaliação interrompida fica bloqueada
-para investigação, sem repetição automática. Não remova os registros de
-congelamento ou abertura para escolher outro modelo após conhecer o teste.
+## O que tem em cada pasta
 
-O schema exige as sete colunas na ordem documentada. O pipeline persistido
-recebe DataFrame, retorna probabilidades e usa o limiar do schema para classificar
-risco. Os arquivos privados de probabilidades OOF, sensibilidade e teste ficam
-em `local_data/modelagem/`. Apenas parâmetros treinados e resultados agregados
-são públicos. As versões utilizadas estão fixadas em `requirements.txt`.
-
-Cada execução de auditoria/preparação longitudinal/coortes cria uma cópia datada somente das saídas
-que serão regeneradas, em `local_recovery/`. Isso inclui as saídas individuais
-locais, quando existentes. Não copia `.venv` nem os originais de `DATATHON/`.
-
-A integridade atual compara os hashes antes/depois da execução e verifica as
-saídas e documentos manuais pelos metadados. A comparação histórica é opcional:
-usa `historical_baseline`, transportado nos metadados, e indica “não disponível”
-quando não há baseline. Nenhuma pasta histórica de recuperação é necessária.
-Após clonar o projeto, disponibilize os originais em `DATATHON/`, instale as
-dependências e execute os comandos acima para regenerar os dados locais.
-
-Os comandos registrados nos relatórios usam a forma portátil `python src/arquivo.py`;
-os metadados públicos usam caminhos relativos e `working_directory` igual a `.`.
-
-Os scripts somente leem `DATATHON`. Registram data/hora UTC real, comando,
-versões, hashes de fontes, código, testes e saídas; comparam fontes antes/depois
-e, separadamente, o inventário da execução anterior. Nenhum comando faz commit ou push.
-
-## Estrutura e saídas
-
-| Caminho | Conteúdo |
+| Pasta | Conteúdo |
 | --- | --- |
-| `src/dados_pede.py` | Leitura com tipo Excel e linha física, classificação de conteúdo, extração de fases e derivações conservadoras compartilhadas. |
-| `src/auditoria_inicial.py` | Auditoria de todas as linhas/colunas, indicadores, cadastro e transições por RA. |
-| `src/preparacao_longitudinal.py` | Grava base individual e relê fonte/saídas para validar a correspondência integral. |
-| `src/preparacao_coortes.py` | Prepara as duas transições temporais, separa X/y da auditoria privada e valida elegibilidade, contagens e saídas. |
-| `src/modelagem.py` | Seleção OOF, congelamento, persistência do modelo avaliado, limiar e avaliação temporal com bootstrap e robustez. |
-| `src/relatorio_modelagem.py` | Relatório agregado e curvas de precisão-recall e calibração. |
-| `tests/test_modelagem_regressao.py` | Separação temporal, schema, imputação, OOF, limiar, persistência, privacidade e integração sintética. |
-| `artifacts/configuracao_congelada.json` | Configuração e métricas de decisão registradas antes da abertura do teste; hash canônico. |
-| `artifacts/modelo_avaliado.joblib` e `artifacts/schema_modelo.json` | Pipeline treinado somente em 2022→2023 e contrato de entrada/limiar. |
-| `artifacts/avaliacao_temporal.json` | Registro de abertura única e integridade das saídas. |
-| `reports/relatorio_modelagem.md`, `reports/metricas_modelagem.json` e `reports/curvas_modelagem.png` | Avaliação, intervalos, análises agregadas, interpretabilidade e limitações. |
-| `src/analises_negocio.py` e `src/relatorio_analises.py` | Cálculos observacionais, relatório das 11 perguntas e dez figuras agregadas. |
-| `tests/test_analises_negocio.py` | Regressões de ausências, junções, denominadores, privacidade, determinismo e integridade dos artefatos. |
-| `src/rastreabilidade.py` | Cópia de recuperação, inventários, hashes e proteção contra versionamento de dados individuais. |
-| `src/relatorios_preparacao.py` | Mapa e relatórios agregados regeneráveis. |
-| `src/verificar_entrega.py` | Executa testes e confere hashes, registros, arquivos serializados e exclusões do Git; produz evidência final. |
-| `tests/test_auditoria_regressao.py` | Quatro testes existentes preservados. |
-| `tests/test_preparacao_regressao.py` | Regressões sobre códigos, erros Excel, tipos após 20 linhas, datas, duplicidades, junções e linha original. |
-| `tests/test_portabilidade_regressao.py` | Execução sem recuperação histórica, caminhos públicos, RA fora da primeira coluna, fases de origem e documentos manuais. |
-| `tests/test_coortes_regressao.py` | Alvo, ausências, fases, proteção de X, separação temporal, serialização e referências na fonte real quando disponível. |
-| `local_data/base_longitudinal.jsonl` | Base completa: valores originais, tipos de cada célula, derivados, qualidade e procedência. Um objeto por registro anual. |
-| `local_data/base_longitudinal.csv` | Visão plana derivada. O bloco completo de originais permanece no JSONL. |
-| `local_data/auditoria/` | Detalhes individuais de células, cadastro e transições, além do resumo agregado em JSON. |
-| `local_data/coorte_{desenvolvimento,teste_temporal}.csv` | Sete preditores e y, somente transições supervisionadas, sem identificadores. |
-| `local_data/X_{desenvolvimento,teste_temporal}.csv` e `local_data/y_{desenvolvimento,teste_temporal}.csv` | Matrizes X e alvos y separados, alinhados por posição, sem índice exportado. |
-| `local_data/coortes_modelagem.jsonl` | Elegíveis na origem, inclusive alvo desconhecido; blocos separados de chave privada, X, y e metadados de auditoria. |
-| `reports/relatorio_coortes_modelagem.md` | Fluxos, exclusões, cobertura, distribuição do alvo e validações agregadas. |
-| `reports/metadados_coortes.json` | Schema, critérios, contagens e hashes de entradas, saídas, fontes, código e documentos. |
-| `docs/mapa_campos.md` | Mapa de todas as colunas por ano/posição e dicionário dos campos preparados. |
-| `reports/relatorio_auditoria_inicial.md` | Auditoria agregada corrigida. |
-| `reports/relatorio_preparacao_inicial.md` | Resultado da preparação, contagens de qualidade, validações e pendências. |
-| `artifacts_meta.json` | Metadados agregados da auditoria. |
-| `reports/metadados_preparacao.json` | Metadados agregados da preparação; exceção explícita ao ignore de JSON em reports. |
-| `reports/verificacao_final.md` | Resultado efetivo dos testes e das verificações após geração. |
+| `src/` | Todo o código: preparação dos dados, modelagem, análises de negócio, ficha individual e a lógica da aplicação. |
+| `streamlit_app.py` | A aplicação (interface e navegação; a lógica fica em `src/`). |
+| `notebooks/` | O notebook público, que lê só a camada de dados agregados em `reports/public/`. |
+| `artifacts/` | O modelo treinado, seu schema e a configuração congelada no fim da avaliação. |
+| `config/` | A configuração do ponto de atenção usado hoje pela aplicação (ver abaixo). |
+| `reports/` | Relatórios e métricas — os agregados em `reports/public/` e `reports/figures/` são as fontes que a aplicação e o notebook usam; `reports/experimental/` guarda a análise que levou à decisão do ponto de atenção. |
+| `docs/` | Metodologia, decisões de projeto e o histórico de tarefas do grupo. |
+| `tests/` | Suíte de testes automatizados (516 testes na versão atual). |
+| `assets/` | Identidade visual usada na aplicação (logo e paleta da Associação Passos Mágicos). |
 
-## Leitura da base
+Os originais da base (`DATATHON/`) e as bases derivadas com identificação
+por estudante (`local_data/`, `local_recovery/`) não são versionados —
+tudo o que a aplicação e o notebook usam é agregado e público.
+
+## Trabalhando com os dados brutos (local_data/)
+
+Quem tiver `local_data/` localmente (gerado pelos passos de auditoria e
+preparação acima) pode ler a base completa assim:
 
 ```python
 import json
@@ -133,36 +101,64 @@ registros = [json.loads(linha) for linha in
              Path("local_data/base_longitudinal.jsonl").read_text(encoding="utf-8").splitlines()]
 ```
 
-O JSONL é a representação completa e conserva a diferença entre ausência (`null`)
-e zero. Datas originais usam ISO junto de seus tipos Excel/Python; o tipo não é
-inferido de novo a partir do texto. RA não deve ser convertido automaticamente em número.
+O JSONL é a representação completa e conserva a diferença entre ausência
+(`null`) e zero; datas originais mantêm seus tipos Excel/Python, sem
+reinterpretação a partir do texto. Nas coortes, os CSV não preservam tipos
+categóricos — para obter X com fase categórica e números anuláveis, use
+`supervised_matrices` de `src/preparacao_coortes.py` sobre os registros do
+JSONL filtrados por `metadados.coorte`.
 
-Nas coortes, os CSV não preservam tipos categóricos. Para obter X com fase
-categórica e números anuláveis, usar `supervised_matrices` de
-`src/preparacao_coortes.py` sobre os registros do JSONL filtrados por
-`metadados.coorte`. A função exclui y desconhecido e retorna X e y alinhados.
-Os CSV de X contêm exclusivamente IDA, IEG, IAA, IPS, IPV, fase e defasagem de
-origem; nenhuma chave de auditoria pertence a X. Ausências permanecem vazias
-no CSV e `null` no JSONL, sem imputação. Todos esses arquivos são privados.
+Algumas regras que a preparação dos dados segue, e que quem for auditar ou
+estender o projeto deve conhecer:
 
-## Regras de preservação e limites
+- Um registro por linha anual, mesmo quando algum indicador está
+  indisponível — nenhuma ligação por nome ou posição da linha, só por RA.
+- RA ausente, vazio ou duplicado é sinalizado, nunca descartado
+  silenciosamente.
+- O IPP não existe em 2022 — isso é estrutural, não um erro de leitura.
+  Valores como erro de Excel, "INCLUIR" ou espaço em branco preservam o
+  motivo da ausência; nunca viram zero.
+- Fases alfanuméricas são extraídas explicitamente; a Fase 9 não tem
+  significado atribuído.
+- Os oito indicadores ficam na faixa 0–10 sem corte nem arredondamento;
+  INDE, Pedra e idade não são "corrigidos" por suposição.
+- Quando não há observação no ano seguinte, o desfecho fica como
+  desconhecido — a auditoria é descritiva, e o recorte usado pelo modelo
+  está definido em `docs/contrato_metodologico.md`.
 
-- Um registro por linha anual, inclusive alunos com indicadores indisponíveis. Nenhuma ligação por nome ou posição da linha.
-- RA ausente/vazio e duplicado são sinalizados separadamente; duplicidade bloqueia junções, sem excluir registros silenciosamente.
-- IPP ausente em 2022 é estrutural. Erros Excel, INCLUIR, espaços e outros textos conservam os motivos de indisponibilidade; não recebem zero.
-- Fases alfanuméricas são extraídas explicitamente; números das séries entre parênteses são ignorados. Fase 9 permanece sem significado atribuído.
-- Defasagem registrada, diferença entre códigos de fase e IAN esperado são campos/testes separados. Equivalência curricular entre anos permanece pendente.
-- Faixa operacional 0–10 sinaliza os oito indicadores, sem cortar ou arredondar. INDE, pedras e idades não são corrigidos por suposição.
-- Ausência de observação futura gera desfecho desconhecido. As transições da auditoria são descritivas; o recorte do futuro modelo está definido no contrato metodológico.
-- `phase_origin_counts` conta todos os elegíveis; `phase_origin_found_counts` conta os encontrados no destino, sempre pela fase na origem.
-- Os documentos manuais têm hashes conferidos durante as execuções. O histórico de decisões foi mantido, com seção datada para o contrato aprovado; o contrato e o status registram a metodologia vigente e a continuidade.
-- Relatórios automáticos são identificados como regeneráveis. O registro substantivo de leitura visual fica separado em `docs/evidencias_documentais.md`.
-- Os antigos apontadores `documentacao_revisao.md`, `revisao_auditoria_gerada.md` e `registro_decisoes_gerado.md` foram arquivados em uma pasta datada de `local_recovery/` e deixaram de ser regenerados. Consulte diretamente o mapa, as evidências e os relatórios substantivos.
+## O modelo e o ponto de atenção
 
-`DATATHON/`, `local_data/`, `local_recovery/` e `.venv/` são ignoradas pelo Git. Os scripts
-verificam isso antes de gravar dados individuais. Documentos públicos contêm
-agregados, sem amostras de nomes, RAs ou datas completas de nascimento.
+O modelo foi treinado e avaliado uma única vez, sobre 2022→2023 para
+desenvolvimento e 2023→2024 para teste — sem repetir essa avaliação desde
+então. Os detalhes de treino, métricas e limitações estão em
+`reports/relatorio_modelagem.md` e no relatório
+`reports/relatorio_modelo_e_limitacoes.html` (também disponível em PDF).
 
-A revisão visual realizada em 15/09/2026 utilizou pypdfium2 5.13.0 e Pillow 12.3.0 para
-renderizar PDFs e inspecionar imagens. Essas dependências foram usadas na revisão
-documental; não são necessárias para executar auditoria, preparação ou testes.
+A aplicação usa esse mesmo modelo, sem retreinar nem recalibrar nada. A
+única mudança depois da avaliação original foi na **regra de decisão**:
+em vez do limiar que privilegiava sensibilidade nos dados de
+desenvolvimento, a aplicação passou a usar um ponto de corte com melhor
+equilíbrio entre acertar mais casos reais e não gerar alarmes demais —
+escolhido só com dados já conhecidos, nunca olhando o teste na hora de
+decidir. Essa decisão está registrada em
+`config/ponto_atencao_operacional.json`, com a trilha de análise completa
+em `reports/experimental/`. O ponto de corte original continua preservado
+e documentado, para quem quiser conferir a avaliação tal como ela foi
+feita.
+
+## Privacidade
+
+Nenhum dado individual (nome, RA, data de nascimento) é versionado neste
+repositório ou exibido pela aplicação. As análises publicadas usam apenas
+números agregados, com supressão de qualquer grupo menor que dez
+estudantes. A ficha individual da aplicação não salva, registra nem envia
+a nenhum serviço externo os dados que o(a) usuário(a) digita — eles
+existem só durante a sessão do navegador.
+
+## Mais detalhes
+
+- Metodologia e definição do problema: `docs/contrato_metodologico.md`
+- Decisão de uso do modelo pela aplicação: `docs/decisao_modelo_operacional.md`
+- Identidade visual: `docs/identidade_visual.md`
+- Roteiro de testes da aplicação: `docs/testes_aplicacao.md`
+- Histórico de tarefas do grupo: `docs/TASKS.md`

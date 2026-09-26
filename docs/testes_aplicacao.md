@@ -1,17 +1,16 @@
-# Testes da aplicação e privacidade (TASK 010, ampliado nas subetapas de
-aprimoramento da interface anteriores à TASK 011)
+# Testes da aplicação e privacidade
 
-Documento da TASK 010 (FASE 4 do plano em [TASKS.md](TASKS.md)), ampliado em
-subetapas locais sucessivas: (a) reorganização da interface em cinco áreas,
-com linguagem para professores(as) e profissionais da ONG; (b) storytelling
-institucional e painel "Panorama e resultados" (ETAPA B), com as 11
+Este documento descreve a suíte de testes da aplicação e como ela evoluiu
+junto com a interface: (a) reorganização da interface em áreas com
+linguagem para professores(as) e profissionais da ONG; (b) storytelling
+institucional e painel "Panorama e resultados", com as 11
 perguntas de negócio, os dez gráficos oficiais e explicações sobre
 idade/notas/Pedras/Ponto de Virada; (c) ficha de acompanhamento em "Avaliar
-um caso" (calculadoras de defasagem/IAN, relatório em memória — 25/09/2026),
-que absorveu e removeu a antiga aba "Plano de acompanhamento"; (d) revisão
-de identidade visual (25/09/2026 — ver `docs/identidade_visual.md`): logo
-oficial, paleta clara/escura e reconstrução editorial da Início. A
-arquitetura final tem **cinco áreas**. Descreve a suíte automatizada criada
+um caso" (calculadoras de defasagem/IAN, relatório em memória), que
+absorveu e removeu a antiga aba "Plano de acompanhamento"; (d) identidade
+visual (ver `docs/identidade_visual.md`): logo oficial, paleta clara/escura
+e reconstrução editorial da Início. A arquitetura final tem **quatro
+áreas**. Descreve a suíte automatizada criada
 para `streamlit_app.py`, `src/inferencia.py` e `src/textos_aplicacao.py`, e o
 roteiro de validação manual complementar. Este documento não altera nenhum
 artefato congelado, nem o comportamento do modelo; apenas comprova, com
@@ -285,9 +284,8 @@ contagem real obtida via `unittest.TestLoader`, não estimada):
   limiar 0,2670 — não sinalizado); processo encerrado por completo; porta
   liberada; nenhum processo ou arquivo temporário residual.
 
-Contagens da correção pós-revisão independente (achados da revisão
-somente-leitura da ETAPA B, corrigidos nesta rodada; contagem real via
-`unittest.TestLoader`):
+Contagens depois de corrigir os achados da revisão somente-leitura da
+ETAPA B (contagem real via `unittest.TestLoader`):
 
 - `tests.test_streamlit_app` — **95/95 aprovados** (41 `AppTestBehaviorTests`
   + 28 `PanoramaTests` + 19 `PrivacyAndSecurityTests` + 7 `PortabilityTests`),
@@ -425,18 +423,18 @@ somente-leitura da ETAPA B, corrigidos nesta rodada; contagem real via
     cada um dos quatro capítulos e a inferência do exemplo sintético.
 
 Os itens 1 e 11 acima registram as contagens desta etapa no momento em que
-ela foi concluída; uma revisão independente somente-leitura, seguida de uma
-correção, ampliou a suíte — ver "Contagens da correção pós-revisão
-independente" na seção 9 e a seção 14 abaixo para as contagens atuais.
+ela foi concluída; uma revisão posterior encontrou pontos a corrigir e
+ampliou a suíte — ver a seção 9 e a seção 14 abaixo para as contagens
+atuais.
 
-## 14. Critérios para a correção pós-revisão independente
+## 14. Critérios da correção pós-revisão
 
-Uma revisão independente e somente-leitura da ETAPA B encontrou um achado
-bloqueante (referência textual a uma aba renomeada, visível em todo
-resultado de inferência abaixo do limiar) e achados importantes/menores
-(teste-placeholder tautológico, código morto, docstring desatualizada,
-lacuna de cobertura de portabilidade, imprecisão de conteúdo sobre o papel
-do IPV). Esta correção resolveu todos eles:
+Uma revisão da ETAPA B encontrou um achado bloqueante (referência textual
+a uma aba renomeada, visível em todo resultado de inferência abaixo do
+limiar) e achados importantes/menores (teste-placeholder tautológico,
+código morto, docstring desatualizada, lacuna de cobertura de
+portabilidade, imprecisão de conteúdo sobre o papel do IPV). A correção
+resolveu todos eles:
 
 1. `AVISO_ABAIXO_NAO_ELIMINA_RISCO` não referencia mais "Sobre o modelo";
    referencia "Modelo e limitações", a aba real. Coberto por teste que
@@ -564,15 +562,15 @@ do IPV). Esta correção resolveu todos eles:
    inalterados. Não houve `git add`, commit, push, deploy ou remoção de
    artefatos históricos rastreados.
 
-## 20. Implementação do plano da auditoria comparativa independente (24/09/2026)
+## 20. Comunicação e apresentação visual do panorama
 
-Uma auditoria comparativa independente (aplicação local vs. referência
-pública de terceiros, documentos oficiais e planilha-base) recomendou uma
-estratégia híbrida: manter a metodologia e a prudência estatística da
-aplicação local, incorporando a riqueza visual e a estrutura comunicacional
-da referência, sem copiar seus erros metodológicos (causalidade,
-circularidade, limiares não validados). O plano completo (itens Crítico +
-Importante + Desejável) foi avaliado e implementado nesta rodada.
+Uma comparação entre a aplicação local e referências públicas de terceiros
+(documentos oficiais e planilha-base) apontou uma estratégia híbrida: manter
+a metodologia e a prudência estatística da aplicação local, incorporando a
+riqueza visual e a estrutura comunicacional da referência, sem copiar seus
+erros metodológicos (causalidade, circularidade, limiares não validados).
+O plano completo (itens Crítico + Importante + Desejável) foi avaliado e
+implementado.
 
 **Achados da auditoria já satisfeitos sem alteração** (confirmados, não
 implementados de novo): supressão de 2024 sem `None` cru (Q1/Q6), 11
@@ -612,15 +610,15 @@ evidência → público → ação → prioridade → limitação.
    integral da pergunta 6 (IPP por categoria, 2024) exibia o texto literal
    "None" na tabela interativa (`st.dataframe`), embora o relatório em
    markdown já usasse um travessão — achado durante a inspeção visual em
-   Chromium real desta própria rodada. Corrigido (`None` → "—" só na cópia
+   Chromium real desta própria revisão. Corrigido (`None` → "—" só na cópia
    exibida, nunca na fonte); novo teste de regressão cobre as 11 perguntas,
    não somente a pergunta 6.
-5. Um novo teste (`test_item37...`, já existente da rodada anterior) e a
+5. Um novo teste (`test_item37...`, já existente da revisão anterior) e a
    separação executivo/técnico por pergunta (resposta, gráfico interativo e
    significado na visão principal; gráfico oficial, população e fonte exata
    no expander de detalhes técnicos) cobrem os itens "Importante" de
    separação de conteúdo.
-6. **Inspeção visual em Chromium real** desta rodada (reaproveitando
+6. **Inspeção visual em Chromium real** desta revisão (reaproveitando
    `scripts/validar_layout_publico.py`): confirmado, em 1.440 px e 390 px,
    ausência de overflow horizontal e ausência de botões cortados — a
    primeira execução após adicionar os gráficos Plotly encontrou botões da
@@ -628,14 +626,13 @@ evidência → público → ação → prioridade → limitação.
    isso). Captura adicional do cartão com gráfico interativo confirmou
    renderização correta (cores da paleta validada, legenda, rótulos de
    valor, tooltip) em `reports/validacao_visual_publica/`.
-7. **Itens do plano intencionalmente não implementados nesta rodada**, com
+7. **Itens do plano intencionalmente não implementados nesta revisão**, com
    justificativa: filtros dinâmicos com supressão automática (Desejável) —
    qualquer filtro que recombine categorias exige sua própria auditoria de
    privacidade antes de ir ao ar, o que é desproporcional para incluir sem
    revisão dedicada; teste de usabilidade com professores e equipe da ONG
-   (Desejável) — exige pessoas reais, fora do alcance de um agente
-   automatizado; ambos ficam como recomendação para uma rodada futura,
-   explicitamente autorizada para esse escopo.
+   (Desejável) — exige pessoas reais e não pode ser feito neste momento
+   do projeto; ambos ficam como recomendação para uma revisão futura.
 8. Novo arquivo de teste `tests/test_graficos_publicos.py` (7 testes):
    cobre as 11 perguntas produzindo figura válida, fidelidade dos valores
    plotados contra `principais_numeros`, ausência de número de negócio
@@ -650,12 +647,12 @@ evidência → público → ação → prioridade → limitação.
     skips, ~127-140 s (inclui execução real do notebook público via
     `nbclient`).
 11. Nenhum artefato oficial, modelo, limiar ou dado privado foi alterado.
-    Nenhum dos itens já aprovados nas rodadas anteriores (seis abas, quatro
+    Nenhum dos itens já aprovados nas revisões anteriores (seis abas, quatro
     capítulos, onze perguntas, onze gráficos oficiais, caminhos JSON,
     arredondamentos, formulário, sete preditores, inferência, hashes) foi
     modificado. Não houve `git add`, commit, push, merge, tag ou deploy.
 
-## 21. Ajustes finais restritos — Q1, faixa etária aproximada e ligação da Q9 (24/09/2026)
+## 21. Ajustes finais restritos — Q1, faixa etária aproximada e ligação da Q9
 
 1. **Q1 por sexo:** a agregação binária `sem defasagem` / `alguma
    defasagem` foi validada nas seis combinações sexo×ano. Todas as doze
@@ -687,9 +684,9 @@ evidência → público → ação → prioridade → limitação.
    botões ou gráfico por sexo cortados. As capturas atualizadas estão em
    `reports/validacao_visual_publica/`.
 
-## 22. Ficha de acompanhamento, identidade visual e calculadoras institucionais (25/09/2026)
+## 22. Ficha de acompanhamento, identidade visual e calculadoras institucionais
 
-Três rodadas sucessivas, todas preservando modelo, limiar, artefatos e os
+Três revisões sucessivas, todas preservando modelo, limiar, artefatos e os
 sete preditores oficiais (`inferencia.FEATURES`), sem alterar a aba
 "Panorama e resultados" nem as 11 perguntas de negócio:
 
@@ -700,7 +697,7 @@ sete preditores oficiais (`inferencia.FEATURES`), sem alterar a aba
 2. **Identidade visual da Associação Passos Mágicos** — logo oficial local
    (`assets/brand/`), paleta clara/escura extraída do logo e documentada
    (`docs/identidade_visual.md`), alternador nativo "Claro/Escuro", Início
-   reconstruída como abertura editorial. Corrigido nesta rodada um problema
+   reconstruída como abertura editorial. Corrigido nesta revisão um problema
    real de contraste no modo escuro (componentes nativos do Streamlit —
    `st.table`, rótulos de widget, `st.metric` — fixavam a cor de texto do
    modo claro). Suíte: **352/352**.
@@ -717,7 +714,7 @@ sete preditores oficiais (`inferencia.FEATURES`), sem alterar a aba
    `python -m unittest discover -s tests -p "test_*.py"`, com verificação
    linha a linha de que a soma dos 15 arquivos de teste bate com o total
    relatado pelo runner).
-4. **Ficha individual completa (rodada final)** — identificação, idade,
+4. **Ficha individual completa (revisão final)** — identificação, idade,
    sexo, fase atual e fase ideal confirmada passaram a ser obrigatórios;
    a defasagem é calculada como fase atual menos fase ideal e divergências
    com registro institucional exigem escolha explícita. IDA e IAA não

@@ -8,8 +8,8 @@ scikit-learn==1.9.1
 joblib==1.6.0
 matplotlib==3.11.2
 
-# Aplicação pública da TASK 009 (streamlit_app.py); usa exclusivamente o
-# modelo oficialmente avaliado, sem retreino ou recalibração.
+# Aplicação Streamlit (streamlit_app.py); usa exclusivamente o modelo
+# oficialmente avaliado, sem retreino ou recalibração.
 streamlit==1.64.0
 
 # Gráficos interativos do painel "Panorama e resultados", construídos em

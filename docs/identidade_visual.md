@@ -35,7 +35,7 @@ sublinhado, pequeno realce), nunca como superfície ampla nem como texto
 sobre fundo claro.
 
 A paleta categórica dos 11 gráficos Plotly (`src/graficos_publicos.py:CATEGORICAL`,
-já validada pela skill `dataviz` numa rodada anterior) **não foi alterada** —
+já validada pela skill `dataviz` numa revisão anterior) **não foi alterada** —
 só o fundo/grade/texto dos gráficos passam a acompanhar o modo claro/escuro
 selecionado (`graficos_publicos.aplicar_tema`).
 
@@ -48,9 +48,8 @@ segmented_control`, componente nativo, sem JavaScript) grava a escolha em
 `streamlit_app.py:_aplicar_estilo_visual()` injeta um pequeno bloco `:root {
 --pm-*: ...; }` com os valores da tabela acima para o modo atual, seguido do
 CSS estático de `assets/styles/app.css` (que só referencia essas variáveis,
-nunca cores fixas nas regras de tema). A preferência dura apenas a sessão
-(não é persistida em cookie, banco ou armazenamento local), conforme
-solicitado.
+nunca cores fixas nas regras de tema). A preferência dura apenas a sessão —
+não é persistida em cookie, banco ou armazenamento local.
 
 O logo tem fundo transparente; no modo escuro, é exibido sobre uma pequena
 superfície clara discreta (`--pm-logo-fundo`) para preservar a legibilidade

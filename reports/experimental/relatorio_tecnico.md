@@ -241,7 +241,7 @@ como recomendação para revisão humana, não como mudança automática.
   mesma usada para treinar o modelo — é usada apenas para audição de
   equidade, nunca como preditor.
 - Esta análise não avalia se retreinar o modelo (fora do escopo desta
-  rodada) produziria um resultado melhor do que qualquer recalibração ou
+  revisão) produziria um resultado melhor do que qualquer recalibração ou
   escolha de limiar.
 
 ## 11. Arquivos gerados
