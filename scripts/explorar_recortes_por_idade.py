@@ -1,5 +1,4 @@
-"""Achados exploratórios complementares por faixa etária (correção
-pós-auditoria comparativa, 24/09/2026).
+"""Achados exploratórios complementares por faixa etária.
 
 O campo `idade_numerico` tem inconsistência documentada (399/1.014 registros
 de 2023 trazem uma data, não um número — ver docs/mapa_campos.md). Em vez de
@@ -17,11 +16,12 @@ nascimento não estão disponíveis, então a idade real pode diferir em quase
 um ano da "idade aproximada", e um estudante perto de uma fronteira de faixa
 pode estar na faixa vizinha na idade real. A camada pública nunca chama o
 resultado de "idade" sozinho, sempre de "idade aproximada" ou "faixa etária
-aproximada" (correção pós-auditoria comparativa, rodada 3, 24/09/2026).
+aproximada".
 
 Reaproveita as MESMAS funções de privacidade já aprovadas e congeladas em
-src/analises_negocio.py — não modifica esse arquivo nem o artefato interno
-congelado. Resultado não é congelado; reportado como achado exploratório.
+src/analises_negocio.py — não modifica esse arquivo nem o registro interno
+congelado da análise. Resultado não é congelado; reportado como achado
+exploratório.
 
 Uso: `python scripts/explorar_recortes_por_idade.py [caminho_saida.json]`
 """

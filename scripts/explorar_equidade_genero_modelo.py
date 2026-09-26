@@ -1,7 +1,7 @@
-"""Auditoria de equidade do modelo por gênero e por faixa etária aproximada (correção
-pós-auditoria comparativa, rodada 3, 24/09/2026): tenta a ligação
-metodologicamente correta entre as predições do teste temporal e o
-gênero/idade do estudante, com auditoria explícita da chave de ligação.
+"""Auditoria de equidade do modelo por gênero e por faixa etária aproximada:
+tenta a ligação metodologicamente correta entre as predições do teste
+temporal e o gênero/idade do estudante, com auditoria explícita da chave
+de ligação.
 
 O artefato oficial (reports/metricas_modelagem.json, robustez.equidade_genero)
 registra "indisponível" porque as COORTES em formato tabular (CSV/X, y)
@@ -11,7 +11,7 @@ auditoria (ver docs do próprio pipeline) — o mesmo padrão que
 `src/modelagem.py` usa internamente (`pd.DataFrame([r["X"] for r in rows],
 columns=FEATURES)`) para reconstruir X a partir do JSONL.
 
-CHAVE DE LIGAÇÃO — auditoria explícita (item 3 da rodada 3 de correção):
+CHAVE DE LIGAÇÃO — auditoria explícita:
 um mesmo RA pode aparecer em mais de um ano em `local_data/
 base_longitudinal.csv` (um registro por ano letivo por estudante), e uma
 auditoria a essa própria base encontrou 12 RAs com `genero_padronizado`

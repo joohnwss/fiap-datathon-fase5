@@ -1,6 +1,7 @@
 import hashlib
 import importlib.util
 import json
+import subprocess
 import sys
 import unittest
 from pathlib import Path
@@ -210,6 +211,65 @@ class CamadaPublicaTests(unittest.TestCase):
         self.assertEqual(self.data["modelo_congelado"]["limiar"], schema["limiar"])
         self.assertEqual(self.data["modelo_congelado"]["preditores"], schema["colunas"])
         self.assertFalse(self.data["modelo_congelado"]["retreinado"])
+
+
+class GeradorPublicoBytesLFTests(unittest.TestCase):
+    """`.gitattributes` força `eol=lf` para os arquivos públicos: o Git
+    normaliza qualquer CRLF para LF ao versionar. Se o gerador grava CRLF
+    em disco (comportamento padrão de `Path.write_text` em texto no
+    Windows, sem `newline=` explícito), o SHA-256 do manifesto — calculado
+    sobre os bytes crus do disco — nunca bate com o que o Git realmente
+    guarda. Estes testes provam a invariante em bytes, não em texto já
+    normalizado na leitura, e não dependem do sistema operacional onde
+    rodam: o gerador deve produzir LF puro em qualquer plataforma."""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.manifest_primeira_execucao = publicas.write_public_layer()
+
+    def _arquivos_textuais(self, manifest):
+        return [relativo for relativo in manifest["output_hashes"]
+                if not relativo.endswith(".png")]
+
+    def test_arquivos_publicos_nao_contem_crlf(self):
+        for relativo in self._arquivos_textuais(self.manifest_primeira_execucao):
+            conteudo = (ROOT / relativo).read_bytes()
+            self.assertNotIn(b"\r\n", conteudo, relativo)
+            self.assertNotIn(b"\r", conteudo, relativo)
+
+    def test_hash_do_manifesto_bate_com_os_bytes_reais_do_disco(self):
+        for relativo, esperado in self.manifest_primeira_execucao["output_hashes"].items():
+            atual = hashlib.sha256((ROOT / relativo).read_bytes()).hexdigest()
+            self.assertEqual(atual, esperado, relativo)
+
+    def test_hash_do_manifesto_confere_especificamente_com_perguntas_oficiais(self):
+        relativo = "reports/public/perguntas_oficiais_v1.json"
+        esperado = self.manifest_primeira_execucao["output_hashes"][relativo]
+        atual = hashlib.sha256((ROOT / relativo).read_bytes()).hexdigest()
+        self.assertEqual(atual, esperado)
+
+    def test_duas_execucoes_consecutivas_produzem_bytes_identicos(self):
+        primeira = {relativo: hashlib.sha256((ROOT / relativo).read_bytes()).hexdigest()
+                    for relativo in self._arquivos_textuais(self.manifest_primeira_execucao)}
+        segunda_execucao = publicas.write_public_layer()
+        segunda = {relativo: hashlib.sha256((ROOT / relativo).read_bytes()).hexdigest()
+                   for relativo in self._arquivos_textuais(segunda_execucao)}
+        self.assertEqual(primeira, segunda)
+        self.assertEqual(self.manifest_primeira_execucao["output_hashes"],
+                         segunda_execucao["output_hashes"])
+
+    def test_atributo_git_forca_eol_lf_para_os_arquivos_textuais(self):
+        # Confirma a premissa: o Git normaliza estes caminhos para LF ao
+        # versionar. Combinado com a ausência de CRLF já provada acima,
+        # isso garante que os bytes gravados são exatamente os bytes que
+        # o Git vai armazenar — sem precisar invocar o mecanismo de
+        # commit para provar.
+        for relativo in self._arquivos_textuais(self.manifest_primeira_execucao):
+            resultado = subprocess.run(
+                ["git", "check-attr", "eol", "--", relativo],
+                cwd=ROOT, capture_output=True, text=True, check=True,
+            )
+            self.assertIn("eol: lf", resultado.stdout, relativo)
 
 
 if __name__ == "__main__":

@@ -1,5 +1,4 @@
-"""Camada narrativa da aba "Panorama e resultados" — refatoração editorial
-(rodada 4, 24/09/2026).
+"""Camada narrativa da aba "Panorama e resultados".
 
 Este módulo NÃO recalcula nada: lê exclusivamente os campos já aprovados de
 `reports/public/perguntas_oficiais_v1.json` (a mesma camada pública gerada
@@ -173,11 +172,11 @@ def cartoes_numeros(pergunta: dict) -> list[dict]:
 # --------------------------------------------------------------------------- #
 # Tabelas de "Ver dados da análise": uma tabela pequena e específica por tipo #
 # de recorte, em vez de uma única tabela genérica que mistura sexo, faixa    #
-# etária, fase etc. em muitas colunas parcialmente vazias (revisão           #
-# editorial, 24/09/2026, Parte 3). Cada função devolve uma lista de          #
-# {"titulo": str, "nota": str opcional, "linhas": list[dict]} — os nomes de  #
-# coluna já em linguagem compreensível. Nenhum valor novo é calculado aqui;  #
-# tudo vem de `analises_complementares_numeros`/`principais_numeros`.        #
+# etária, fase etc. em muitas colunas parcialmente vazias. Cada função       #
+# devolve uma lista de {"titulo": str, "nota": str opcional,                 #
+# "linhas": list[dict]} — os nomes de coluna já em linguagem compreensível.  #
+# Nenhum valor novo é calculado aqui; tudo vem de                           #
+# `analises_complementares_numeros`/`principais_numeros`.                    #
 # --------------------------------------------------------------------------- #
 
 def _partes_pct(texto) -> tuple[str, int | None]:
@@ -715,14 +714,13 @@ def fonte_publica(numero: int) -> str:
 
 
 # --------------------------------------------------------------------------- #
-# Conclusões fluidas (revisão editorial, 24/09/2026, Parte 4): reescrita     #
-# editorial dos mesmos 6 campos já aprovados em                             #
-# `pergunta["conclusao"]` (constatação principal, diferenças entre grupos,  #
-# ponto de atenção, limite da evidência, implicação prática, próximo        #
-# acompanhamento) como 2 a 4 parágrafos contínuos, sem rótulos nem          #
-# coeficientes — os achados de cada pergunta são os mesmos já aprovados;    #
-# só a redação muda. `pergunta["conclusao"]` continua intacto (usado pelos  #
-# testes de integridade da camada pública) e serve de referência interna.  #
+# Conclusões fluidas: reescrita editorial dos mesmos 6 campos já aprovados     #
+# em `pergunta["conclusao"]` (constatação principal, diferenças entre         #
+# grupos, ponto de atenção, limite da evidência, implicação prática, próximo  #
+# acompanhamento) como 2 a 4 parágrafos contínuos, sem rótulos nem            #
+# coeficientes — os achados de cada pergunta são os mesmos já aprovados; só   #
+# a redação muda. `pergunta["conclusao"]` continua intacto (usado pelos       #
+# testes de integridade da camada pública) e serve de referência interna.     #
 # --------------------------------------------------------------------------- #
 
 _CONCLUSOES_FLUIDAS: dict[int, list[str]] = {

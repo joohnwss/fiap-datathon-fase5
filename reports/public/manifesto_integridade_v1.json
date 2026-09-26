@@ -4,8 +4,8 @@
   "gerador": "src/analises_publicas.py",
   "arquivo_principal": "reports/public/perguntas_oficiais_v1.json",
   "output_hashes": {
-    "reports/public/perguntas_oficiais_v1.json": "930fdf4ccdf0768ba565688ead8d6c119448c7e28ee264f275ad2c46b96b868e",
-    "reports/public/relatorio_perguntas_oficiais_v1.md": "2a3212ffc2c01f63a7345ee5d997c30291f2e57a9d958950a40ed6bc9b066d74",
+    "reports/public/perguntas_oficiais_v1.json": "54400b8f688a677d6461e6cef8744800b107d66e5038bb329b6c13517021fe30",
+    "reports/public/relatorio_perguntas_oficiais_v1.md": "31ba870d1ff19ff16a883dee274fede75188161bf2709e8e75cff0e553cff854",
     "reports/public/figures/01_ian.png": "27e2b72ba5bf6b45fa042a154368a1eb53525ff780465be19eced2a6fb25d6bf",
     "reports/public/figures/02_ida.png": "57f07d95f4a96b2b0c9545eb5214120ca78e4937490b0e218f3e24e4694ccfb6",
     "reports/public/figures/03_ieg.png": "85d12f2a5fb15b2ca646d059c0d070dfd90f9a8b0616eb370681526e4f0b13e0",

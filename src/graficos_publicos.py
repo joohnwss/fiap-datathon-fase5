@@ -133,9 +133,9 @@ def _grafico_q1(pergunta: dict) -> go.Figure:
 
 def _grafico_q1_media_ian(pergunta: dict) -> go.Figure:
     """Evolução da média anual do IAN nos três anos. A média de 2024 foi
-    auditada (auditoria de divulgação conjunta, correção pontual de
-    24/09/2026) e confirmada segura para publicação com arredondamento a
-    duas casas decimais — o arredondamento deixa mais de uma divisão
+    auditada (auditoria de divulgação conjunta) e confirmada segura para
+    publicação com arredondamento a duas casas decimais — o arredondamento
+    deixa mais de uma divisão
     exata entre moderada/severa igualmente possível, então não permite
     reconstruir a célula protegida (ver nota de análises complementares)."""
     linhas = [r for r in _complementares(pergunta) if r.get("Recorte") == "Média anual do IAN"]
@@ -481,10 +481,9 @@ _GRAFICOS_PRINCIPAIS = {
     6: _grafico_q6, 7: _grafico_q7, 8: _grafico_q8, 9: _grafico_q9, 10: _grafico_q10,
     11: _grafico_q11,
 }
-# Gráficos adicionais por pergunta. A partir da correção pós-auditoria
-# comparativa (24/09/2026): Q1 ganhou um segundo gráfico (evolução da média
-# do IAN, só nos anos publicáveis) e um terceiro (defasagem por sexo e por
-# faixa etária APROXIMADA — nunca idade exata); Q9 ganhou um segundo (matriz
+# Gráficos adicionais por pergunta: Q1 ganhou um segundo gráfico (evolução
+# da média do IAN, só nos anos publicáveis) e um terceiro (defasagem por
+# sexo e por faixa etária APROXIMADA — nunca idade exata); Q9 ganhou um segundo (matriz
 # de confusão) e um terceiro (equidade por fase/gênero/faixa etária
 # aproximada); Q10 ganhou um segundo (IDA por Pedra de origem).
 _GRAFICOS_SECUNDARIOS = {1: _grafico_q1_media_ian, 6: _grafico_q6_medias, 7: _grafico_q7_futuro, 9: _grafico_q9_matriz}

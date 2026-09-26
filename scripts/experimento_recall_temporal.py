@@ -134,7 +134,7 @@ def tabela_por_limiar(y, p):
 def _melhor(tabela, elegivel, chave_primaria):
     """Regra determinística e documentada de desempate: entre os elegíveis,
     maior `chave_primaria`; empate → maior recall; novo empate → maior
-    limiar. Usada por todos os critérios desta rodada."""
+    limiar. Usada por todos os critérios deste experimento."""
     candidatos = [linha for linha in tabela if elegivel(linha)]
     if not candidatos:
         return None
@@ -145,7 +145,7 @@ def _melhor(tabela, elegivel, chave_primaria):
 def selecionar_candidatos(y_dev, p_dev, *, incluir_oficial=True):
     """Só aceita dados de desenvolvimento. Nunca recebe nada do teste
     temporal — a ausência do parâmetro é a garantia estrutural exigida
-    pela rodada (ver teste `test_selecao_nao_aceita_dados_temporais`).
+    aqui (ver teste `test_selecao_nao_aceita_dados_temporais`).
 
     `incluir_oficial=False` é usado apenas ao reaplicar os mesmos sete
     critérios sobre probabilidades RECALIBRADAS (seção 5): o limiar bruto
@@ -276,7 +276,7 @@ def bootstrap_temporal(y, p, limiar_a, limiar_b, n=2000, seed=SEED):
     """IC95 por bootstrap não-pareado (recall/precisão/acurácia balanceada
     em cada limiar) e diferença PAREADA (mesmo resample) entre limiar_a
     (oficial) e limiar_b (candidato) — nunca mistura desenvolvimento e
-    teste; usa somente o teste temporal, como pede a rodada."""
+    teste; usa somente o teste temporal."""
     y = np.asarray(y)
     p = np.asarray(p, dtype=float)
     n_obs = len(y)

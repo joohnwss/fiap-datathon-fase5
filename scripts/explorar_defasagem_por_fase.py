@@ -1,10 +1,10 @@
-"""Achado exploratório complementar da pergunta 1 (correção pós-auditoria
-comparativa, 24/09/2026): defasagem (categoria) por fase, por ano.
+"""Achado exploratório complementar da pergunta 1: defasagem (categoria)
+por fase, por ano.
 
 Reaproveita as MESMAS funções de privacidade já aprovadas e congeladas em
 src/analises_negocio.py (analytic_frame/distribution) sobre os MESMOS campos
 já permitidos na lista positiva daquele módulo (fase, categoria) — não
-modifica esse arquivo nem o artefato interno congelado
+modifica esse arquivo nem o registro interno congelado da análise
 (reports/metricas_analises_negocio.json). O resultado não é congelado nem
 tem hash verificado; é reportado na camada pública explicitamente como
 "achado exploratório", nunca misturado com os números oficiais.

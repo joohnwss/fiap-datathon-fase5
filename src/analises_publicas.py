@@ -4,43 +4,41 @@ Este módulo é autocontido: usa somente agregados previamente aprovados e não
 lê DATATHON/, local_data/, local_recovery/ nem artefatos históricos. A saída é
 projetada para consumo público conjunto (JSON, relatório, figuras e notebook).
 
-Nesta rodada (auditoria comparativa independente, correção de 24/09/2026),
-cada pergunta ganhou: um bloco de storytelling completo ("por que importa" e
-"como foi analisada", além da resposta/gráfico/interpretação já existentes),
-uma tabela de análises complementares (novos recortes, quando seguros e com
-relação educacional clara com a pergunta), um bloco de conclusão estruturado
+Cada pergunta traz: um bloco de storytelling completo ("por que importa" e
+"como foi analisada", além da resposta/gráfico/interpretação), uma tabela de
+análises complementares (recortes adicionais, quando seguros e com relação
+educacional clara com a pergunta), um bloco de conclusão estruturado
 (constatação principal, diferenças entre grupos, ponto de atenção, limite da
 evidência, implicação prática e próximo acompanhamento) e um registro
 explícito de quais recortes (sexo, idade, fase, ano, Pedra, situação de
 defasagem, cobertura, trajetória longitudinal) foram ou não implementados,
 com o motivo demonstrado — nunca "não foi necessário" sem evidência.
 
-Os novos números complementares têm quatro origens, todas já aprovadas e
+Os números complementares têm quatro origens, todas já aprovadas e
 congeladas ou reproduzidas de forma auditável (nenhum dado privado é lido em
 tempo de execução por este módulo nem pela aplicação — os scripts abaixo
 rodam OFFLINE, uma única vez, e seus resultados são transcritos aqui):
-  (a) `reports/metricas_analises_negocio.json` — análise interna congelada
-      (TASK 005), que já cobre fase, ano, Pedra, situação de defasagem e
+  (a) `reports/metricas_analises_negocio.json` — análise interna congelada,
+      que já cobre fase, ano, Pedra, situação de defasagem e
       cobertura para as 11 perguntas, mas cujo detalhe não estava
       totalmente refletido nesta camada pública;
-  (b) `reports/metricas_modelagem.json` — avaliação do modelo (TASK 004),
-      que já inclui uma auditoria de equidade por fase (`equidade_fase`) e
+  (b) `reports/metricas_modelagem.json` — avaliação do modelo, que já
+      inclui uma auditoria de equidade por fase (`equidade_fase`) e
       o registro formal de que a auditoria de equidade por gênero é
       indisponível pelo método tabular do modelo (`equidade_genero`), com o
-      motivo documentado — reconciliado abaixo com o achado exploratório
-      desta correção, que usou um caminho diferente e válido;
+      motivo documentado — reconciliado abaixo com o achado exploratório,
+      que usou um caminho diferente e válido;
   (c) `scripts/explorar_defasagem_por_fase.py` (não congelado), reaproveitando
       as MESMAS funções de privacidade já aprovadas em
       `src/analises_negocio.py` (summary/distribution) sobre os MESMOS campos
       já permitidos (fase, categoria) — achado exploratório complementar da
       pergunta 1;
-  (d) correção pós-auditoria comparativa (24/09/2026): `scripts/
-      explorar_recortes_por_sexo.py`, `scripts/explorar_recortes_por_idade.py`
-      e `scripts/explorar_equidade_genero_modelo.py` (não congelados) —
+  (d) `scripts/explorar_recortes_por_sexo.py`,
+      `scripts/explorar_recortes_por_idade.py` e
+      `scripts/explorar_equidade_genero_modelo.py` (não congelados) —
       recortes por sexo (gênero) e por faixa etária APROXIMADA, nas
-      perguntas 1, 2, 3, 9, 10 e 11 (mínimo exigido pela auditoria
-      comparativa), após investigação completa das bases brutas descrita
-      abaixo.
+      perguntas 1, 2, 3, 9, 10 e 11, após investigação completa das bases
+      brutas descrita abaixo.
 
 Investigação de sexo (gênero) e idade nas bases brutas de 2022/2023/2024
 (docs/mapa_campos.md, linhas 19/63/111): existe uma coluna "Gênero" nos TRÊS
@@ -59,9 +57,9 @@ quando "idade" trazia uma data, o pipeline já havia extraído SÓ o ano dessa
 data, sem inferir dia ou mês (status "extraido_data_sem_inferir_dia_mes") —
 uma recuperação determinística e documentada, não uma suposição nova.
 
-IDADE É SEMPRE APROXIMADA, NUNCA EXATA — auditoria de fronteiras (correção
-pós-auditoria comparativa, rodada 3): `idade_aproximada = ano_referencia -
-ano_nascimento` é uma SUBTRAÇÃO DE ANOS, não uma idade exata, porque o dia e
+IDADE É SEMPRE APROXIMADA, NUNCA EXATA — auditoria de fronteiras:
+`idade_aproximada = ano_referencia - ano_nascimento` é uma SUBTRAÇÃO DE
+ANOS, não uma idade exata, porque o dia e
 o mês de nascimento não estão disponíveis. Um estudante que faz aniversário
 em dezembro é contado, o ano inteiro, com a mesma "idade aproximada" de um
 colega que fez aniversário em janeiro — na prática, a idade real de dois
@@ -135,13 +133,11 @@ FIGURES = tuple(f"reports/public/figures/{i:02d}_{name}.png" for i, name in enum
 # ---------------------------------------------------------------------------
 # Recortes de sexo e idade.
 #
-# CORREÇÃO (24/09/2026): uma primeira rodada desta correção havia descartado
-# sexo e idade integralmente, citando apenas o contrato do MODELO (que
-# reserva gênero à auditoria de equidade preditiva) e a inconsistência do
-# campo `idade` bruto. Uma auditoria independente apontou, corretamente,
-# que isso não bastava: o contrato do modelo não define o que é permitido
-# na análise EXPLORATÓRIA, que usa as bases anuais originais, não as
-# coortes do modelo.
+# O contrato do modelo reserva gênero à auditoria de equidade preditiva e
+# não cobre o campo `idade` bruto — mas isso não é motivo para descartar
+# sexo e idade da análise EXPLORATÓRIA, que usa as bases anuais originais,
+# não as coortes do modelo, e por isso segue suas próprias regras de
+# privacidade (as mesmas já aprovadas em `src/analises_negocio.py`).
 #
 # Investigação completa nas bases brutas de 2022/2023/2024
 # (docs/mapa_campos.md, linhas 19/63/111): existe uma coluna "Gênero" nos
@@ -176,18 +172,18 @@ FIGURES = tuple(f"reports/public/figures/{i:02d}_{name}.png" for i, name in enum
 # `scripts/explorar_recortes_por_idade.py`,
 # `scripts/explorar_equidade_genero_modelo.py`), reaproveitando as MESMAS
 # funções de privacidade já aprovadas (summary/distribution/association),
-# nunca misturados com os números do artefato congelado.
+# nunca misturados com os números do registro congelado do modelo.
 # ---------------------------------------------------------------------------
 
 CUT_SEXO_NAO_AVALIADO = {
     "implementado": False,
     "motivo": "não possui relação educacional clara com a pergunta",
     "detalhe": (
-        "Sexo (gênero) está disponível (ver docs do módulo) e foi avaliado nas perguntas que a "
-        "auditoria comparativa indicou como mínimo (1, 2, 3, 9, 10, 11). Nesta pergunta específica, "
-        "o recorte não foi computado nesta rodada por não alterar a resposta ao que a pergunta "
-        "pergunta (concordância/associação entre instrumentos ou construtos, não diferença "
-        "demográfica) — não por a variável estar indisponível."
+        "Sexo (gênero) está disponível (ver docs do módulo) e foi avaliado nas perguntas em que "
+        "faz sentido comparar grupos (1, 2, 3, 9, 10, 11). Nesta pergunta específica, o recorte "
+        "não foi computado por não alterar o que a pergunta pede (concordância/associação entre "
+        "instrumentos ou construtos, não diferença demográfica) — não por a variável estar "
+        "indisponível."
     ),
 }
 CUT_IDADE_NAO_AVALIADO = {
@@ -195,10 +191,9 @@ CUT_IDADE_NAO_AVALIADO = {
     "motivo": "não possui relação educacional clara com a pergunta",
     "detalhe": (
         "Faixa etária aproximada (calculada de forma segura a partir do ano de nascimento — não é "
-        "idade exata, ver docs do módulo) está disponível e foi avaliada nas perguntas que a "
-        "auditoria comparativa indicou como mínimo (1, 2, 3, 9, 10, 11). Nesta pergunta específica, "
-        "o recorte não foi computado nesta rodada pelo mesmo motivo do recorte de sexo — não por a "
-        "variável estar indisponível."
+        "idade exata, ver docs do módulo) está disponível e foi avaliada nas perguntas em que faz "
+        "sentido comparar grupos (1, 2, 3, 9, 10, 11). Nesta pergunta específica, o recorte não foi "
+        "computado pelo mesmo motivo do recorte de sexo — não por a variável estar indisponível."
     ),
 }
 
@@ -301,14 +296,14 @@ QUESTIONS = (
         complementary_note=(
             "A variação em pontos percentuais usa a parcela \"sem defasagem\" (2022→2023: 30,1%→45,6%, "
             "+15,5 p.p.; 2023→2024: 45,6%→53,8%, +8,2 p.p.).\n\n"
-            "Média anual do IAN em 2024 — auditoria de divulgação conjunta (correção pontual, "
-            "24/09/2026): o IAN só assume três valores fixos por construção (10 = sem defasagem, 5 = "
+            "Média anual do IAN em 2024 — auditoria de divulgação conjunta: o IAN só assume três "
+            "valores fixos por construção (10 = sem defasagem, 5 = "
             "moderada, 2,5 = severa — ver docs/contrato_metodologico.md). Isso significa que a média "
             "EXATA (não arredondada) de 2024, combinada com a contagem já publicada de \"sem defasagem\" "
             "(622) e o total de \"com defasagem\" (534), permitiria isolar algebricamente a divisão exata "
-            "entre moderada e severa — por isso uma rodada anterior desta correção suprimiu a média "
-            "inteira nesse ano, e por isso a média exata (com mais de duas casas decimais) nunca é "
-            "publicada em nenhum lugar desta camada. Uma reavaliação encontrou a supressão TOTAL "
+            "entre moderada e severa — por isso a média inteira nesse ano chegou a ser suprimida, e "
+            "por isso a média exata (com mais de duas casas decimais) nunca é publicada em nenhum "
+            "lugar desta camada. Uma reavaliação encontrou a supressão TOTAL "
             "excessiva: a exigência documental é sobre a divulgação de uma célula pequena (a contagem "
             "exata de severa), não sobre o valor da média em si, arredondado. Testado com o arredondamento "
             "a duas casas decimais (o mesmo padrão já aplicado a 2022 e 2023): existem várias combinações "
@@ -329,8 +324,8 @@ QUESTIONS = (
             "dividir por sexo, então essa partição de TRÊS categorias fica suprimida nesses dois anos. Em "
             "2022, a diferença entre feminino e masculino nas três categorias é pequena (severa: 3,1% vs. "
             "3,5%; sem defasagem: 31,1% vs. 29,0%).\n\n"
-            "Sexo — agregação binária nos três anos (correção pós-auditoria comparativa, rodada 3): "
-            "reunindo moderada e severa em uma única categoria \"alguma defasagem\" — a MESMA agregação "
+            "Sexo — agregação binária nos três anos: reunindo moderada e severa em uma única "
+            "categoria \"alguma defasagem\" — a MESMA agregação "
             "já usada para publicar 2024 na tabela principal, aplicada aqui célula a célula pela mesma "
             "função de supressão (distribution) — as seis combinações sexo×ano (2022/2023/2024 × "
             "feminino/masculino) passam todas pela privacidade, sem nenhuma suprimida. A parcela de "
@@ -344,7 +339,7 @@ QUESTIONS = (
             "Faixa etária aproximada (calculada a partir do ano de nascimento — não é idade exata, ver "
             "docs do módulo; scripts/explorar_recortes_por_idade.py): disponível para \"7 a 10 anos\" nos "
             "três anos e para \"14 a 16 anos\" em 2022 e \"11 a 13 anos\" em 2024; as demais combinações "
-            "fase-ano-faixa foram suprimidas por caixa pequena. Em 2022, a faixa \"14 a 16 anos\" tem "
+            "fase-ano-faixa foram suprimidas por grupo pequeno demais para publicar com segurança. Em 2022, a faixa \"14 a 16 anos\" tem "
             "proporção de severa bem maior (7,5%) do que a faixa \"7 a 10 anos\" (0,0%) — a mesma direção "
             "do achado por fase 3 (também concentrada em estudantes mais velhos), mas os dados não "
             "permitem separar se o efeito vem da idade em si, da fase escolar, ou de ambas estarem "
@@ -353,9 +348,9 @@ QUESTIONS = (
             "idade real. As fronteiras auditadas são 7–10, 11–13, 14–16 e 17 anos ou mais; sem dia e "
             "mês de nascimento, estudantes próximos a 10/11, 13/14 ou 16/17 anos podem pertencer à "
             "faixa vizinha na idade real.\n\nA linha \"Defasagem por "
-            "fase\" é um achado EXPLORATÓRIO desta rodada, fora do artefato interno congelado: das 24 "
+            "fase\" é um achado EXPLORATÓRIO, fora do registro interno congelado da análise: das 24 "
             "combinações fase×ano, apenas fase 3 em 2022 teve as três categorias com 10 ou mais "
-            "registros ao mesmo tempo; todas as demais foram suprimidas por caixa pequena. Reprodutível "
+            "registros ao mesmo tempo; todas as demais foram suprimidas por grupo pequeno demais para publicar com segurança. Reprodutível "
             "via scripts/explorar_defasagem_por_fase.py, que reaproveita summary()/distribution() de "
             "src/analises_negocio.py sem alterá-lo."
         ),
@@ -381,7 +376,7 @@ QUESTIONS = (
             "ponto_de_atencao": "A queda ano a ano é uma diferença entre fotografias de populações parcialmente diferentes (entradas e saídas de estudantes), não uma medida de progresso dos mesmos indivíduos.",
             "limite_da_evidencia": "Sem medição intranual, a conclusão fica limitada ao nível de composição anual da população atendida. A contagem exata de estudantes em defasagem severa em 2024 continua não publicada (grupo pequeno demais para publicar com segurança); a média anual do IAN nesse ano é publicada arredondada a duas casas decimais, o suficiente para não permitir reconstruir essa contagem de forma única. O detalhamento de defasagem por sexo em três categorias (sem/moderada/severa) só é publicável em 2022; nos demais anos, só a agregação binária (sem/alguma defasagem) passa pela supressão. Os recortes por faixa etária aproximada só puderam ser publicados para uma fração dos anos/faixas, por supressão de grupos pequenos, e são sujeitos à imprecisão inerente ao cálculo por ano de nascimento (sem dia/mês).",
             "implicacao_pratica": "A ONG pode usar a tendência para dimensionar equipe e prioridade de acompanhamento por ano, mas não para atribuir a queda a uma ação específica nem para prometer resultado individual.",
-            "proximo_acompanhamento": "Registrar medições intranuais (ao menos semestrais) e, numa próxima regeneração do artefato interno, ampliar a supressão por fase, sexo e idade para mais anos, se o crescimento da base permitir células maiores.",
+            "proximo_acompanhamento": "Registrar medições intranuais (ao menos semestrais) e, numa próxima atualização do registro interno da análise, ampliar a supressão por fase, sexo e idade para mais anos, se o crescimento da base permitir grupos maiores.",
         },
         cuts={
             "sexo": {
@@ -402,11 +397,11 @@ QUESTIONS = (
                     "Categorias de defasagem por faixa etária APROXIMADA, calculada de forma segura (ano "
                     "de referência menos ano de nascimento — não é idade exata, ver documentação do "
                     "módulo), disponível para \"7 a 10 anos\" nos três anos e para uma faixa adicional em "
-                    "2022 e 2024 (ver análises complementares); demais combinações suprimidas por caixa "
-                    "pequena."
+                    "2022 e 2024 (ver análises complementares); demais combinações suprimidas por grupo "
+                    "pequeno demais para publicar com segurança."
                 ),
             },
-            "fase": {"implementado": True, "detalhe": "Achado exploratório para fase 3/2022 (única célula publicável); demais 23 combinações fase×ano suprimidas por caixa pequena — ver análises complementares."},
+            "fase": {"implementado": True, "detalhe": "Achado exploratório para fase 3/2022 (única célula publicável); demais 23 combinações fase×ano suprimidas por grupo pequeno demais para publicar com segurança — ver análises complementares."},
             "ano": {"implementado": True, "detalhe": "As três categorias detalhadas (2022, 2023) e a agregação de 2024 já são o eixo central da pergunta."},
             "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "A relação entre defasagem e Pedra é coberta com mais profundidade na pergunta 10 (INDE/Pedra usa outros indicadores, defasagem não é componente direto da fórmula do INDE)."},
             "situacao_defasagem": {"implementado": True, "detalhe": "É a própria variável de resposta desta pergunta (categoria sem/moderada/severa e sinal de D)."},
@@ -456,7 +451,7 @@ QUESTIONS = (
         ],
         complementary_note=(
             "Denominadores de cada célula da tabela de médias por fase (fonte: "
-            "analises.ida_fase.<ano> do artefato interno congelado). Nenhuma fase-ano das linhas 0-5 "
+            "analises.ida_fase.<ano> do registro interno congelado da análise). Nenhuma fase-ano das linhas 0-5 "
             "tem menos de 100 observações; a comparação entre fases é, portanto, estatisticamente "
             "razoável, mesmo sem intervalo de confiança formal publicado nesta camada. Por sexo "
             "(fonte: scripts/explorar_recortes_por_sexo.py, achado exploratório): as médias de "
@@ -698,7 +693,7 @@ QUESTIONS = (
             "Correlação entre IPP e IAN, e entre IPP e o sinal da defasagem (D), por ano disponível "
             "(IPP não existe em 2022); IPP médio por categoria de defasagem em 2023 (único ano com essa "
             "decomposição publicável); e a mediana do IPP e sua cobertura em cada ano, como referência "
-            "de escala. Deliberadamente NÃO foi feito (e não é reintroduzido nesta rodada) um "
+            "de escala. Deliberadamente NÃO foi feito um "
             "cruzamento de quadrantes por mediana × sinal de defasagem: a revisão metodológica anterior "
             "já havia decidido não publicar esse tipo de quadrante, por poder sugerir uma classificação "
             "diagnóstica sem critério externo validado (ver nota abaixo)."
@@ -732,7 +727,7 @@ QUESTIONS = (
             "anterior já havia decidido não "
             "publicar esse tipo de recorte, por poder ser lido como uma classificação diagnóstica sem "
             "critério externo validado — o mesmo motivo pelo qual a resposta principal desta pergunta "
-            "evita a palavra 'confirma'/'contradiz'. Essa decisão foi mantida nesta rodada."
+            "evita a palavra 'confirma'/'contradiz'. Essa decisão foi mantida aqui."
         ),
         interpret="Use os coeficientes como associação ordinal e as médias de 2023 como descrição, sem classificar estudantes.",
         observed="As associações são fracas nos dois anos; IPP é estruturalmente ausente em 2022.",
@@ -944,7 +939,7 @@ QUESTIONS = (
         complementary_note=(
             "Auditoria de equidade por fase prevista no contrato metodológico (docs/contrato_metodologico.md), já "
             "executada e congelada em reports/metricas_modelagem.json (robustez.equidade_fase) durante a "
-            "avaliação do modelo — não recalculada nesta rodada, apenas trazida para a camada pública (colunas "
+            "avaliação do modelo — não recalculada aqui, apenas trazida para a camada pública (colunas "
             "de negativos/alertas/verdadeiros e falsos positivos/negativos derivadas da matriz de confusão já "
             "congelada, sem novo cálculo). "
             "Fase 3 tem recall 0,0 no teste temporal (nenhum dos 6 eventos reais foi sinalizado) — a pior "
@@ -1081,7 +1076,7 @@ QUESTIONS = (
             "quem parte de posição mais inicial) desapareceu em 2023→2024, quando as quatro Pedras de "
             "origem recuaram em IDA médio, incluindo Quartzo (-0,41) — a mesma reversão geral de 2024 já "
             "observada na pergunta 2, agora vista por Pedra de origem. A matriz completa de transições "
-            "(de qual Pedra para qual) permanece suprimida por caixa pequena nas duas transições. Por sexo "
+            "(de qual Pedra para qual) permanece suprimida por grupo pequeno demais para publicar com segurança nas duas transições. Por sexo "
             "(achado exploratório): variação semelhante entre feminino e masculino nas duas transições, "
             "sem diferença que se destaque diante da dispersão de cada grupo. Por faixa etária aproximada: a faixa "
             "\"11 a 13 anos\" teve o maior recuo em 2023→2024 (-0,88, o dobro das demais faixas com dado "
@@ -1099,7 +1094,7 @@ QUESTIONS = (
         conclusion={
             "constatacao_principal": "As proporções de melhoria/estabilidade/piora de Pedra ficaram próximas nas duas transições, sem indicar uma tendência institucional única; por Pedra de origem, o padrão observado em 2022→2023 não se repetiu em 2023→2024.",
             "diferencas_entre_grupos": "Em 2022→2023, quem partia de Quartzo teve o maior ganho de IDA (+1,84); em 2023→2024, o mesmo grupo de origem (Quartzo) teve o único resultado ainda relativamente melhor que as demais Pedras, mas já em território negativo (-0,41). Por sexo, a variação foi semelhante entre feminino e masculino nas duas transições; por faixa etária aproximada, a faixa \"11 a 13 anos\" teve o maior recuo em 2023→2024 (-0,88), sem explicação disponível nos dados para essa diferença.",
-            "ponto_de_atencao": "A matriz completa de transições (de qual Pedra exatamente para qual) está suprimida nas duas transições por caixa pequena — só se sabe a direção agregada (melhoria/estabilidade/piora), não o padrão detalhado entre pares específicos de Pedra.",
+            "ponto_de_atencao": "A matriz completa de transições (de qual Pedra exatamente para qual) está suprimida nas duas transições por grupo pequeno demais para publicar com segurança — só se sabe a direção agregada (melhoria/estabilidade/piora), não o padrão detalhado entre pares específicos de Pedra.",
             "limite_da_evidencia": "Sem grupo de controle ou contrafactual, nenhuma das duas transições permite atribuir a evolução observada a uma ação específica do programa; o recorte por faixa etária aproximada de 17 anos ou mais tem cobertura de pareamento baixa (21-46%) e não é reportado por esse motivo.",
             "implicacao_pratica": "Não estabelecer, para nenhuma Pedra de origem ou faixa etária aproximada, uma expectativa fixa de trajetória — o padrão observado em um período não se repetiu no seguinte.",
             "proximo_acompanhamento": "Planejar um desenho de avaliação com comparador apropriado antes de qualquer afirmação de impacto do programa sobre a evolução de Pedra; acompanhar se o recuo maior da faixa 11-13 anos em 2023→2024 se repete em ciclos futuros.",
@@ -1173,7 +1168,7 @@ QUESTIONS = (
             "faixa \"7 a 10 anos\" ela praticamente desaparece em 2023→2024 (7,37 vs. 7,33) — o mesmo "
             "padrão de inconsistência entre transições visto por sexo. A faixa \"17 anos ou mais\" tem "
             "grupos pequenos demais (abaixo de 10) nas duas transições e não é reportada. Recorte por "
-            "fase para este mesmo grupo está suprimido por caixa pequena no artefato congelado."
+            "fase para este mesmo grupo está suprimido por grupo pequeno demais para publicar com segurança no registro interno congelado da análise."
         ),
         interpret="Leia cada linha como cadeia evidência → público → ação → prioridade → limitação.",
         observed="Qualidade da continuidade e estabilidade dos instrumentos condicionam a leitura de desempenho e do modelo.",
@@ -1193,10 +1188,10 @@ QUESTIONS = (
         cuts={
             "sexo": {"implementado": True, "detalhe": "IDA médio de encontrados/não-encontrados por sexo, nas duas transições (ver análises complementares) — padrão presente mas inconsistente entre transições."},
             "idade": {"implementado": True, "detalhe": "IDA médio de encontrados/não-encontrados por faixa etária aproximada (ver análises complementares, nota) — mesmo padrão de inconsistência entre transições; faixa 17+ com grupos pequenos demais, não reportada."},
-            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "O cruzamento fase × encontrado/não encontrado está suprimido por caixa pequena no artefato interno congelado (analises.perdas.<transição>.fases) — a maioria das combinações fica abaixo do mínimo de 10 registros."},
+            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "O cruzamento fase × encontrado/não encontrado está suprimido por grupo pequeno demais para publicar com segurança no registro interno congelado da análise (analises.perdas.<transição>.fases) — a maioria das combinações fica abaixo do mínimo de 10 registros."},
             "ano": {"implementado": True, "detalhe": "As duas transições (2022→2023 e 2023→2024) são comparadas na tabela principal."},
             "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "Evolução de Pedra já é o tema completo da pergunta 10; repeti-la aqui não acrescentaria pergunta nova."},
-            "situacao_defasagem": {"implementado": True, "detalhe": "O artefato congelado também compara a defasagem média de quem foi e não foi encontrado (ver relatório completo); direção consistente com os demais indicadores."},
+            "situacao_defasagem": {"implementado": True, "detalhe": "O registro congelado da análise também compara a defasagem média de quem foi e não foi encontrado (ver relatório completo); direção consistente com os demais indicadores."},
             "cobertura": {"implementado": True, "detalhe": "n exato de cada grupo (encontrados/não encontrados) em cada transição, publicado nas duas tabelas."},
             "trajetoria_longitudinal": {"implementado": True, "detalhe": "É o próprio tema da pergunta: continuidade (ou perda dela) entre um ano e o seguinte."},
         },
@@ -1223,7 +1218,7 @@ def build_payload() -> dict:
             "O IDA não segue tendência única: melhora e recuo dependem do período e da fase.",
             "IEG se associa moderadamente a IDA e IPV; IAA apresenta coerência fraca com IDA e IEG.",
             "Não foi encontrada associação clara entre o IPS de origem e as variações futuras de IDA ou IEG nos recortes analisados.",
-            "O teste temporal do modelo manteve discriminação, mas o recall caiu para aproximadamente 40,5%, com equidade por fase desigual (recall 0,0 na fase 3, com poucos eventos). Uma auditoria exploratória adicional, feita por ligação de RA via chave de auditoria (não incorporada ao artefato congelado), encontrou indícios de diferença de recall entre gêneros e faixas etárias — ver pergunta 9.",
+            "O teste temporal do modelo manteve discriminação, mas o recall caiu para aproximadamente 40,5%, com equidade por fase desigual (recall 0,0 na fase 3, com poucos eventos). Uma auditoria exploratória adicional, feita por ligação de RA via chave de auditoria (não incorporada ao registro congelado do modelo), encontrou indícios de diferença de recall entre gêneros e faixas etárias — ver pergunta 9.",
             "Transições de Pedra descrevem evolução observada, não impacto causal do programa; foram encontrados indícios de viés de seleção na transição 2022→2023, pois os estudantes não reencontrados apresentavam indicadores de origem diferentes — o padrão não se repetiu com a mesma clareza na transição 2023→2024.",
         ],
         "perguntas": list(QUESTIONS),
@@ -1404,9 +1399,12 @@ def sha256(path: Path) -> str:
 def write_public_layer() -> dict:
     PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
     payload = build_payload()
-    JSON_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    JSON_PATH.write_text(
+        json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n",
+        encoding="utf-8", newline="\n",
+    )
     generate_figures()
-    REPORT_PATH.write_text(render_report(payload), encoding="utf-8")
+    REPORT_PATH.write_text(render_report(payload), encoding="utf-8", newline="\n")
     outputs = [JSON_PATH, REPORT_PATH, *(ROOT / p for p in FIGURES)]
     manifest = {
         "schema_version": 1,
@@ -1417,7 +1415,10 @@ def write_public_layer() -> dict:
         "independente_de_dados_privados": True,
         "independente_de_artefatos_historicos": True,
     }
-    MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    MANIFEST_PATH.write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2) + "\n",
+        encoding="utf-8", newline="\n",
+    )
     return manifest
 
 

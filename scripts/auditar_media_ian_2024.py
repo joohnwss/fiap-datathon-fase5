@@ -1,8 +1,7 @@
-"""Auditoria de divulgação conjunta — média anual do IAN em 2024 (correção
-pontual, 24/09/2026).
+"""Auditoria de divulgação conjunta — média anual do IAN em 2024.
 
-Uma rodada anterior desta correção suprimiu integralmente a média anual do
-IAN em 2024, com o argumento de que publicá-la, combinada com as contagens
+Uma primeira análise suprimiu integralmente a média anual do IAN em 2024,
+com o argumento de que publicá-la, combinada com as contagens
 já públicas de "sem defasagem" (622) e "com defasagem" (534), permitiria
 isolar algebricamente a divisão exata entre moderada e severa dentro dos
 534 registros com defasagem — já que o IAN só assume três valores fixos por

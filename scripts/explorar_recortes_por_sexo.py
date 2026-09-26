@@ -1,11 +1,10 @@
-"""Achados exploratórios complementares por sexo (correção pós-auditoria
-comparativa, 24/09/2026): Q1 (defasagem por sexo), Q2 (IDA por sexo), Q3
-(IEG×IDA/IPV por sexo), Q10 (IDA por sexo entre pares longitudinais) e Q11
-(perda de correspondência por sexo).
+"""Achados exploratórios complementares por sexo: Q1 (defasagem por sexo),
+Q2 (IDA por sexo), Q3 (IEG×IDA/IPV por sexo), Q10 (IDA por sexo entre pares
+longitudinais) e Q11 (perda de correspondência por sexo).
 
 Reaproveita as MESMAS funções de privacidade já aprovadas e congeladas em
 src/analises_negocio.py (summary/distribution/association/pair_records) —
-não modifica esse arquivo nem o artefato interno congelado
+não modifica esse arquivo nem o registro interno congelado da análise
 (reports/metricas_analises_negocio.json). O campo `genero_padronizado` (não
 incluído na lista positiva de `analytic_frame()` daquele módulo) é lido
 diretamente de `local_data/base_longitudinal.csv`/`.jsonl` aqui, apenas para
