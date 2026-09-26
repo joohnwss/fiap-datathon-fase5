@@ -1,5 +1,4 @@
-"""Conteúdo textual e editorial da aplicação pública (TASK 011 — subetapa de
-aprimoramento da interface).
+"""Conteúdo textual e editorial da aplicação pública.
 
 Módulo exclusivamente de apresentação: nenhuma lógica de inferência, nenhum
 dado privado, nenhuma dependência de `streamlit`. `streamlit_app.py` é a
@@ -177,10 +176,9 @@ AVISO_IDADE_NAO_AUTOMATIZA_CALCULO = (
     "A idade sugere a fase ideal pela tabela documental, mas nunca substitui uma "
     "escolha humana. Confirme a fase ideal antes de calcular a defasagem."
 )
-# Texto único e discreto (revisão de identidade visual, 25/09/2026, Etapa 1
-# item 4) — aparece como legenda no formulário de "Avaliar um caso" e, de
-# forma resumida, no rodapé da aplicação (`RODAPE_APLICACAO`). Substitui os
-# dois avisos maiores de uma rodada anterior.
+# Texto único e discreto — aparece como legenda no formulário de "Avaliar
+# um caso" e, de forma resumida, no rodapé da aplicação
+# (`RODAPE_APLICACAO`), no lugar de dois avisos maiores e mais verbosos.
 AVISO_PRIVACIDADE_AVALIAR = (
     "A identificação pode ser um nome, iniciais ou código interno e é usada somente "
     "para organizar a ficha e o relatório durante a sessão. Ela não é enviada ao "
@@ -222,8 +220,7 @@ NOTA_IPV_SEM_CALCULO = (
 
 # ---------------------------------------------------------------------------
 # IPP — indicador de contexto, obrigatório para calcular o INDE completo nas
-# fases Alfa a 7 (revisão de correção funcional, rodada seguinte). Nunca é
-# um dos sete preditores enviados ao modelo.
+# fases Alfa a 7. Nunca é um dos sete preditores enviados ao modelo.
 # ---------------------------------------------------------------------------
 
 ROTULO_IPP_INSTITUCIONAL = "IPP — Indicador Psicopedagógico institucional *"
@@ -517,9 +514,8 @@ EQUIPE: tuple[str, ...] = (
 )
 
 # Rodapé único, discreto, reunindo os créditos do projeto e um resumo dos
-# dois avisos de privacidade/uso responsável (revisão de identidade visual,
-# 25/09/2026, Etapa 1 item 4) — não repete os avisos maiores de rodadas
-# anteriores.
+# dois avisos de privacidade/uso responsável, sem repetir os avisos
+# maiores exibidos em outros pontos da aplicação.
 RODAPE_APLICACAO = (
     "Projeto acadêmico do Datathon — Fase 5 (FIAP), em colaboração de dados com a "
     "Associação Passos Mágicos. " + AVISO_USO_RESPONSAVEL_CURTO +

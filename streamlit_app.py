@@ -1,13 +1,13 @@
-"""Aplicação Streamlit pública — TASK 009, ampliada na subetapa de
-aprimoramento anterior à TASK 011.
+"""Aplicação Streamlit da Associação Passos Mágicos.
 
 Ferramenta de apoio ao acompanhamento educacional para professores(as) e
-profissionais da Associação Passos Mágicos, construída sobre o modelo
-oficialmente avaliado do Datathon Fase 5. Usa exclusivamente
-`artifacts/modelo_avaliado.joblib`, sem retreino, recalibração ou geração de
-novas métricas. Toda a lógica de dados fica em `src/inferencia.py`; todo o
-texto editorial fica em `src/textos_aplicacao.py`; este arquivo cuida apenas
-da interface e da navegação entre as cinco áreas da aplicação.
+profissionais da instituição, construída sobre o modelo oficialmente
+avaliado do projeto. Usa exclusivamente `artifacts/modelo_avaliado.joblib`,
+sem retreino, recalibração ou geração de novas métricas. A lógica de dados
+fica em `src/inferencia.py` e o texto editorial em `src/textos_aplicacao.py`;
+este arquivo cuida da interface e da navegação entre as quatro áreas da
+aplicação (Início, Panorama e resultados, Avaliar um caso, Entenda os
+indicadores).
 
 Privacidade: nenhuma entrada do usuário é persistida, logada ou enviada a
 serviços externos. A identificação da ficha existe somente durante a sessão,
@@ -179,11 +179,8 @@ def _preencher_exemplo_sintetico() -> None:
     st.session_state["modo_iaa"] = textos.ROTULO_MODO_IAA_DIRETO
 
 
-# Duas expressões de jargão de desenvolvimento sobrevivem em dois campos
-# de conclusão já aprovados (pergunta 1 e pergunta 10) — não alterados aqui
-# (a análise em si é preservada intacta em `analises_publicas.py`), só
-# traduzidas nesta camada de apresentação antes de chegar à interface
-# pública (refatoração editorial, 24/09/2026, itens 1 e 9).
+# Rede de segurança: traduz qualquer termo técnico que ainda apareça em
+# textos de `analises_publicas.py` antes de chegar à interface pública.
 _TRADUCOES_JARGAO = {
     "caixa pequena": "grupo pequeno demais para publicar com segurança",
     "artefato interno": "registro interno da análise",

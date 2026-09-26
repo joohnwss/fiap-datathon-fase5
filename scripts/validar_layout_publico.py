@@ -1,10 +1,8 @@
 """Smoke test visual do navegador público em desktop, tablet e mobile.
 
-Correção pós-auditoria comparativa (24/09/2026): validação ampliada de
-1.440 px e 390 px para incluir também 768 px, e de checar (nas três
-larguras) presença de gráfico, legenda, tabela de principais números,
-bloco de conclusão e ausência de overflow/corte, além da navegação já
-coberta antes.
+Valida 1.440 px, 768 px e 390 px, checando em cada largura a presença de
+gráfico, legenda, tabela de principais números, bloco de conclusão e
+ausência de overflow/corte, além da navegação entre perguntas.
 """
 from __future__ import annotations
 

@@ -1,7 +1,7 @@
 """Gera um documento autônomo (HTML + PDF) com o conteúdo que antes vivia na
-aba "Modelo e limitações" da aplicação — removida da navegação por decisão
-de produto (25/09/2026): o conteúdo é técnico demais para a ficha do dia a
-dia, mas continua útil para a equipe (ex.: vídeo de apresentação do modelo).
+aba "Modelo e limitações" da aplicação — removida da navegação porque o
+conteúdo é técnico demais para a ficha do dia a dia, mas continua útil para
+a equipe (ex.: vídeo de apresentação do modelo).
 
 Este script NUNCA treina, recalibra ou altera nenhum artefato oficial —
 só LÊ `artifacts/`, `reports/metricas_modelagem.json` e

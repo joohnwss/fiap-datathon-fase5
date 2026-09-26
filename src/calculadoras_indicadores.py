@@ -1,11 +1,11 @@
 """Calculadoras de indicadores com fórmula institucional confirmada.
 
 Ver `docs/auditoria_calculadoras_indicadores.md` para a auditoria completa
-(revisada em 25/09/2026 — releitura de `DATATHON/PEDE_ Pontos
-importantes.docx`, incluindo as 10 imagens/tabelas incorporadas ao
-documento, não só o texto plano). Fórmulas confirmadas e implementadas
-nesta rodada: defasagem, IAN, sugestão de fase ideal por idade (nunca
-automática), IDA (fases 0–7, três notas), IAA (Tabela 40, 6 perguntas) e
+(releitura de `DATATHON/PEDE_ Pontos importantes.docx`, incluindo as 10
+imagens/tabelas incorporadas ao documento, não só o texto plano). Fórmulas
+confirmadas e implementadas: defasagem, IAN, sugestão de fase ideal por
+idade (nunca automática), IDA (fases 0–7, três notas), IAA (Tabela 40, 6
+perguntas) e
 INDE (informação complementar, nunca enviado ao modelo). IEG, IPS, IPP e
 IPV continuam sem calculadora — os questionários/registros que os compõem
 não têm escala ou lista de componentes fechada em nenhuma fonte
