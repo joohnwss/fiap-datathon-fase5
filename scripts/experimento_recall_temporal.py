@@ -17,8 +17,8 @@ congelado (StratifiedKFold 5 folds, shuffle=True, random_state=42,
 temporal vêm do modelo já congelado (`artifacts/modelo_avaliado.joblib`,
 somente `.predict_proba`, sem novo ajuste). As duas reproduções são
 verificadas byte a byte contra `reports/metricas_modelagem.json` antes de
-qualquer experimento prosseguir — se divergirem, o script falha alto e
-não produz nenhuma recomendação.
+qualquer experimento prosseguir — se divergirem, o script interrompe a
+execução com erro explícito e não produz nenhuma recomendação.
 
 Uso: `python scripts/experimento_recall_temporal.py`
 Saída: `reports/experimental/analise_recall_temporal.json`,
