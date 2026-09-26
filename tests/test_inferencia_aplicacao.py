@@ -69,6 +69,21 @@ def official_threshold() -> float:
 
 
 @functools.lru_cache(maxsize=1)
+def operational_threshold() -> float:
+    """Lê o ponto de atenção OPERACIONAL diretamente de
+    `config/ponto_atencao_operacional.json` — nunca de uma constante
+    duplicada no código de teste. É o limiar que `run_inference`
+    efetivamente usa para classificar (decisão de gestão, 25/09/2026);
+    distinto do limiar metodológico original que `official_threshold()`
+    continua lendo."""
+    config = modelagem.read_json(REAL_ROOT / inf.OPERATIONAL_CONFIG_PATH)
+    valor = config.get("ponto_atencao_operacional", {}).get("limiar")
+    if isinstance(valor, bool) or not isinstance(valor, (int, float)) or not math.isfinite(valor):
+        raise AssertionError(f"Limiar operacional inválido em {inf.OPERATIONAL_CONFIG_PATH}: {valor!r}")
+    return float(valor)
+
+
+@functools.lru_cache(maxsize=1)
 def _real_context() -> inf.ApplicationContext:
     """Carrega o contexto real (validador público + modelo oficial) uma
     única vez por execução da suíte; somente leitura dos artefatos públicos
@@ -496,10 +511,17 @@ class PredictionReproductionTests(unittest.TestCase):
         resultado = inf.run_inference(contexto, payload)
         self.assertTrue(math.isclose(resultado.probability, probabilidade_manual, rel_tol=1e-9, abs_tol=1e-12))
 
-        # 6) classificação comparada ao limiar oficial
-        classificacao_manual = probabilidade_manual >= contexto.validation.threshold
+        # 6) classificação comparada ao ponto de atenção OPERACIONAL (decisão
+        # de gestão de 25/09/2026: `run_inference` classifica pelo limiar
+        # operacional, não pelo limiar metodológico original — que
+        # `contexto.validation.threshold` continua preservando, intacto,
+        # para rastreabilidade).
+        limiar_operacional = contexto.operational["ponto_atencao_operacional"]["limiar"]
+        classificacao_manual = probabilidade_manual >= limiar_operacional
         self.assertEqual(resultado.is_risk, classificacao_manual)
+        self.assertEqual(resultado.threshold, limiar_operacional)
         self.assertEqual(contexto.validation.threshold, official_threshold())
+        self.assertNotEqual(limiar_operacional, official_threshold())
 
 
 if __name__ == "__main__":

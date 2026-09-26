@@ -54,7 +54,32 @@ CONTRACT_PATH = "docs/contrato_metodologico.md"
 PUBLIC_INFERENCE_ARTIFACTS: tuple[str, ...] = (
     modelagem.MODEL, modelagem.SCHEMA, modelagem.FREEZE, modelagem.ACCESS, modelagem.METRICS,
 )
-PUBLIC_REQUIRED_PATHS: tuple[str, ...] = PUBLIC_INFERENCE_ARTIFACTS + (CONTRACT_PATH,)
+# Tema nativo (config.toml), o CSS local estático e o logo oficial (revisão
+# de identidade visual, 25/09/2026) precisam estar presentes em qualquer
+# cópia pública/deploy — sem eles, a interface publicada diverge
+# visualmente da aprovada. Adicionados aqui (não só em `streamlit_app.py`)
+# para que `check_public_paths_exist` recuse iniciar a aplicação, de forma
+# clara e antecipada, se qualquer um estiver ausente — o mesmo gate já
+# usado para os artefatos do modelo.
+VISUAL_ASSETS: tuple[str, ...] = (
+    ".streamlit/config.toml",
+    "assets/styles/app.css",
+    "assets/brand/passos-magicos-icon-cor.png",
+)
+# Ponto de atenção operacional (decisão de gestão, 25/09/2026): configuração
+# pública e versionada, separada do artefato metodológico congelado
+# (artifacts/configuracao_congelada.json) — nunca sobrescreve nem substitui
+# esse artefato. Gerada por scripts/gerar_configuracao_operacional.py a
+# partir de reports/experimental/analise_recall_temporal.json (arquivo
+# experimental que a aplicação pública NUNCA lê em tempo de execução; a
+# proveniência registrada dentro deste arquivo é só um registro histórico
+# do momento da decisão). Adicionada a PUBLIC_REQUIRED_PATHS: sem ela, a
+# aplicação recusa iniciar, com o mesmo gate já usado para os demais
+# artefatos públicos.
+OPERATIONAL_CONFIG_PATH = "config/ponto_atencao_operacional.json"
+PUBLIC_REQUIRED_PATHS: tuple[str, ...] = (
+    PUBLIC_INFERENCE_ARTIFACTS + (CONTRACT_PATH,) + VISUAL_ASSETS + (OPERATIONAL_CONFIG_PATH,)
+)
 
 
 class PublicValidationError(RuntimeError):
@@ -185,6 +210,64 @@ def run_public_validator(root: Path) -> PublicValidationResult:
 
     return PublicValidationResult(
         frozen=frozen, schema=schema, access=access, metrics=metrics, threshold=float(limiar_schema))
+
+
+# ---------------------------------------------------------------------------
+# Ponto de atenção operacional (decisão de gestão, 25/09/2026) — configuração
+# pública e versionada, distinta do limiar metodológico congelado acima.
+# Só afeta a REGRA DE SINALIZAÇÃO (`run_inference`): a probabilidade
+# continua vindo, sem qualquer alteração, do mesmo modelo oficial.
+# ---------------------------------------------------------------------------
+
+_CAMPOS_OBRIGATORIOS_CONFIG_OPERACIONAL = (
+    "versao", "finalidade", "modelo", "limiar_metodologico_original",
+    "ponto_atencao_operacional", "criterio_selecao", "data_da_decisao",
+    "metricas_temporais", "avisos", "origem",
+)
+
+
+def load_operational_config(root: Path, schema: dict) -> dict:
+    """Carrega e valida `config/ponto_atencao_operacional.json`.
+
+    Nunca lê `local_data/` nem `reports/experimental/` — a proveniência
+    registrada dentro do próprio arquivo (`origem`) é um registro histórico
+    do momento da decisão, não uma dependência de tempo de execução.
+    Confere, antes de qualquer uso: presença de todos os campos
+    obrigatórios; que `limiar_metodologico_original` bate EXATAMENTE com o
+    limiar do schema já congelado (detecta configuração desatualizada se o
+    artefato oficial mudar no futuro); e que o limiar operacional é uma
+    probabilidade finita válida."""
+    caminho = root / OPERATIONAL_CONFIG_PATH
+    try:
+        config = modelagem.read_json(caminho)
+    except (OSError, ValueError) as erro:
+        raise PublicValidationError(
+            f"Configuração de ponto de atenção operacional ausente ou inválida: {erro}") from erro
+
+    faltantes = [campo for campo in _CAMPOS_OBRIGATORIOS_CONFIG_OPERACIONAL if campo not in config]
+    if faltantes:
+        raise PublicValidationError(
+            f"Configuração operacional incompleta — campo(s) ausente(s): {faltantes}")
+
+    limiar_original_registrado = config["limiar_metodologico_original"]
+    limiar_original_schema = schema.get("limiar")
+    if (not isinstance(limiar_original_registrado, (int, float))
+            or limiar_original_registrado != limiar_original_schema):
+        raise PublicValidationError(
+            "Limiar metodológico original registrado na configuração operacional diverge "
+            f"do artefato oficial atual: {limiar_original_registrado!r} != {limiar_original_schema!r}")
+
+    ponto = config.get("ponto_atencao_operacional")
+    if not isinstance(ponto, dict):
+        raise PublicValidationError("Configuração operacional sem bloco 'ponto_atencao_operacional' válido")
+    limiar_operacional = ponto.get("limiar")
+    if not (isinstance(limiar_operacional, (int, float)) and math.isfinite(limiar_operacional)
+            and 0.0 <= limiar_operacional <= 1.0):
+        raise PublicValidationError(f"Limiar operacional inválido: {limiar_operacional!r}")
+    if not isinstance(ponto.get("criterio"), str) or not ponto["criterio"].strip():
+        raise PublicValidationError("Configuração operacional sem critério de seleção documentado")
+
+    return config
 
 
 # ---------------------------------------------------------------------------
@@ -395,27 +478,40 @@ def predict(pipeline: Any, frame: pd.DataFrame, threshold: float) -> InferenceRe
 
 @dataclass(frozen=True)
 class ApplicationContext:
-    """Estado carregado uma única vez por processo: raiz do projeto, modelo
-    e resultado do validador público (inclui o limiar oficial)."""
+    """Estado carregado uma única vez por processo: raiz do projeto, modelo,
+    resultado do validador público (inclui o limiar METODOLÓGICO original,
+    preservado para rastreabilidade) e a configuração do ponto de atenção
+    OPERACIONAL (usado de fato pela regra de sinalização em
+    `run_inference`) — ver `load_operational_config`."""
     root: Path
     pipeline: Any
     validation: PublicValidationResult
+    operational: dict
 
 
 def prepare_application(root: Path | str | None = None) -> ApplicationContext:
     """Ponto de entrada único de inicialização: localiza a raiz, executa o
-    validador público e carrega o modelo. Levanta `PublicValidationError` em
-    qualquer divergência — a interface deve capturar e interromper com
-    `st.stop()`, sem tentar corrigir ou treinar nada."""
+    validador público, carrega o modelo e valida a configuração do ponto de
+    atenção operacional. Levanta `PublicValidationError` em qualquer
+    divergência — a interface deve capturar e interromper com `st.stop()`,
+    sem tentar corrigir ou treinar nada."""
     raiz = find_project_root(root) if root is None else Path(root).resolve()
     resultado = run_public_validator(raiz)
     pipeline = load_model(raiz, resultado.schema)
-    return ApplicationContext(root=raiz, pipeline=pipeline, validation=resultado)
+    operational = load_operational_config(raiz, resultado.schema)
+    return ApplicationContext(root=raiz, pipeline=pipeline, validation=resultado, operational=operational)
 
 
 def run_inference(context: ApplicationContext, raw_inputs: dict) -> InferenceResult:
     """Valida a entrada do usuário, monta o `DataFrame` oficial e executa a
-    inferência com o limiar congelado do contexto já validado."""
+    inferência.
+
+    A PROBABILIDADE vem do mesmo modelo oficial, sem qualquer alteração. A
+    CLASSIFICAÇÃO (`is_risk`) usa o ponto de atenção OPERACIONAL
+    (`context.operational`), não o limiar metodológico original — essa é a
+    única mudança desta decisão de gestão (25/09/2026): a regra de
+    comparação, nunca a probabilidade."""
     validado = validate_inputs(raw_inputs)
     frame = build_feature_frame(validado)
-    return predict(context.pipeline, frame, context.validation.threshold)
+    limiar_operacional = context.operational["ponto_atencao_operacional"]["limiar"]
+    return predict(context.pipeline, frame, limiar_operacional)

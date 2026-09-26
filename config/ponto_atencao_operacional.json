@@ -1,0 +1,52 @@
+{
+  "versao": 1,
+  "finalidade": "Ponto de atenção operacional usado pela aplicação pública para decidir se um caso fica acima ou abaixo do ponto de atenção — separado do artefato metodológico original, que permanece intacto e é usado só para rastreabilidade em \"Modelo e limitações\".",
+  "modelo": "Mesmo modelo oficial congelado (artifacts/modelo_avaliado.joblib), sem retreino e sem recalibração. Esta configuração altera apenas a regra de comparação da probabilidade já calculada pelo modelo, nunca a probabilidade em si.",
+  "limiar_metodologico_original": 0.26696679375725973,
+  "ponto_atencao_operacional": {
+    "limiar": 0.15104892174638265,
+    "nome_criterio": "maior_recall_precisao_minima_40",
+    "criterio": "precisão OOF >= 40%; maior recall; empate: maior precisão, depois maior limiar"
+  },
+  "criterio_selecao": "Maior recall mantendo precisão mínima de 40%, definido exclusivamente com as predições OOF do desenvolvimento (nunca olhando o teste temporal na escolha) e aplicado uma única vez ao teste temporal — ver reports/experimental/relatorio_tecnico.md, seção 4.",
+  "data_da_decisao": "2026-09-25",
+  "metricas_temporais": {
+    "ponto_metodologico_original": {
+      "n": 311,
+      "positivos_reais": 84,
+      "sinalizados": 53,
+      "verdadeiros_positivos": 34,
+      "falsos_positivos": 19,
+      "falsos_negativos": 50,
+      "verdadeiros_negativos": 208,
+      "recall": 0.40476190476190477,
+      "precisao": 0.6415094339622641,
+      "acuracia": 0.7781350482315113,
+      "acuracia_balanceada": 0.6605307321166352
+    },
+    "ponto_operacional_adotado": {
+      "n": 311,
+      "positivos_reais": 84,
+      "sinalizados": 87,
+      "verdadeiros_positivos": 49,
+      "falsos_positivos": 38,
+      "falsos_negativos": 35,
+      "verdadeiros_negativos": 189,
+      "recall": 0.5833333333333334,
+      "precisao": 0.5632183908045977,
+      "acuracia": 0.7652733118971061,
+      "acuracia_balanceada": 0.7079662261380324
+    }
+  },
+  "avisos": {
+    "altera_somente_a_classificacao": "Este ajuste muda somente o valor com que a probabilidade já calculada pelo modelo é comparada para decidir a sinalização. A probabilidade individual de cada caso não muda.",
+    "supervisao_humana": "Toda sinalização é apoio à priorização e deve ser sempre revisada por uma equipe pedagógica ou profissional responsável.",
+    "abaixo_do_ponto_nao_elimina_risco": "Um resultado abaixo do ponto de atenção operacional não elimina o risco: parte dos casos reais permanece sem sinalização, mesmo com este ajuste."
+  },
+  "origem": {
+    "arquivo": "reports/experimental/analise_recall_temporal.json",
+    "sha256_no_momento_da_decisao": "46237287dae3ea1e7249189a290380c01aa173079b899280727fc1f491907249",
+    "criterio_definido_somente_com_oof_do_desenvolvimento": true,
+    "aplicado_uma_unica_vez_ao_teste_temporal": true
+  }
+}

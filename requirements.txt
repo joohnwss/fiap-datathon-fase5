@@ -12,6 +12,11 @@ matplotlib==3.11.2
 # modelo oficialmente avaliado, sem retreino ou recalibração.
 streamlit==1.64.0
 
+# Gráficos interativos do painel "Panorama e resultados", construídos em
+# tempo de execução a partir dos números já verificados por hash em
+# reports/public/perguntas_oficiais_v1.json (nunca de um novo arquivo).
+plotly==6.1.2
+
 # Dependências para executar/testar o notebook final (ipykernel, nbformat,
 # nbclient, nbconvert). Caminho resolvido pelo pip relativo a este arquivo.
 -r notebooks/requirements-notebook.txt

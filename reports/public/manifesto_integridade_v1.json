@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "camada": "publica_sanitizada",
+  "gerador": "src/analises_publicas.py",
+  "arquivo_principal": "reports/public/perguntas_oficiais_v1.json",
+  "output_hashes": {
+    "reports/public/perguntas_oficiais_v1.json": "930fdf4ccdf0768ba565688ead8d6c119448c7e28ee264f275ad2c46b96b868e",
+    "reports/public/relatorio_perguntas_oficiais_v1.md": "2a3212ffc2c01f63a7345ee5d997c30291f2e57a9d958950a40ed6bc9b066d74",
+    "reports/public/figures/01_ian.png": "27e2b72ba5bf6b45fa042a154368a1eb53525ff780465be19eced2a6fb25d6bf",
+    "reports/public/figures/02_ida.png": "57f07d95f4a96b2b0c9545eb5214120ca78e4937490b0e218f3e24e4694ccfb6",
+    "reports/public/figures/03_ieg.png": "85d12f2a5fb15b2ca646d059c0d070dfd90f9a8b0616eb370681526e4f0b13e0",
+    "reports/public/figures/04_iaa.png": "510c2239b8f40db885a1710565de67a3c1d66eba13d817818f26ba64a1fa4d28",
+    "reports/public/figures/05_ips.png": "29481da90470392471d8f3b7c969445099f5631e70cb2d50be8b228af168b714",
+    "reports/public/figures/06_ipp.png": "26e96a3c4016d65c3e288a3693c3a8767df31dbdc5ed5f60b4cb390c4e13594c",
+    "reports/public/figures/07_ipv.png": "29754a5f30194b61d0fb457d77a37607975630813fc1496263e969e62f5b27a2",
+    "reports/public/figures/08_inde.png": "dd8f0fc57f43d3d4d935c1741afea6ac5e7314c704aec28dfe80b05ae9da0ba8",
+    "reports/public/figures/09_modelo.png": "31d18aa2618f66c933f499ceab2e8375df647b3d7508279e38c67d03906d7b52",
+    "reports/public/figures/10_efetividade.png": "c73168a19e4f9fc0d319247de66fed8a535fb82b0eefef5668cb1841b670f8ea",
+    "reports/public/figures/11_insights.png": "38931f8430f9fe9a383397d2f60c193ee64c0ee822fb5f1c070f0a1793c48dc4"
+  },
+  "independente_de_dados_privados": true,
+  "independente_de_artefatos_historicos": true
+}

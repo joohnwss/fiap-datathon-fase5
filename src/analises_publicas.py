@@ -1,0 +1,1426 @@
+"""Gera a camada pública sanitizada das 11 perguntas oficiais.
+
+Este módulo é autocontido: usa somente agregados previamente aprovados e não
+lê DATATHON/, local_data/, local_recovery/ nem artefatos históricos. A saída é
+projetada para consumo público conjunto (JSON, relatório, figuras e notebook).
+
+Nesta rodada (auditoria comparativa independente, correção de 24/09/2026),
+cada pergunta ganhou: um bloco de storytelling completo ("por que importa" e
+"como foi analisada", além da resposta/gráfico/interpretação já existentes),
+uma tabela de análises complementares (novos recortes, quando seguros e com
+relação educacional clara com a pergunta), um bloco de conclusão estruturado
+(constatação principal, diferenças entre grupos, ponto de atenção, limite da
+evidência, implicação prática e próximo acompanhamento) e um registro
+explícito de quais recortes (sexo, idade, fase, ano, Pedra, situação de
+defasagem, cobertura, trajetória longitudinal) foram ou não implementados,
+com o motivo demonstrado — nunca "não foi necessário" sem evidência.
+
+Os novos números complementares têm quatro origens, todas já aprovadas e
+congeladas ou reproduzidas de forma auditável (nenhum dado privado é lido em
+tempo de execução por este módulo nem pela aplicação — os scripts abaixo
+rodam OFFLINE, uma única vez, e seus resultados são transcritos aqui):
+  (a) `reports/metricas_analises_negocio.json` — análise interna congelada
+      (TASK 005), que já cobre fase, ano, Pedra, situação de defasagem e
+      cobertura para as 11 perguntas, mas cujo detalhe não estava
+      totalmente refletido nesta camada pública;
+  (b) `reports/metricas_modelagem.json` — avaliação do modelo (TASK 004),
+      que já inclui uma auditoria de equidade por fase (`equidade_fase`) e
+      o registro formal de que a auditoria de equidade por gênero é
+      indisponível pelo método tabular do modelo (`equidade_genero`), com o
+      motivo documentado — reconciliado abaixo com o achado exploratório
+      desta correção, que usou um caminho diferente e válido;
+  (c) `scripts/explorar_defasagem_por_fase.py` (não congelado), reaproveitando
+      as MESMAS funções de privacidade já aprovadas em
+      `src/analises_negocio.py` (summary/distribution) sobre os MESMOS campos
+      já permitidos (fase, categoria) — achado exploratório complementar da
+      pergunta 1;
+  (d) correção pós-auditoria comparativa (24/09/2026): `scripts/
+      explorar_recortes_por_sexo.py`, `scripts/explorar_recortes_por_idade.py`
+      e `scripts/explorar_equidade_genero_modelo.py` (não congelados) —
+      recortes por sexo (gênero) e por faixa etária APROXIMADA, nas
+      perguntas 1, 2, 3, 9, 10 e 11 (mínimo exigido pela auditoria
+      comparativa), após investigação completa das bases brutas descrita
+      abaixo.
+
+Investigação de sexo (gênero) e idade nas bases brutas de 2022/2023/2024
+(docs/mapa_campos.md, linhas 19/63/111): existe uma coluna "Gênero" nos TRÊS
+anos, com cobertura de 100% (860/1.014/1.156 = total exato de cada ano, tipo
+"outro_texto"). Já padronizada em `local_data/base_longitudinal.csv` como
+`genero_padronizado` (docs/mapa_campos.md, linha 172: harmoniza "Menina/
+Feminino" e "Menino/Masculino"), com status `equivalencia_explicita` para
+100% dos 3.030 registros — exatamente 2 categorias (feminino=1.626,
+masculino=1.404), nenhum grupo pequeno no agregado.
+
+Para idade: o campo `idade` bruto tem 399/1.014 registros de 2023 (e
+situação semelhante nos demais anos) com uma DATA em vez de um número
+(docs/mapa_campos.md). Em vez de descartar, uma segunda coluna já aprovada,
+`ano_nascimento_padronizado`, tem cobertura de 100% (3.030/3.030): mesmo
+quando "idade" trazia uma data, o pipeline já havia extraído SÓ o ano dessa
+data, sem inferir dia ou mês (status "extraido_data_sem_inferir_dia_mes") —
+uma recuperação determinística e documentada, não uma suposição nova.
+
+IDADE É SEMPRE APROXIMADA, NUNCA EXATA — auditoria de fronteiras (correção
+pós-auditoria comparativa, rodada 3): `idade_aproximada = ano_referencia -
+ano_nascimento` é uma SUBTRAÇÃO DE ANOS, não uma idade exata, porque o dia e
+o mês de nascimento não estão disponíveis. Um estudante que faz aniversário
+em dezembro é contado, o ano inteiro, com a mesma "idade aproximada" de um
+colega que fez aniversário em janeiro — na prática, a idade real de dois
+estudantes na mesma "idade aproximada" pode diferir em quase um ano, e um
+estudante perto de uma fronteira de faixa (ex.: 10/11, 13/14, 16/17 anos)
+pode estar na faixa vizinha na idade exata. Por isso a camada pública nunca
+apresenta esse número como "idade", sempre como "idade aproximada no ano de
+referência" ou o recorte correspondente como "faixa etária aproximada"
+(nunca "faixa etária" sozinho, sem a qualificação) — inclusive em gráficos,
+tooltips, tabelas, conclusões, no JSON público, no relatório e nos testes. O intervalo pleno
+observado é 7 a 28 anos, plausível para os três anos da base, com cobertura
+desigual entre faixas (a faixa "17 anos ou mais" tem cobertura de 47-100%
+conforme o recorte — documentado caso a caso onde usada).
+
+Os dois campos (`genero_padronizado`, `ano_nascimento_padronizado`) NÃO
+fazem parte da lista positiva de `analytic_frame()` em
+`src/analises_negocio.py` (módulo congelado, NÃO alterado nesta correção).
+Sexo e faixa etária aproximada foram implementados como recorte no mínimo
+exigido pela auditoria comparativa (perguntas 1, 2, 3, 9, 10, 11); nas
+perguntas 4 a 8, o recorte não foi computado por não ter relação
+educacional clara com o que cada uma pergunta — não por a variável estar
+indisponível — ver `CUT_SEXO_NAO_AVALIADO`/`CUT_IDADE_NAO_AVALIADO` abaixo.
+"""
+from __future__ import annotations
+
+import hashlib
+import json
+from pathlib import Path
+
+import matplotlib
+import numpy as np
+
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+
+ROOT = Path(__file__).resolve().parents[1]
+PUBLIC_DIR = ROOT / "reports" / "public"
+FIGURES_DIR = PUBLIC_DIR / "figures"
+JSON_PATH = PUBLIC_DIR / "perguntas_oficiais_v1.json"
+REPORT_PATH = PUBLIC_DIR / "relatorio_perguntas_oficiais_v1.md"
+MANIFEST_PATH = PUBLIC_DIR / "manifesto_integridade_v1.json"
+
+OFFICIAL_QUESTIONS = (
+    "Qual é o perfil geral de defasagem dos alunos (IAN) e como ele evolui ao longo do ano?",
+    "O desempenho acadêmico médio (IDA) está melhorando, estagnado ou caindo ao longo das fases e anos?",
+    "O grau de engajamento dos alunos (IEG) tem relação direta com seus indicadores de desempenho (IDA) e do ponto de virada (IPV)?",
+    "As percepções dos alunos sobre si mesmos (IAA) são coerentes com seu desempenho real (IDA) e engajamento (IEG)?",
+    "Há padrões psicossociais (IPS) que antecedem quedas de desempenho acadêmico ou de engajamento?",
+    "As avaliações psicopedagógicas (IPP) confirmam ou contradizem a defasagem identificada pelo IAN?",
+    "Quais comportamentos — acadêmicos, emocionais ou de engajamento — mais influenciam o IPV ao longo do tempo?",
+    "Quais combinações de indicadores (IDA + IEG + IPS + IPP) elevam mais a nota global do aluno (INDE)?",
+    "Quais padrões nos indicadores permitem identificar alunos em risco antes de queda no desempenho ou aumento da defasagem? Construa um modelo preditivo que mostre uma probabilidade do aluno ou aluna entrar em risco de defasagem.",
+    "Os indicadores mostram melhora consistente ao longo do ciclo nas diferentes fases (Quartzo, Ágata, Ametista e Topázio), confirmando o impacto real do programa?",
+    "Você pode adicionar mais insights e pontos de vista não abordados nas perguntas, utilize a criatividade e a análise dos dados para trazer sugestões para a Passos Mágicos.",
+)
+
+TOPICS = (
+    "Adequação do nível (IAN)", "Desempenho acadêmico (IDA)",
+    "Engajamento nas atividades (IEG)", "Autoavaliação (IAA)",
+    "Aspectos psicossociais (IPS)", "Aspectos psicopedagógicos (IPP)",
+    "Ponto de virada (IPV)", "Multidimensionalidade dos indicadores",
+    "Previsão de risco com Machine Learning", "Efetividade do programa",
+    "Insights e criatividade",
+)
+
+FIGURES = tuple(f"reports/public/figures/{i:02d}_{name}.png" for i, name in enumerate((
+    "ian", "ida", "ieg", "iaa", "ips", "ipp", "ipv", "inde", "modelo",
+    "efetividade", "insights",
+), 1))
+
+# ---------------------------------------------------------------------------
+# Recortes de sexo e idade.
+#
+# CORREÇÃO (24/09/2026): uma primeira rodada desta correção havia descartado
+# sexo e idade integralmente, citando apenas o contrato do MODELO (que
+# reserva gênero à auditoria de equidade preditiva) e a inconsistência do
+# campo `idade` bruto. Uma auditoria independente apontou, corretamente,
+# que isso não bastava: o contrato do modelo não define o que é permitido
+# na análise EXPLORATÓRIA, que usa as bases anuais originais, não as
+# coortes do modelo.
+#
+# Investigação completa nas bases brutas de 2022/2023/2024
+# (docs/mapa_campos.md, linhas 19/63/111): existe uma coluna "Gênero" nos
+# TRÊS anos, com cobertura de 100% (860/1.014/1.156 = total exato de cada
+# ano, tipo "outro_texto"). Já padronizada em
+# `local_data/base_longitudinal.csv` como `genero_padronizado`
+# (`docs/mapa_campos.md`, linha 172: harmoniza "Menina/Feminino" e
+# "Menino/Masculino"), com status `equivalencia_explicita` para 100% dos
+# 3.030 registros — exatamente 2 categorias (feminino=1.626,
+# masculino=1.404), nenhum grupo pequeno no agregado.
+#
+# Para idade: o campo `idade` bruto tem 399/1.014 registros de 2023 (e
+# situação semelhante nos demais anos) com uma DATA em vez de um número
+# (docs/mapa_campos.md). Em vez de descartar, uma segunda coluna já
+# aprovada, `ano_nascimento_padronizado`, tem cobertura de 100%
+# (3.030/3.030): mesmo quando "idade" trazia uma data, o pipeline já havia
+# extraído SÓ o ano dessa data, sem inferir dia ou mês (status
+# "extraido_data_sem_inferir_dia_mes") — uma recuperação determinística e
+# documentada, não uma suposição nova. `idade_aproximada = ano_referencia -
+# ano_nascimento` é uma SUBTRAÇÃO DE ANOS — não idade exata, porque dia e mês
+# de nascimento não estão disponíveis (um estudante perto de uma fronteira de
+# faixa pode estar na faixa vizinha na idade real) — fica disponível para
+# 100% dos registros, em intervalo plausível (7 a 28 anos). A camada pública
+# sempre chama isso de "idade aproximada" ou "faixa etária aproximada",
+# nunca de idade exata.
+#
+# Os dois campos (`genero_padronizado`, `ano_nascimento_padronizado`) NÃO
+# fazem parte da lista positiva de `analytic_frame()` em
+# `src/analises_negocio.py` (módulo congelado, não alterado). Os recortes
+# abaixo foram computados por scripts exploratórios dedicados
+# (`scripts/explorar_recortes_por_sexo.py`,
+# `scripts/explorar_recortes_por_idade.py`,
+# `scripts/explorar_equidade_genero_modelo.py`), reaproveitando as MESMAS
+# funções de privacidade já aprovadas (summary/distribution/association),
+# nunca misturados com os números do artefato congelado.
+# ---------------------------------------------------------------------------
+
+CUT_SEXO_NAO_AVALIADO = {
+    "implementado": False,
+    "motivo": "não possui relação educacional clara com a pergunta",
+    "detalhe": (
+        "Sexo (gênero) está disponível (ver docs do módulo) e foi avaliado nas perguntas que a "
+        "auditoria comparativa indicou como mínimo (1, 2, 3, 9, 10, 11). Nesta pergunta específica, "
+        "o recorte não foi computado nesta rodada por não alterar a resposta ao que a pergunta "
+        "pergunta (concordância/associação entre instrumentos ou construtos, não diferença "
+        "demográfica) — não por a variável estar indisponível."
+    ),
+}
+CUT_IDADE_NAO_AVALIADO = {
+    "implementado": False,
+    "motivo": "não possui relação educacional clara com a pergunta",
+    "detalhe": (
+        "Faixa etária aproximada (calculada de forma segura a partir do ano de nascimento — não é "
+        "idade exata, ver docs do módulo) está disponível e foi avaliada nas perguntas que a "
+        "auditoria comparativa indicou como mínimo (1, 2, 3, 9, 10, 11). Nesta pergunta específica, "
+        "o recorte não foi computado nesta rodada pelo mesmo motivo do recorte de sexo — não por a "
+        "variável estar indisponível."
+    ),
+}
+
+
+def _question(number: int, *, answer: str, numbers: list[dict], note: str,
+              interpret: str, observed: str, meaning: str, action: str,
+              limits: str, population: str, source: str,
+              why_it_matters: str, how_analyzed: str,
+              conclusion: dict, cuts: dict,
+              complementary_numbers: list[dict] | None = None,
+              complementary_note: str = "",
+              status: str = "respondida com limitações") -> dict:
+    return {
+        "numero": number,
+        "topico": TOPICS[number - 1],
+        "pergunta": OFFICIAL_QUESTIONS[number - 1],
+        "status": status,
+        "por_que_importa": why_it_matters,
+        "como_foi_analisada": how_analyzed,
+        "resposta": answer,
+        "principais_numeros": numbers,
+        "nota_numeros": note,
+        "grafico": FIGURES[number - 1],
+        "como_interpretar": interpret,
+        "observamos": observed,
+        "significado": meaning,
+        "uso_ong": action,
+        "limites": limits,
+        "populacao_periodo": population,
+        "fonte_exata": source,
+        "analises_complementares_numeros": complementary_numbers or [],
+        "analises_complementares_nota": complementary_note,
+        "conclusao": conclusion,
+        "recortes": cuts,
+    }
+
+
+QUESTIONS = (
+    _question(
+        1,
+        why_it_matters=(
+            "A defasagem (medida pelo IAN) é o principal sinal de alerta acompanhado pela ONG: dimensiona "
+            "quantos estudantes precisam de atenção pedagógica prioritária a cada ano."
+        ),
+        how_analyzed=(
+            "Contagem e proporção por categoria oficial do IAN (sem defasagem / moderada / severa), por "
+            "ano; média anual do IAN nos três anos, arredondada a duas casas decimais — em 2024, essa "
+            "média foi auditada e confirmada segura para publicação com esse arredondamento (ver nota de "
+            "análises complementares); distribuição do sinal da defasagem (D<0/D=0/D>0), que usa uma "
+            "partição diferente da categoria do IAN e por isso pôde ser publicada mesmo em 2024; e recortes exploratórios por "
+            "fase, sexo e faixa etária aproximada, reaproveitando as mesmas funções de supressão já "
+            "aprovadas — cada um apresentado apenas onde a cobertura permitiu passar pela privacidade. "
+            "Para sexo, além do detalhamento em três categorias (só publicável em 2022), aplicamos a "
+            "MESMA agregação binária (sem defasagem / alguma defasagem = moderada + severa) já usada "
+            "para publicar 2024 na tabela principal — o que tornou publicável a comparação completa dos "
+            "três anos por sexo, célula a célula, sem nenhuma supressão."
+        ),
+        answer=("Em 2022, 66,6% dos registros estavam em defasagem moderada e 3,3% em severa; "
+                "em 2023, eram 53,1% e 1,4%. Em 2024, 53,8% estavam sem defasagem e 46,2% "
+                "estavam com defasagem. Neste último ano, moderada e severa foram reunidas em "
+                "uma única categoria para não revelar um grupo muito pequeno. Nas fotografias "
+                "anuais, a parcela com defasagem caiu de 69,9% para 54,4% e 46,2%; a base não "
+                "permite medir evolução dentro de cada ano."),
+        numbers=[
+            {"Ano": "2022", "Categoria": "sem defasagem", "Contagem": 259, "Percentual": "30,1%"},
+            {"Ano": "2022", "Categoria": "moderada", "Contagem": 573, "Percentual": "66,6%"},
+            {"Ano": "2022", "Categoria": "severa", "Contagem": 28, "Percentual": "3,3%"},
+            {"Ano": "2023", "Categoria": "sem defasagem", "Contagem": 462, "Percentual": "45,6%"},
+            {"Ano": "2023", "Categoria": "moderada", "Contagem": 538, "Percentual": "53,1%"},
+            {"Ano": "2023", "Categoria": "severa", "Contagem": 14, "Percentual": "1,4%"},
+            {"Ano": "2024", "Categoria": "sem defasagem", "Contagem": 622, "Percentual": "53,8%"},
+            {"Ano": "2024", "Categoria": "com defasagem (moderada + severa)", "Contagem": 534, "Percentual": "46,2%"},
+        ],
+        note=("Em 2024, as categorias moderada e severa foram agregadas. Os dois grupos publicados "
+              "têm mais de dez registros e somam o total anual, mas não permitem descobrir como os "
+              "534 registros com defasagem se dividem entre as duas categorias originais."),
+        complementary_numbers=[
+            {"Recorte": "Média anual do IAN", "Ano": "2022", "Valor": 6.42, "n": 860, "Variação em p.p. vs. ano anterior": "—"},
+            {"Recorte": "Média anual do IAN", "Ano": "2023", "Valor": 7.24, "n": 1014, "Variação em p.p. vs. ano anterior": "+15,5 p.p. na parcela sem defasagem"},
+            {"Recorte": "Média anual do IAN", "Ano": "2024", "Valor": 7.68, "n": 1156, "Variação em p.p. vs. ano anterior": "+8,2 p.p. na parcela sem defasagem"},
+            {"Recorte": "Sinal da defasagem (D<0/D=0/D>0)", "Ano": "2022", "D<0": "69,9% (601)", "D=0": "28,7% (247)", "D>0": "1,4% (12)"},
+            {"Recorte": "Sinal da defasagem (D<0/D=0/D>0)", "Ano": "2023", "D<0": "54,4% (552)", "D=0": "41,4% (420)", "D>0": "4,1% (42)"},
+            {"Recorte": "Sinal da defasagem (D<0/D=0/D>0)", "Ano": "2024", "D<0": "46,2% (534)", "D=0": "42,0% (485)", "D>0": "11,9% (137)"},
+            {"Recorte": "Defasagem por fase (exploratório, só a única fase-ano publicável)", "Ano": "2022", "Fase": "3", "n_fase": 148, "sem defasagem": "44,6% (66)", "moderada": "45,9% (68)", "severa": "9,5% (14)"},
+            {"Recorte": "Defasagem por sexo", "Ano": "2022", "Sexo": "feminino", "n": 457, "sem defasagem": "31,1% (142)", "moderada": "65,9% (301)", "severa": "3,1% (14)"},
+            {"Recorte": "Defasagem por sexo", "Ano": "2022", "Sexo": "masculino", "n": 403, "sem defasagem": "29,0% (117)", "moderada": "67,5% (272)", "severa": "3,5% (14)"},
+            {"Recorte": "Defasagem por sexo", "Ano": "2023/2024", "Sexo": "ambos", "n": "—", "sem defasagem": "detalhamento moderada/severa suprimido: partição com célula < 10 nos dois anos — ver a agregação binária abaixo", "moderada": "—", "severa": "—"},
+            {"Recorte": "Defasagem por sexo (sem/alguma defasagem)", "Ano": "2022", "Sexo": "feminino", "n": 457, "sem defasagem": "31,1% (142)", "alguma defasagem": "68,9% (315)", "Variação de \"alguma defasagem\" em p.p. vs. ano anterior": "—"},
+            {"Recorte": "Defasagem por sexo (sem/alguma defasagem)", "Ano": "2022", "Sexo": "masculino", "n": 403, "sem defasagem": "29,0% (117)", "alguma defasagem": "71,0% (286)", "Variação de \"alguma defasagem\" em p.p. vs. ano anterior": "—"},
+            {"Recorte": "Defasagem por sexo (sem/alguma defasagem)", "Ano": "2023", "Sexo": "feminino", "n": 546, "sem defasagem": "50,2% (274)", "alguma defasagem": "49,8% (272)", "Variação de \"alguma defasagem\" em p.p. vs. ano anterior": "-19,1 p.p."},
+            {"Recorte": "Defasagem por sexo (sem/alguma defasagem)", "Ano": "2023", "Sexo": "masculino", "n": 468, "sem defasagem": "40,2% (188)", "alguma defasagem": "59,8% (280)", "Variação de \"alguma defasagem\" em p.p. vs. ano anterior": "-11,1 p.p."},
+            {"Recorte": "Defasagem por sexo (sem/alguma defasagem)", "Ano": "2024", "Sexo": "feminino", "n": 623, "sem defasagem": "56,0% (349)", "alguma defasagem": "44,0% (274)", "Variação de \"alguma defasagem\" em p.p. vs. ano anterior": "-5,8 p.p."},
+            {"Recorte": "Defasagem por sexo (sem/alguma defasagem)", "Ano": "2024", "Sexo": "masculino", "n": 533, "sem defasagem": "51,2% (273)", "alguma defasagem": "48,8% (260)", "Variação de \"alguma defasagem\" em p.p. vs. ano anterior": "-11,0 p.p."},
+            {"Recorte": "Defasagem por faixa etária aproximada", "Ano": "2022", "Faixa": "7 a 10 anos", "n": 283, "sem defasagem": "39,2% (111)", "moderada": "60,8% (172)", "severa": "0,0% (0)"},
+            {"Recorte": "Defasagem por faixa etária aproximada", "Ano": "2022", "Faixa": "14 a 16 anos", "n": 200, "sem defasagem": "18,5% (37)", "moderada": "74,0% (148)", "severa": "7,5% (15)"},
+            {"Recorte": "Defasagem por faixa etária aproximada", "Ano": "2023", "Faixa": "7 a 10 anos", "n": 315, "sem defasagem": "52,1% (164)", "moderada": "47,9% (151)", "severa": "0,0% (0)"},
+            {"Recorte": "Defasagem por faixa etária aproximada", "Ano": "2024", "Faixa": "7 a 10 anos", "n": 301, "sem defasagem": "38,9% (117)", "moderada": "61,1% (184)", "severa": "0,0% (0)"},
+            {"Recorte": "Defasagem por faixa etária aproximada", "Ano": "2024", "Faixa": "11 a 13 anos", "n": 378, "sem defasagem": "59,5% (225)", "moderada": "40,5% (153)", "severa": "0,0% (0)"},
+        ],
+        complementary_note=(
+            "A variação em pontos percentuais usa a parcela \"sem defasagem\" (2022→2023: 30,1%→45,6%, "
+            "+15,5 p.p.; 2023→2024: 45,6%→53,8%, +8,2 p.p.).\n\n"
+            "Média anual do IAN em 2024 — auditoria de divulgação conjunta (correção pontual, "
+            "24/09/2026): o IAN só assume três valores fixos por construção (10 = sem defasagem, 5 = "
+            "moderada, 2,5 = severa — ver docs/contrato_metodologico.md). Isso significa que a média "
+            "EXATA (não arredondada) de 2024, combinada com a contagem já publicada de \"sem defasagem\" "
+            "(622) e o total de \"com defasagem\" (534), permitiria isolar algebricamente a divisão exata "
+            "entre moderada e severa — por isso uma rodada anterior desta correção suprimiu a média "
+            "inteira nesse ano, e por isso a média exata (com mais de duas casas decimais) nunca é "
+            "publicada em nenhum lugar desta camada. Uma reavaliação encontrou a supressão TOTAL "
+            "excessiva: a exigência documental é sobre a divulgação de uma célula pequena (a contagem "
+            "exata de severa), não sobre o valor da média em si, arredondado. Testado com o arredondamento "
+            "a duas casas decimais (o mesmo padrão já aplicado a 2022 e 2023): existem várias combinações "
+            "inteiras diferentes de moderada/severa dentro dos 534 registros com defasagem cuja média "
+            "arredonda para o mesmo valor publicado de 2024 — ou seja, o valor arredondado é compatível "
+            "com mais de uma divisão exata possível, nunca com uma só. Como mais de uma divisão permanece "
+            "possível, a média arredondada NÃO permite reconstruir de forma única a célula protegida, e "
+            "por isso passou a ser publicada (prova quantitativa por busca exaustiva, reproduzível a "
+            "partir de um script de auditoria dedicado, fora desta camada pública). A contagem exata de "
+            "severa em 2024 continua não publicada (célula abaixo do mínimo de 10 registros).\n\n"
+            "Sinal da defasagem "
+            "(D<0/D=0/D>0) usa uma partição diferente (sinal de D, não a categoria do IAN) e por isso não "
+            "recria esse risco — é seguro publicá-lo inteiro para os três anos.\n\n"
+            "Sexo — detalhamento completo (achado exploratório, scripts/explorar_recortes_por_sexo.py): "
+            "as três categorias originais (sem defasagem/moderada/severa) só passam pela supressão em "
+            "2022 (ambos os sexos com as três categorias acima de 10 registros); em 2023 e 2024, a "
+            "categoria severa já é pequena no agregado (14 e poucos registros) e some abaixo do mínimo ao "
+            "dividir por sexo, então essa partição de TRÊS categorias fica suprimida nesses dois anos. Em "
+            "2022, a diferença entre feminino e masculino nas três categorias é pequena (severa: 3,1% vs. "
+            "3,5%; sem defasagem: 31,1% vs. 29,0%).\n\n"
+            "Sexo — agregação binária nos três anos (correção pós-auditoria comparativa, rodada 3): "
+            "reunindo moderada e severa em uma única categoria \"alguma defasagem\" — a MESMA agregação "
+            "já usada para publicar 2024 na tabela principal, aplicada aqui célula a célula pela mesma "
+            "função de supressão (distribution) — as seis combinações sexo×ano (2022/2023/2024 × "
+            "feminino/masculino) passam todas pela privacidade, sem nenhuma suprimida. A parcela de "
+            "\"alguma defasagem\" caiu nos dois sexos entre 2022 e 2024: de 68,9% para 44,0% no feminino "
+            "(n=457→546→623) e de 71,0% para 48,8% no masculino (n=403→468→533) — quedas de 24,9 e 22,2 "
+            "pontos percentuais no total do período, respectivamente, com o feminino caindo mais entre "
+            "2022 e 2023 (-19,1 p.p.) e o masculino caindo de forma mais constante nos dois intervalos "
+            "(-11,1 e -11,0 p.p.). Os denominadores de cada sexo em cada ano aparecem na coluna \"n\" da "
+            "tabela acima; a diferença entre sexos em cada ano isolado é pequena (2 a 3 pontos "
+            "percentuais), mas a queda ao longo do tempo é grande nos dois grupos.\n\n"
+            "Faixa etária aproximada (calculada a partir do ano de nascimento — não é idade exata, ver "
+            "docs do módulo; scripts/explorar_recortes_por_idade.py): disponível para \"7 a 10 anos\" nos "
+            "três anos e para \"14 a 16 anos\" em 2022 e \"11 a 13 anos\" em 2024; as demais combinações "
+            "fase-ano-faixa foram suprimidas por caixa pequena. Em 2022, a faixa \"14 a 16 anos\" tem "
+            "proporção de severa bem maior (7,5%) do que a faixa \"7 a 10 anos\" (0,0%) — a mesma direção "
+            "do achado por fase 3 (também concentrada em estudantes mais velhos), mas os dados não "
+            "permitem separar se o efeito vem da idade em si, da fase escolar, ou de ambas estarem "
+            "correlacionadas entre os estudantes que compõem cada grupo; além disso, como a faixa é "
+            "aproximada, um estudante perto da fronteira dos 13/14 anos poderia estar na faixa vizinha na "
+            "idade real. As fronteiras auditadas são 7–10, 11–13, 14–16 e 17 anos ou mais; sem dia e "
+            "mês de nascimento, estudantes próximos a 10/11, 13/14 ou 16/17 anos podem pertencer à "
+            "faixa vizinha na idade real.\n\nA linha \"Defasagem por "
+            "fase\" é um achado EXPLORATÓRIO desta rodada, fora do artefato interno congelado: das 24 "
+            "combinações fase×ano, apenas fase 3 em 2022 teve as três categorias com 10 ou mais "
+            "registros ao mesmo tempo; todas as demais foram suprimidas por caixa pequena. Reprodutível "
+            "via scripts/explorar_defasagem_por_fase.py, que reaproveita summary()/distribution() de "
+            "src/analises_negocio.py sem alterá-lo."
+        ),
+        interpret=("Use o painel esquerdo para o detalhamento de 2022 e 2023. No painel direito, "
+                   "compare apenas 'sem defasagem' e 'com defasagem': 2024 não deve ser usado para "
+                   "separar defasagem moderada de severa."),
+        observed=("A participação agregada de registros com defasagem foi 69,9% em 2022, 54,4% em "
+                  "2023 e 46,2% em 2024."),
+        meaning="O perfil anual ajuda a dimensionar acompanhamento, mas não descreve a trajetória individual nem mudanças dentro do ano.",
+        action=("Usar a tendência anual para dimensionar acompanhamento e coletar medições "
+                "intranuais; preservar a agregação de 2024 em todas as saídas públicas."),
+        limits=("A separação entre defasagem moderada e severa em 2024 não pode ser divulgada. Não há "
+                "registro por mês, bimestre, trimestre ou semestre; comparar anos não mede evolução "
+                "dentro do ano, e a entrada e saída de estudantes de um ano para o outro impedem "
+                "atribuição individual ou causal."),
+        population="Todos os 860 registros de 2022, 1.014 de 2023 e 1.156 de 2024.",
+        source=("Agregados anuais aprovados: categorias detalhadas em 2022–2023 e, em 2024, "
+                "dois grupos complementares (sem defasagem versus defasagem agregada)."),
+        status="parcialmente respondida; evolução intranual não mensurável",
+        conclusion={
+            "constatacao_principal": "A parcela anual de registros com alguma defasagem diminuiu entre 2022 e 2024 (69,9% → 54,4% → 46,2%), com a maior redução observada entre 2022 e 2023.",
+            "diferencas_entre_grupos": "A única combinação fase×ano com detalhamento publicável (fase 3, 2022) mostra severa acima da média do ano (9,5% vs. 3,3% geral); a faixa etária aproximada \"14 a 16 anos\" no mesmo ano mostra o mesmo padrão (7,5% severa vs. 3,3% geral) — indícios de concentração em estudantes mais velhos/de fases mais avançadas em 2022, mas não generalizáveis aos demais anos, todos suprimidos por amostra pequena nesses recortes. Por sexo, com a agregação binária (sem/alguma defasagem) publicável nos três anos, a diferença dentro de cada ano é pequena (2 a 3 pontos percentuais), mas a queda ao longo do período é grande nos dois sexos: -24,9 p.p. no feminino e -22,2 p.p. no masculino entre 2022 e 2024.",
+            "ponto_de_atencao": "A queda ano a ano é uma diferença entre fotografias de populações parcialmente diferentes (entradas e saídas de estudantes), não uma medida de progresso dos mesmos indivíduos.",
+            "limite_da_evidencia": "Sem medição intranual, a conclusão fica limitada ao nível de composição anual da população atendida. A contagem exata de estudantes em defasagem severa em 2024 continua não publicada (grupo pequeno demais para publicar com segurança); a média anual do IAN nesse ano é publicada arredondada a duas casas decimais, o suficiente para não permitir reconstruir essa contagem de forma única. O detalhamento de defasagem por sexo em três categorias (sem/moderada/severa) só é publicável em 2022; nos demais anos, só a agregação binária (sem/alguma defasagem) passa pela supressão. Os recortes por faixa etária aproximada só puderam ser publicados para uma fração dos anos/faixas, por supressão de grupos pequenos, e são sujeitos à imprecisão inerente ao cálculo por ano de nascimento (sem dia/mês).",
+            "implicacao_pratica": "A ONG pode usar a tendência para dimensionar equipe e prioridade de acompanhamento por ano, mas não para atribuir a queda a uma ação específica nem para prometer resultado individual.",
+            "proximo_acompanhamento": "Registrar medições intranuais (ao menos semestrais) e, numa próxima regeneração do artefato interno, ampliar a supressão por fase, sexo e idade para mais anos, se o crescimento da base permitir células maiores.",
+        },
+        cuts={
+            "sexo": {
+                "implementado": True,
+                "detalhe": (
+                    "Categorias de defasagem por sexo em três categorias (sem/moderada/severa), 2022 "
+                    "(única célula publicável nesse nível de detalhe — ver análises complementares): "
+                    "diferença pequena entre feminino e masculino. Em 2023 e 2024, esse detalhamento fica "
+                    "suprimido (partição com célula < 10 nos dois anos, por a categoria severa já ser "
+                    "pequena no agregado), mas a agregação BINÁRIA (sem defasagem / alguma defasagem = "
+                    "moderada + severa) — a mesma já usada para publicar 2024 na tabela principal — é "
+                    "publicável nos três anos, para os dois sexos, sem nenhuma célula suprimida."
+                ),
+            },
+            "idade": {
+                "implementado": True,
+                "detalhe": (
+                    "Categorias de defasagem por faixa etária APROXIMADA, calculada de forma segura (ano "
+                    "de referência menos ano de nascimento — não é idade exata, ver documentação do "
+                    "módulo), disponível para \"7 a 10 anos\" nos três anos e para uma faixa adicional em "
+                    "2022 e 2024 (ver análises complementares); demais combinações suprimidas por caixa "
+                    "pequena."
+                ),
+            },
+            "fase": {"implementado": True, "detalhe": "Achado exploratório para fase 3/2022 (única célula publicável); demais 23 combinações fase×ano suprimidas por caixa pequena — ver análises complementares."},
+            "ano": {"implementado": True, "detalhe": "As três categorias detalhadas (2022, 2023) e a agregação de 2024 já são o eixo central da pergunta."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "A relação entre defasagem e Pedra é coberta com mais profundidade na pergunta 10 (INDE/Pedra usa outros indicadores, defasagem não é componente direto da fórmula do INDE)."},
+            "situacao_defasagem": {"implementado": True, "detalhe": "É a própria variável de resposta desta pergunta (categoria sem/moderada/severa e sinal de D)."},
+            "cobertura": {"implementado": True, "detalhe": "Cobertura de 100% do IAN nos três anos (0 ausentes); denominadores exatos em todas as linhas da tabela."},
+            "trajetoria_longitudinal": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "A trajetória individual de defasagem entre anos consecutivos é tratada na pergunta 11 (perda de correspondência) e não duplicada aqui."},
+        },
+    ),
+    _question(
+        2,
+        why_it_matters=(
+            "O IDA é o indicador de desempenho acadêmico mais direto; entender se ele sobe, cai ou "
+            "estagna por fase orienta onde concentrar reforço pedagógico."
+        ),
+        how_analyzed=(
+            "Média do IDA por ano (todos os registros) e por fase-ano (fases 0 a 5, com cobertura "
+            "suficiente nos três anos); variação média entre estudantes pareados nas duas transições "
+            "longitudinais disponíveis."
+        ),
+        answer=("O IDA médio subiu de 6,09 em 2022 para 6,66 em 2023 e recuou para 6,35 em 2024. "
+                "Nas fases 0–3 houve alta em 2023 e recuo em 2024; a fase 4 caiu gradualmente; a "
+                "fase 5 melhorou em 2024. Fases 6–9 não sustentam comparação completa por cobertura "
+                "ou supressão. Entre estudantes pareados, a variação média foi +0,12 em 2022→2023 "
+                "e −0,48 em 2023→2024."),
+        numbers=[
+            {"Recorte": "Todos os registros", "2022": 6.09, "2023": 6.66, "2024": 6.35, "Conclusão": "alta e depois queda"},
+            {"Recorte": "Fase 0", "2022": 7.14, "2023": 7.42, "2024": 7.32, "Conclusão": "alta e leve recuo"},
+            {"Recorte": "Fase 1", "2022": 6.46, "2023": 6.81, "2024": 6.79, "Conclusão": "alta e estabilidade"},
+            {"Recorte": "Fase 2", "2022": 5.41, "2023": 6.74, "2024": 6.25, "Conclusão": "alta e recuo"},
+            {"Recorte": "Fase 3", "2022": 5.14, "2023": 5.75, "2024": 5.35, "Conclusão": "alta e recuo"},
+            {"Recorte": "Fase 4", "2022": 6.05, "2023": 6.00, "2024": 5.88, "Conclusão": "queda gradual"},
+            {"Recorte": "Fase 5", "2022": 5.87, "2023": 5.90, "2024": 6.45, "Conclusão": "estável e depois alta"},
+            {"Recorte": "Pares 2022→2023", "2022": None, "2023": 0.12, "2024": None, "Conclusão": "variação média positiva"},
+            {"Recorte": "Pares 2023→2024", "2022": None, "2023": None, "2024": -0.48, "Conclusão": "variação média negativa"},
+        ],
+        note="Médias arredondadas; fases 6–9 são descritas como cobertura insuficiente, ausência ou supressão, sem preencher lacunas.",
+        complementary_numbers=[
+            {"Recorte": "Cobertura por fase-ano", "Fase": "0", "2022 (n)": 190, "2023 (n)": 231, "2024 (n)": 196},
+            {"Recorte": "Cobertura por fase-ano", "Fase": "1", "2022 (n)": 192, "2023 (n)": 173, "2024 (n)": 185},
+            {"Recorte": "Cobertura por fase-ano", "Fase": "2", "2022 (n)": 155, "2023 (n)": 200, "2024 (n)": 185},
+            {"Recorte": "Cobertura por fase-ano", "Fase": "3", "2022 (n)": 148, "2023 (n)": 132, "2024 (n)": 211},
+            {"Recorte": "IDA médio por sexo", "Sexo": "feminino", "2022": 6.18, "2023": 6.65, "2024": 6.35, "n (2022/23/24)": "457/495/571"},
+            {"Recorte": "IDA médio por sexo", "Sexo": "masculino", "2022": 6.00, "2023": 6.67, "2024": 6.36, "n (2022/23/24)": "403/442/484"},
+            {"Recorte": "IDA médio por faixa etária aproximada", "Faixa": "7 a 10 anos", "2022": 6.86, "2023": 7.35, "2024": 7.40, "n (2022/23/24)": "283/315/301"},
+            {"Recorte": "IDA médio por faixa etária aproximada", "Faixa": "11 a 13 anos", "2022": 6.02, "2023": 6.62, "2024": 6.08, "n (2022/23/24)": "309/346/378"},
+            {"Recorte": "IDA médio por faixa etária aproximada", "Faixa": "14 a 16 anos", "2022": 5.33, "2023": 5.85, "2024": 5.71, "n (2022/23/24)": "200/215/285"},
+            {"Recorte": "IDA médio por faixa etária aproximada", "Faixa": "17 anos ou mais", "2022": 5.48, "2023": 6.26, "2024": 6.06, "n (2022/23/24)": "68/61/91 — cobertura de apenas 47-100% nesta faixa"},
+        ],
+        complementary_note=(
+            "Denominadores de cada célula da tabela de médias por fase (fonte: "
+            "analises.ida_fase.<ano> do artefato interno congelado). Nenhuma fase-ano das linhas 0-5 "
+            "tem menos de 100 observações; a comparação entre fases é, portanto, estatisticamente "
+            "razoável, mesmo sem intervalo de confiança formal publicado nesta camada. Por sexo "
+            "(fonte: scripts/explorar_recortes_por_sexo.py, achado exploratório): as médias de "
+            "feminino e masculino ficam a menos de 0,2 ponto uma da outra em todos os três anos — "
+            "diferença pequena diante do desvio padrão de cada grupo (~2 pontos), sem evidência de "
+            "gap relevante. Por faixa etária aproximada (scripts/explorar_recortes_por_idade.py, calculada de "
+            "forma segura a partir do ano de nascimento — ver seção de recortes): o IDA médio "
+            "diminui de forma consistente da faixa mais nova para as intermediárias em todos os três "
+            "anos (7 a 10 anos sempre acima de 6,8; 14-16 anos sempre a menos de 6,0); a faixa \"17 "
+            "anos ou mais\" tem cobertura bem menor (47-100%, contra praticamente 100% nas demais "
+            "faixas) e por isso sua média deve ser lida com mais cautela."
+        ),
+        interpret="As linhas por fase mostram heterogeneidade; as duas últimas linhas acompanham os mesmos estudantes em anos consecutivos.",
+        observed="Não há tendência única: o movimento depende do período e da fase.",
+        meaning="A média geral pode ocultar diferenças importantes entre fases e entre composição anual e progresso dos estudantes acompanhados.",
+        action="Monitorar IDA por fase e acompanhar separadamente os pares longitudinais.",
+        limits="Médias não identificam causa; fases com baixa cobertura ou supressão não permitem comparação completa.",
+        population="Registros com IDA disponível em 2022–2024 e pares correspondidos nas duas transições.",
+        source="perguntas[1].principais_numeros — médias anuais, por fase e longitudinais aprovadas",
+        conclusion={
+            "constatacao_principal": "O IDA geral subiu em 2023 e recuou em 2024; entre pares longitudinais, a mesma reversão aparece (+0,12 depois -0,48), afastando a hipótese de que a queda geral seja só efeito de composição de turma.",
+            "diferencas_entre_grupos": "Fase 5 é a exceção: melhorou justamente no ano em que as demais fases 0-4 recuaram (2024), com n=185+ em todos os anos — diferença que não parece ruído de amostra pequena. Por sexo, as diferenças são pequenas (<0,2 ponto) nos três anos; por faixa etária aproximada, o IDA médio é consistentemente mais baixo nas faixas mais velhas, com a ressalva de que a faixa 17+ tem cobertura de dado bem menor.",
+            "ponto_de_atencao": "A queda 2023→2024 nos pares correspondidos (-0,48) é maior, em módulo, do que a alta 2022→2023 (+0,12) — a reversão recente pesa mais do que o ganho anterior para os mesmos estudantes.",
+            "limite_da_evidencia": "Fases 6-9 não têm cobertura completa nos três anos, e a faixa etária aproximada \"17 anos ou mais\" tem cobertura de dado reduzida (47-100%, contra quase 100% nas demais faixas) — os números dessa faixa podem refletir um subconjunto não aleatório dos estudantes mais velhos, não a população completa.",
+            "implicacao_pratica": "Priorizar investigação pedagógica na fase 5 (única com alta em 2024) para entender o que difere das demais, e revisar o que mudou estruturalmente entre 2023 e 2024 para as fases 0-4.",
+            "proximo_acompanhamento": "Acompanhar se a queda de 2024 se confirma como tendência ou como desvio de um único ano, na próxima regeneração anual dos dados.",
+        },
+        cuts={
+            "sexo": {"implementado": True, "detalhe": "IDA médio por sexo, três anos (ver análises complementares) — diferença pequena (<0,2 ponto) em todos os anos."},
+            "idade": {"implementado": True, "detalhe": "IDA médio por faixa etária aproximada, três anos (ver análises complementares) — queda consistente da faixa mais nova para as intermediárias; faixa 17+ com cobertura de dado reduzida (47-100%)."},
+            "fase": {"implementado": True, "detalhe": "Fases 0-5 com médias e cobertura completas nos três anos; fases 6-9 sem comparação completa (cobertura insuficiente ou supressão)."},
+            "ano": {"implementado": True, "detalhe": "2022/2023/2024, mais as duas transições longitudinais pareadas."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "A relação entre IDA e Pedra de origem é tratada com mais profundidade na pergunta 10 (ida_por_pedra_origem)."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "Esta pergunta é sobre nível e tendência do IDA, não sobre o status de defasagem em si (coberto na pergunta 1)."},
+            "cobertura": {"implementado": True, "detalhe": "Denominadores de cada fase-ano publicados na tabela complementar."},
+            "trajetoria_longitudinal": {"implementado": True, "detalhe": "Pares 2022→2023 e 2023→2024, variação média do IDA dos mesmos estudantes."},
+        },
+    ),
+    _question(
+        3,
+        why_it_matters=(
+            "Entender se engajamento acompanha desempenho e ponto de virada ajuda a decidir se "
+            "investir em engajamento tem retorno em outras dimensões, não só na própria nota de "
+            "engajamento."
+        ),
+        how_analyzed=(
+            "Correlação de Spearman (ρ) entre IEG e IDA, e entre IEG e IPV, calculada tanto ajustada "
+            "por ano (removendo diferença de nível médio entre anos) quanto separadamente em cada um "
+            "dos três anos, para verificar se a relação é estável ao longo do tempo."
+        ),
+        answer=("Sim, no sentido de associação estatística: após retirar diferenças médias entre anos, "
+                "IEG apresentou associação moderada tanto com IDA (ρ=0,492) quanto com IPV (ρ=0,522). "
+                "A relação é positiva nos três anos, mas não demonstra efeito causal direto."),
+        numbers=[
+            {"Relação": "IEG × IDA", "ρ ajustado por ano": 0.492, "n": 2852, "Intensidade": "moderada"},
+            {"Relação": "IEG × IPV", "ρ ajustado por ano": 0.522, "n": 2852, "Intensidade": "moderada"},
+        ],
+        note="ρ de Spearman; pares completos. Associação não equivale a causalidade.",
+        complementary_numbers=[
+            {"Relação": "IEG × IDA", "Ano": "2022", "ρ": 0.507, "n": 860},
+            {"Relação": "IEG × IDA", "Ano": "2023", "ρ": 0.446, "n": 937},
+            {"Relação": "IEG × IDA", "Ano": "2024", "ρ": 0.517, "n": 1055},
+            {"Relação": "IEG × IPV", "Ano": "2022", "ρ": 0.540, "n": 860},
+            {"Relação": "IEG × IPV", "Ano": "2023", "ρ": 0.492, "n": 938},
+            {"Relação": "IEG × IPV", "Ano": "2024", "ρ": 0.551, "n": 1054},
+            {"Relação": "IEG × IDA", "Sexo": "feminino", "ρ ajustado por ano": 0.480, "n": 1523},
+            {"Relação": "IEG × IDA", "Sexo": "masculino", "ρ ajustado por ano": 0.505, "n": 1329},
+            {"Relação": "IEG × IPV", "Sexo": "feminino", "ρ ajustado por ano": 0.511, "n": 1523},
+            {"Relação": "IEG × IPV", "Sexo": "masculino", "ρ ajustado por ano": 0.527, "n": 1329},
+            {"Relação": "IEG × IDA", "Faixa etária aproximada": "7 a 10 anos", "ρ ajustado por ano": 0.317, "n": 899},
+            {"Relação": "IEG × IDA", "Faixa etária aproximada": "11 a 13 anos", "ρ ajustado por ano": 0.434, "n": 1033},
+            {"Relação": "IEG × IDA", "Faixa etária aproximada": "14 a 16 anos", "ρ ajustado por ano": 0.597, "n": 700},
+            {"Relação": "IEG × IDA", "Faixa etária aproximada": "17 anos ou mais", "ρ ajustado por ano": 0.579, "n": 220},
+        ],
+        complementary_note=(
+            "Recorte por ano (não ajustado), complementar ao valor ajustado da tabela principal — "
+            "mostra que a associação se mantém moderada (0,45 a 0,55) em TODOS os três anos "
+            "individualmente, não sendo um artefato do ajuste entre anos nem de um único ano específico. "
+            "Por sexo (scripts/explorar_recortes_por_sexo.py, achado exploratório): associação moderada "
+            "em ambos, com diferença pequena (masculino levemente maior, ~0,02-0,03). Por faixa etária aproximada "
+            "(scripts/explorar_recortes_por_idade.py): a associação IEG×IDA cresce de fraca-moderada na "
+            "faixa mais nova (ρ=0,32, 7 a 10 anos) para moderada-forte nas faixas mais velhas (ρ=0,58-0,60, "
+            "14 anos ou mais) — um padrão consistente de engajamento acompanhar desempenho de forma mais "
+            "próxima à medida que a idade aumenta, sem que os dados permitam explicar a causa dessa "
+            "diferença."
+        ),
+        interpret="Valores positivos indicam que posições mais altas de IEG tendem a acompanhar posições mais altas de IDA e IPV.",
+        observed="As duas relações são positivas, moderadas e de magnitude semelhante.",
+        meaning="Engajamento deve ser acompanhado junto ao desempenho e ao ponto de virada, não usado isoladamente como explicação.",
+        action="Criar painéis conjuntos de IEG, IDA e IPV e discutir mudanças com a equipe pedagógica.",
+        limits="A análise não isola direção causal nem fatores de contexto compartilhados.",
+        population="2.852 pares completos de registros anuais de 2022–2024, com ajuste descritivo por ano.",
+        source="perguntas[2].principais_numeros — associações sanitizadas",
+        conclusion={
+            "constatacao_principal": "IEG se associa de forma moderada e estável a IDA e a IPV, em todos os três anos e no agregado ajustado — não é um efeito de um único ano.",
+            "diferencas_entre_grupos": "Por sexo, a diferença é pequena (ρ 0,48 feminino vs. 0,51 masculino). Por faixa etária aproximada, há um gradiente mais nítido: a associação IEG×IDA quase dobra da faixa mais nova (ρ=0,32, 7 a 10 anos) para as faixas mais velhas (ρ=0,58-0,60, 14 anos ou mais) — diferença que os dados não permitem explicar.",
+            "ponto_de_atencao": "A associação com IPV (0,522) é ligeiramente mais forte que com IDA (0,492) nos três anos — engajamento acompanha o ponto de virada tão ou mais de perto do que acompanha desempenho acadêmico.",
+            "limite_da_evidencia": "Correlação ordinal não separa direção de causa nem descarta um terceiro fator comum (ex.: contexto familiar) influenciando os três indicadores; o gradiente por idade é descritivo, não uma explicação causal de por que a associação varia.",
+            "implicacao_pratica": "Ações de engajamento podem ser acompanhadas com expectativa razoável de se refletirem também em desempenho e ponto de virada, sem prometer esse efeito individualmente.",
+            "proximo_acompanhamento": "Repetir o cálculo a cada nova regeneração anual para confirmar se a associação permanece estável.",
+        },
+        cuts={
+            "sexo": {"implementado": True, "detalhe": "IEG×IDA/IPV por sexo, ajustado por ano (ver análises complementares) — diferença pequena entre feminino e masculino."},
+            "idade": {"implementado": True, "detalhe": "IEG×IDA/IPV por faixa etária aproximada (ver análises complementares) — gradiente: associação mais fraca na faixa mais nova, mais forte nas faixas mais velhas."},
+            "fase": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "IPV por fase já é coberto na pergunta 7 (ipv.por_fase); repetir aqui duplicaria a mesma fonte sem pergunta nova."},
+            "ano": {"implementado": True, "detalhe": "Valores não ajustados de 2022, 2023 e 2024 na tabela complementar, ao lado do valor ajustado por ano."},
+            "pedra": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "A pergunta é sobre a relação entre três indicadores contínuos, não sobre a categoria Pedra."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "Engajamento×desempenho×ponto de virada não depende, na formulação da pergunta, do status de defasagem."},
+            "cobertura": {"implementado": True, "detalhe": "n exato de cada ano e do agregado ajustado publicado nas duas tabelas."},
+            "trajetoria_longitudinal": {"implementado": False, "motivo": "falta de pareamento longitudinal confiável", "detalhe": "A pergunta trata de associação contemporânea; associação com IPV do ano SEGUINTE já é coberta na pergunta 7 (ipv_futuro)."},
+        },
+    ),
+    _question(
+        4,
+        why_it_matters=(
+            "Se a autoavaliação do próprio estudante (IAA) divergir muito do desempenho e engajamento "
+            "medidos externamente, isso pode indicar um tema de escuta pedagógica, não um erro de "
+            "medição."
+        ),
+        how_analyzed=(
+            "Correlação de Spearman entre IAA e IDA, e entre IAA e IEG, ajustada por ano e também "
+            "isolada em cada um dos três anos."
+        ),
+        answer=("A coerência de ordenação é positiva, porém fraca. Ajustando diferenças médias entre anos, "
+                "IAA se associa a IDA com ρ=0,163 e a IEG com ρ=0,212. Isso sugere que autopercepção, "
+                "desempenho e engajamento captam dimensões parcialmente diferentes."),
+        numbers=[
+            {"Relação": "IAA × IDA", "ρ ajustado por ano": 0.163, "n": 2851, "Intensidade": "fraca"},
+            {"Relação": "IAA × IEG", "ρ ajustado por ano": 0.212, "n": 2852, "Intensidade": "fraca"},
+        ],
+        note="Coerência foi operacionalizada como associação ordinal; não é diagnóstico de percepção correta ou incorreta.",
+        complementary_numbers=[
+            {"Relação": "IAA × IDA", "Ano": "2022", "ρ": 0.183, "n": 860},
+            {"Relação": "IAA × IDA", "Ano": "2023", "ρ": 0.127, "n": 937},
+            {"Relação": "IAA × IDA", "Ano": "2024", "ρ": 0.178, "n": 1054},
+            {"Relação": "IAA × IEG", "Ano": "2022", "ρ": 0.234, "n": 860},
+            {"Relação": "IAA × IEG", "Ano": "2023", "ρ": 0.191, "n": 938},
+            {"Relação": "IAA × IEG", "Ano": "2024", "ρ": 0.230, "n": 1054},
+        ],
+        complementary_note="Recorte por ano: a fraqueza da associação se repete nos três anos individualmente (ρ entre 0,13 e 0,23) — não é um efeito de composição do agregado ajustado.",
+        interpret="Valores próximos de zero representam pouca concordância de ordenação, não erro de uma das medidas.",
+        observed="IAA se aproxima um pouco mais de IEG que de IDA, mas ambas as associações são fracas.",
+        meaning="Divergências podem orientar escuta, pois as medidas não avaliam exatamente o mesmo construto.",
+        action="Usar diferenças como ponto de conversa individual, nunca como classificação automática.",
+        limits="As escalas não são equivalentes e a análise não valida a autoavaliação individual.",
+        population="Pares completos de IAA com IDA e IEG nos registros anuais de 2022–2024.",
+        source="perguntas[3].principais_numeros — associações sanitizadas",
+        conclusion={
+            "constatacao_principal": "IAA tem associação consistentemente fraca com IDA e IEG nos três anos — a autopercepção do estudante não segue de perto as medidas externas de desempenho e engajamento.",
+            "diferencas_entre_grupos": "Não há recorte por subgrupo nesta pergunta; a diferença observável é que IAA se aproxima um pouco mais de IEG (0,19-0,23) do que de IDA (0,13-0,18) em todos os anos.",
+            "ponto_de_atencao": "2023 tem a associação mais baixa em ambas as relações (0,127 e 0,191) — não há explicação nos dados disponíveis; merece registro para acompanhamento, não interpretação causal.",
+            "limite_da_evidencia": "Correlação ordinal fraca não indica que a autoavaliação está \"errada\" — pode estar medindo uma dimensão subjetiva legítima que os indicadores externos não capturam.",
+            "implicacao_pratica": "Divergências grandes entre IAA e IDA/IEG de um mesmo estudante são um tema de conversa qualificada, não um sinal de alerta automático.",
+            "proximo_acompanhamento": "Investigar, com a equipe pedagógica, o que explica a queda pontual de 2023 antes de descartá-la como ruído.",
+        },
+        cuts={
+            "sexo": CUT_SEXO_NAO_AVALIADO,
+            "idade": CUT_IDADE_NAO_AVALIADO,
+            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "IAA×IDA/IEG por fase-ano quebraria a amostra em até 24 células; a maioria ficaria abaixo do mínimo de robustez estatística para correlação ordinal, mesmo sem violar o limiar de privacidade de 10 registros."},
+            "ano": {"implementado": True, "detalhe": "Valores de 2022, 2023 e 2024 isolados, na tabela complementar."},
+            "pedra": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "A pergunta trata da coerência entre três indicadores contínuos, não da categoria Pedra."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "Coerência de autoavaliação não é definida, na formulação da pergunta, em função do status de defasagem."},
+            "cobertura": {"implementado": True, "detalhe": "n exato de cada ano e do agregado publicado nas duas tabelas."},
+            "trajetoria_longitudinal": {"implementado": False, "motivo": "falta de pareamento longitudinal confiável", "detalhe": "A pergunta é sobre coerência contemporânea (mesmo ano), não sobre mudança entre anos."},
+        },
+    ),
+    _question(
+        5,
+        why_it_matters=(
+            "Se o contexto psicossocial (IPS) hoje antecipasse quedas futuras de desempenho ou "
+            "engajamento, isso justificaria triagem preventiva baseada nele — por isso é importante "
+            "confirmar ou descartar esse padrão antes de agir."
+        ),
+        how_analyzed=(
+            "Correlação entre IPS na origem e a variação futura (delta) de IDA/IEG nas duas transições; "
+            "análise de sensibilidade com três cortes de queda (qualquer queda, queda ≥0,5, queda ≥1); "
+            "comparação do IPS médio entre quem teve queda e quem não teve, e da variação média entre "
+            "quem começou com IPS abaixo ou acima da mediana."
+        ),
+        answer=("Não foi encontrado padrão monotônico útil. O IPS no ano de origem teve correlações "
+                "muito próximas de zero com as variações futuras de IDA e IEG nas duas transições."),
+        numbers=[
+            {"Transição": "2022→2023", "Desfecho futuro": "ΔIDA", "ρ": 0.029, "n": 574},
+            {"Transição": "2022→2023", "Desfecho futuro": "ΔIEG", "ρ": -0.024, "n": 574},
+            {"Transição": "2023→2024", "Desfecho futuro": "ΔIDA", "ρ": 0.027, "n": 679},
+            {"Transição": "2023→2024", "Desfecho futuro": "ΔIEG", "ρ": 0.020, "n": 690},
+        ],
+        note="IPS é medido antes da variação futura; antecedência temporal não estabelece causa.",
+        complementary_numbers=[
+            {"Recorte": "IPS médio — grupo com queda de IDA", "Transição": "2022→2023", "Valor": 6.81, "n": 285},
+            {"Recorte": "IPS médio — grupo sem queda de IDA", "Transição": "2022→2023", "Valor": 6.93, "n": 289},
+            {"Recorte": "IPS médio — grupo com queda de IDA", "Transição": "2023→2024", "Valor": 6.72, "n": 388},
+            {"Recorte": "IPS médio — grupo sem queda de IDA", "Transição": "2023→2024", "Valor": 6.86, "n": 291},
+            {"Recorte": "ΔIDA médio — IPS abaixo da mediana na origem", "Transição": "2022→2023", "Valor": 0.01, "n": 209},
+            {"Recorte": "ΔIDA médio — IPS na mediana ou acima na origem", "Transição": "2022→2023", "Valor": 0.18, "n": 365},
+            {"Recorte": "ΔIDA médio — IPS abaixo da mediana na origem", "Transição": "2023→2024", "Valor": -0.62, "n": 281},
+            {"Recorte": "ΔIDA médio — IPS na mediana ou acima na origem", "Transição": "2023→2024", "Valor": -0.38, "n": 398},
+        ],
+        complementary_note=(
+            "Situação de IPS (abaixo/acima da mediana) e de desfecho (queda/sem queda de IDA), com médias "
+            "e n de cada grupo — a diferença entre grupos é pequena nas duas transições (0,12 e 0,14 "
+            "pontos de IDA, respectivamente), reforçando que IPS na origem não separa bem quem vai ter "
+            "queda futura de quem não vai."
+        ),
+        interpret="Barras próximas de zero não sustentam uma relação monotônica útil para triagem.",
+        observed="Os quatro coeficientes variam de −0,024 a 0,029.",
+        meaning="O IPS isolado não deve ser usado como regra automática para antecipar queda acadêmica ou de engajamento.",
+        action="Manter acompanhamento contextual e testar instrumentos e medições mais frequentes prospectivamente.",
+        limits="Relações não lineares, mudanças de instrumento, regressão à média e contexto não são descartados.",
+        population="Estudantes correspondidos e com medidas válidas em 2022→2023 e 2023→2024.",
+        source="perguntas[4].principais_numeros — associações temporais sanitizadas",
+        conclusion={
+            "constatacao_principal": "Não foi encontrada associação clara entre o IPS de origem e as quedas posteriores de IDA ou IEG nos recortes analisados — os coeficientes de associação são estatisticamente indistinguíveis de zero nas duas transições.",
+            "diferencas_entre_grupos": "Estudantes com IPS acima da mediana tiveram variação de IDA um pouco melhor que os com IPS abaixo (0,18 vs. 0,01 em 2022→2023; -0,38 vs. -0,62 em 2023→2024) — direção consistente, mas de magnitude pequena diante do desvio padrão de cada grupo.",
+            "ponto_de_atencao": "A ausência de associação clara se repete de forma independente nas duas transições e nos três cortes de sensibilidade (queda de qualquer tamanho, ≥0,5, ≥1) — não é um resultado frágil a um único corte arbitrário, mas também não é prova de que não exista nenhuma relação.",
+            "limite_da_evidencia": "A ausência de relação linear/ordinal não descarta relações não lineares nem interações com outros indicadores não testadas aqui.",
+            "implicacao_pratica": "Não convém usar IPS isoladamente como critério automático de triagem preventiva; ele pode continuar sendo acompanhado como parte do quadro geral, sem peso desproporcional.",
+            "proximo_acompanhamento": "Testar prospectivamente instrumentos e medições mais frequentes de IPS, como já recomendado, antes de revisar essa conclusão.",
+        },
+        cuts={
+            "sexo": CUT_SEXO_NAO_AVALIADO,
+            "idade": CUT_IDADE_NAO_AVALIADO,
+            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "Cruzar fase com transição e com os três cortes de sensibilidade geraria até 48 células; a maioria ficaria abaixo do mínimo de robustez, mesmo sem violar o limiar de privacidade."},
+            "ano": {"implementado": True, "detalhe": "As duas transições (2022→2023 e 2023→2024) são o próprio eixo temporal da pergunta."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "IDA por Pedra de origem já é coberto na pergunta 10."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "A pergunta trata de IPS antecedendo desempenho/engajamento, não de defasagem."},
+            "cobertura": {"implementado": True, "detalhe": "n exato de cada grupo (queda/sem queda, abaixo/acima da mediana) publicado na tabela complementar."},
+            "trajetoria_longitudinal": {"implementado": True, "detalhe": "É o próprio desenho da pergunta: IPS na origem prevendo variação (delta) futura."},
+        },
+    ),
+    _question(
+        6,
+        why_it_matters=(
+            "Se a avaliação psicopedagógica (IPP) confirmasse fortemente o IAN, um dos dois "
+            "instrumentos poderia ser redundante; se contradissesse sistematicamente, indicaria um "
+            "problema de calibração entre as duas medidas."
+        ),
+        how_analyzed=(
+            "Correlação entre IPP e IAN, e entre IPP e o sinal da defasagem (D), por ano disponível "
+            "(IPP não existe em 2022); IPP médio por categoria de defasagem em 2023 (único ano com essa "
+            "decomposição publicável); e a mediana do IPP e sua cobertura em cada ano, como referência "
+            "de escala. Deliberadamente NÃO foi feito (e não é reintroduzido nesta rodada) um "
+            "cruzamento de quadrantes por mediana × sinal de defasagem: a revisão metodológica anterior "
+            "já havia decidido não publicar esse tipo de quadrante, por poder sugerir uma classificação "
+            "diagnóstica sem critério externo validado (ver nota abaixo)."
+        ),
+        answer=("Os dados mostram associação positiva, porém fraca: IPP×IAN foi ρ=0,106 em 2023 e "
+                "ρ=0,160 em 2024; IPP×defasagem foi ρ=0,173 e ρ=0,187. Não existe critério externo "
+                "validado que permita transformar essas relações em 'confirma' ou 'contradiz'. Em 2023, "
+                "o IPP médio variou pouco entre categorias; a distribuição categórica de 2024 permanece "
+                "integralmente protegida."),
+        numbers=[
+            {"Ano": "2023", "Medida": "IPP × IAN", "n": 938, "Ausentes": 76, "Valor": 0.106},
+            {"Ano": "2023", "Medida": "IPP × defasagem", "n": 938, "Ausentes": 76, "Valor": 0.173},
+            {"Ano": "2024", "Medida": "IPP × IAN", "n": 1054, "Ausentes": 102, "Valor": 0.160},
+            {"Ano": "2024", "Medida": "IPP × defasagem", "n": 1054, "Ausentes": 102, "Valor": 0.187},
+            {"Ano": "2023", "Medida": "IPP médio — sem defasagem", "n": 388, "Ausentes": 74, "Valor": 7.665},
+            {"Ano": "2023", "Medida": "IPP médio — moderada", "n": 536, "Ausentes": 2, "Valor": 7.505},
+            {"Ano": "2023", "Medida": "IPP médio — severa", "n": 14, "Ausentes": 0, "Valor": 6.957},
+            {"Ano": "2024", "Medida": "IPP por categoria", "n": None, "Ausentes": None, "Valor": None},
+        ],
+        note="A última linha representa supressão integral. Não são publicados quadrantes por mediana nem rótulos diagnósticos artificiais.",
+        complementary_numbers=[
+            {"Recorte": "Mediana do IPP no ano", "Ano": "2023", "Valor": 7.66, "n": 938, "Cobertura": "92,5%"},
+            {"Recorte": "Mediana do IPP no ano", "Ano": "2024", "Valor": 7.50, "n": 1054, "Cobertura": "91,2%"},
+        ],
+        complementary_note=(
+            "Mediana do IPP e cobertura (n disponível sobre total do ano) nos dois anos com o indicador. "
+            "A mediana caiu ligeiramente de 2023 para 2024 (7,66 → 7,50), na mesma direção da associação "
+            "IPP×defasagem, que ficou um pouco mais forte no mesmo período (ρ 0,173 → 0,187, ver tabela "
+            "principal). Um cruzamento de quadrantes por posição do IPP frente à mediana do ano cruzada "
+            "com o sinal de defasagem foi deliberadamente NÃO incluído aqui: a revisão metodológica "
+            "anterior já havia decidido não "
+            "publicar esse tipo de recorte, por poder ser lido como uma classificação diagnóstica sem "
+            "critério externo validado — o mesmo motivo pelo qual a resposta principal desta pergunta "
+            "evita a palavra 'confirma'/'contradiz'. Essa decisão foi mantida nesta rodada."
+        ),
+        interpret="Use os coeficientes como associação ordinal e as médias de 2023 como descrição, sem classificar estudantes.",
+        observed="As associações são fracas nos dois anos; IPP é estruturalmente ausente em 2022.",
+        meaning="IAN e IPP oferecem leituras diferentes e devem ser interpretados pela equipe em contexto.",
+        action="Revisar casos com informação divergente de forma qualitativa e, antes de criar categorias, definir critério institucional externo.",
+        limits="Sem um critério validado, não é possível concluir confirmação ou contradição diagnóstica. O detalhamento por categoria de defasagem em 2024 não pode ser mostrado (grupos pequenos demais).",
+        population="Registros de 2023 e 2024 com IPP e os pares necessários; IPP ausente estruturalmente em 2022.",
+        source="perguntas[5].principais_numeros — cobertura, associações e distribuição contínua aprovada",
+        status="parcialmente respondida; confirmação diagnóstica não identificável",
+        conclusion={
+            "constatacao_principal": "IPP e IAN/defasagem têm associação positiva, mas fraca (ρ entre 0,11 e 0,19) nos dois anos com dado disponível — os dois instrumentos concordam parcialmente, não fortemente.",
+            "diferencas_entre_grupos": "Não há recorte por subgrupo adicional nesta pergunta, além dos já publicados por ano e por categoria de defasagem (tabela principal); a mediana do IPP e a força da associação com defasagem se moveram em direções coerentes entre 2023 e 2024.",
+            "ponto_de_atencao": "A distribuição categórica de IPP por defasagem em 2024 está integralmente protegida por privacidade — a leitura de 2024 depende só do cruzamento por mediana, mais grosseiro que a tabela de médias por categoria disponível em 2023.",
+            "limite_da_evidencia": "Sem critério institucional externo validado, não é possível dizer se a associação fraca reflete instrumentos complementares (esperado) ou uma falha de calibração entre eles.",
+            "implicacao_pratica": "Casos onde IPP e IAN divergem fortemente merecem revisão qualitativa da equipe, não uma regra automática de desempate entre os dois instrumentos.",
+            "proximo_acompanhamento": "Definir, com a equipe pedagógica, um critério institucional externo antes de qualquer tentativa futura de classificar concordância ou divergência.",
+        },
+        cuts={
+            "sexo": CUT_SEXO_NAO_AVALIADO,
+            "idade": CUT_IDADE_NAO_AVALIADO,
+            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "IPP não existe em 2022 e já tem ausências relevantes em 2023/2024 (76 e 102); cruzar com fase esvaziaria a maioria das células abaixo do mínimo de robustez."},
+            "ano": {"implementado": True, "detalhe": "2023 e 2024 (2022 estruturalmente ausente), incluindo mediana e cobertura de cada ano."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "IPP participa da fórmula do INDE e já é tratado, com essa ressalva de circularidade, na pergunta 8."},
+            "situacao_defasagem": {"implementado": True, "detalhe": "É o próprio eixo da pergunta: IPP × IAN e IPP × sinal de defasagem, com IPP médio por categoria em 2023. Um cruzamento adicional por quadrante mediana/sinal de D foi deliberadamente não incluído (ver nota de análises complementares)."},
+            "cobertura": {"implementado": True, "detalhe": "n e ausentes explícitos em cada linha da tabela principal (76 em 2023, 102 em 2024)."},
+            "trajetoria_longitudinal": {"implementado": False, "motivo": "falta de pareamento longitudinal confiável", "detalhe": "A pergunta é sobre concordância contemporânea entre instrumentos, não sobre mudança de um mesmo estudante entre anos."},
+        },
+    ),
+    _question(
+        7,
+        why_it_matters=(
+            "O Ponto de Virada (IPV) resume um momento de transformação da trajetória; saber quais "
+            "indicadores mais o acompanham — no mesmo ano e no ano seguinte — ajuda a priorizar onde "
+            "olhar primeiro."
+        ),
+        how_analyzed=(
+            "Correlação contemporânea (mesmo ano) de cada indicador disponível com IPV, por ano; "
+            "correlação entre cada indicador de origem e o IPV do ano SEGUINTE, nas duas transições; "
+            "e o IPV médio por fase, nos três anos, para ver se a magnitude do IPV varia com a fase."
+        ),
+        answer=("No mesmo ano, a associação mais forte com IPV foi IDA em 2022 (ρ=0,624), IDA em "
+                "2023 (ρ=0,551) e IPP em 2024 (ρ=0,705). Para IPV do ano seguinte, IDA e IEG foram "
+                "as associações mais consistentes (aproximadamente 0,39–0,42). IPS, usado apenas como "
+                "aproximação disponível da dimensão emocional, apresentou associações futuras fracas. "
+                "Os resultados indicam associação, não influência causal."),
+        numbers=[
+            {"Janela": "Mesmo ano — 2022", "Indicador": "IDA", "ρ": 0.624},
+            {"Janela": "Mesmo ano — 2023", "Indicador": "IDA", "ρ": 0.551},
+            {"Janela": "Mesmo ano — 2024", "Indicador": "IPP", "ρ": 0.705},
+            {"Janela": "2022→2023", "Indicador": "IDA de origem", "ρ": 0.417},
+            {"Janela": "2022→2023", "Indicador": "IEG de origem", "ρ": 0.412},
+            {"Janela": "2022→2023", "Indicador": "IPS de origem", "ρ": 0.189},
+            {"Janela": "2023→2024", "Indicador": "IDA de origem", "ρ": 0.400},
+            {"Janela": "2023→2024", "Indicador": "IEG de origem", "ρ": 0.387},
+            {"Janela": "2023→2024", "Indicador": "IPS de origem", "ρ": 0.069},
+        ],
+        note="Acadêmico: IDA; engajamento: IEG; psicossocial/emocional disponível: IPS. Não há medida comportamental emocional direta.",
+        complementary_numbers=[
+            {"Recorte": "IPV médio por fase", "Fase": "0", "2022": 7.56, "2023": None, "2024": None},
+            {"Recorte": "IPV médio por fase", "Fase": "1", "2022": 7.36, "2023": None, "2024": None},
+            {"Recorte": "IPV médio por fase", "Fase": "2", "2022": 7.34, "2023": None, "2024": None},
+            {"Recorte": "IPV médio por fase", "Fase": "3", "2022": 6.55, "2023": None, "2024": None},
+        ],
+        complementary_note=(
+            "IPV médio por fase em 2022 (fases 0-3, todas com n≥100; ver relatório completo para as "
+            "demais fases e anos, não incluídas aqui por brevidade). Fases mais iniciais (0-2) têm IPV "
+            "médio acima de 7,3; a fase 3 já aparece cerca de 0,8 ponto abaixo — mesma direção que o "
+            "IDA mais baixo da fase 3 observado na pergunta 2, reforçando que a fase 3 é um ponto de "
+            "atenção consistente em múltiplos indicadores."
+        ),
+        interpret="O painel separa relações contemporâneas das relações entre indicador de origem e IPV futuro.",
+        observed="IDA e IEG são mais consistentes longitudinalmente; o maior coeficiente contemporâneo muda entre anos.",
+        meaning="Não existe um único indicador-chave estável nem evidência de influência causal isolada.",
+        action="Monitorar as dimensões conjuntamente e registrar intervenções para futura avaliação prospectiva.",
+        limits="Correlação não isola efeitos; IPS é apenas aproximação da dimensão emocional.",
+        population="Pares completos anuais e estudantes correspondidos nas duas transições.",
+        source="perguntas[6].principais_numeros — associações contemporâneas e futuras aprovadas",
+        conclusion={
+            "constatacao_principal": "IDA e IEG são as associações mais estáveis e consistentes com o IPV do ano seguinte (~0,39-0,42 nas duas transições); o indicador contemporâneo mais forte muda de ano para ano.",
+            "diferencas_entre_grupos": "A fase 3 tem IPV médio (6,55) claramente abaixo das fases 0-2 (7,3-7,6) em 2022 — mesma fase que já aparecia com IDA mais baixo (pergunta 2) e maior proporção de defasagem severa (pergunta 1): um padrão que se repete em três perguntas independentes.",
+            "ponto_de_atencao": "IPS, a única aproximação disponível da dimensão emocional, tem associação futura fraca e caindo (0,189 → 0,069) — não deve ser tratado como substituto de uma medida emocional direta, que os dados não contêm.",
+            "limite_da_evidencia": "IPV compõe o INDE (ver pergunta 8), então parte da associação contemporânea pode refletir composição matemática compartilhada, não só fenômeno pedagógico independente.",
+            "implicacao_pratica": "Acompanhar IDA e IEG como sinais de acompanhamento razoavelmente antecedentes do IPV do ano seguinte; tratar a fase 3 como ponto de atenção recorrente, não isolado a este indicador.",
+            "proximo_acompanhamento": "Registrar a repetição do padrão da fase 3 nas próximas regenerações anuais para confirmar se é uma característica estrutural dessa fase ou uma coincidência dos anos observados.",
+        },
+        cuts={
+            "sexo": CUT_SEXO_NAO_AVALIADO,
+            "idade": CUT_IDADE_NAO_AVALIADO,
+            "fase": {"implementado": True, "detalhe": "IPV médio por fase (fases 0-3 de 2022 na tabela complementar; demais fases/anos no artefato completo, fonte analises.ipv.<ano>.por_fase)."},
+            "ano": {"implementado": True, "detalhe": "2022, 2023 e 2024 (contemporâneo) e as duas transições (futuro)."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "Pedra é derivada do INDE, que já inclui IPV como componente — tratar Pedra aqui duplicaria a ressalva de circularidade já feita na pergunta 8."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "A pergunta é sobre quais indicadores acompanham o IPV, não sobre status de defasagem."},
+            "cobertura": {"implementado": True, "detalhe": "n de cada janela e indicador disponível no artefato completo (análogo às demais perguntas de associação)."},
+            "trajetoria_longitudinal": {"implementado": True, "detalhe": "É metade do desenho da pergunta: indicador de origem × IPV do ano seguinte, nas duas transições."},
+        },
+    ),
+    _question(
+        8,
+        why_it_matters=(
+            "O INDE é o índice-síntese usado institucionalmente; entender quais combinações de "
+            "indicadores acompanham um INDE mais alto ajuda a explicar como ele se comporta, mesmo "
+            "sendo, por definição, composto pelos próprios indicadores."
+        ),
+        how_analyzed=(
+            "Para cada ano, os estudantes com casos completos foram classificados como \"alto\" ou "
+            "\"baixo\" em cada indicador-componente disponível (mediana do próprio ano como corte); o "
+            "perfil com maior INDE médio entre os publicáveis (10 ou mais casos) é reportado, com a "
+            "mediana de cada indicador componente e a cobertura de casos completos do ano."
+        ),
+        answer=("Perfis com vários indicadores acima da mediana anual apresentam INDE médio maior: "
+                "7,96 em 2022, 8,25 em 2023 e 8,40 em 2024 nos perfis líderes publicáveis. Isso é "
+                "esperado porque o INDE é composto pelos próprios indicadores; portanto, a análise "
+                "descreve associação matemática e não demonstra que a combinação eleva causalmente a nota."),
+        numbers=[
+            {"Ano": "2022", "Perfil de indicadores": "IDA alto + IEG alto + IPS alto", "n": 222, "INDE médio": 7.96},
+            {"Ano": "2023", "Perfil de indicadores": "IDA alto + IEG alto + IPS alto + IPP baixo", "n": 79, "INDE médio": 8.25},
+            {"Ano": "2024", "Perfil de indicadores": "IDA alto + IEG alto + IPS alto + IPP alto", "n": 193, "INDE médio": 8.40},
+        ],
+        note="Alto/baixo é relativo à mediana anual dos casos completos. IPP não existe em 2022.",
+        complementary_numbers=[
+            {"Recorte": "Cobertura de casos completos", "Ano": "2022", "Total do ano": 860, "Casos completos": 860, "Cobertura": "100%"},
+            {"Recorte": "Cobertura de casos completos", "Ano": "2023", "Total do ano": 1014, "Casos completos": 931, "Cobertura": "91,8%"},
+            {"Recorte": "Cobertura de casos completos", "Ano": "2024", "Total do ano": 1156, "Casos completos": 1054, "Cobertura": "91,2%"},
+            {"Recorte": "Medianas dos componentes", "Ano": "2022", "IDA": 6.3, "IEG": 8.3, "IPS": 7.5, "IPP": "—"},
+            {"Recorte": "Medianas dos componentes", "Ano": "2023", "IDA": 6.8, "IEG": 9.0, "IPS": 5.0, "IPP": 7.66},
+            {"Recorte": "Medianas dos componentes", "Ano": "2024", "IDA": 6.75, "IEG": 8.59, "IPS": 7.51, "IPP": 7.5},
+        ],
+        complementary_note=(
+            "Cobertura de casos completos (para o cálculo do perfil) e as medianas usadas como corte "
+            "alto/baixo em cada ano — necessárias para reproduzir e auditar a classificação. A queda "
+            "de cobertura em 2023-2024 (~91%) reflete a chegada do IPP como quinto componente naqueles "
+            "anos, com suas próprias ausências (ver pergunta 6)."
+        ),
+        interpret="Compare perfis dentro do mesmo ano; não trate diferenças como efeito causal.",
+        observed="Maior concentração de indicadores altos acompanha INDE maior, coerentemente com sua fórmula composta.",
+        meaning="Os perfis são úteis para leitura multidimensional, mas não para descobrir qual componente causa o INDE.",
+        action="Usar o perfil para organizar acompanhamento e preservar a leitura de cada dimensão separadamente.",
+        limits="Circularidade matemática, limiares relativos e ausência de IPP em 2022 impedem comparação causal direta.",
+        population="Casos completos e perfis com pelo menos dez registros em cada ano.",
+        source="perguntas[7].principais_numeros — perfis publicáveis sanitizados",
+        status="parcialmente respondida; efeito causal não identificável",
+        conclusion={
+            "constatacao_principal": "O perfil líder publicável (a maioria dos componentes acima da mediana) tem INDE médio crescente ano a ano (7,96 → 8,25 → 8,40) — resultado matematicamente esperado, não uma descoberta preditiva independente.",
+            "diferencas_entre_grupos": "O perfil de 2023 é o único com um componente \"baixo\" (IPP baixo) entre os líderes publicáveis, e tem o menor n (79) dos três anos — mudança de composição do perfil vencedor entre anos, não uma regra fixa.",
+            "ponto_de_atencao": "A cobertura de casos completos cai de 100% (2022, sem IPP) para ~91% (2023-2024, com IPP) — a inclusão de um quinto componente reduz a amostra elegível para o cálculo do perfil.",
+            "limite_da_evidencia": "Como o INDE é definido a partir destes mesmos indicadores (com pesos que variam por fase), a associação é circular por construção — não é evidência de que a combinação \"causa\" um INDE mais alto.",
+            "implicacao_pratica": "Usar os perfis para descrever a multidimensionalidade dos casos acompanhados, nunca para justificar priorizar um único componente como \"a alavanca\" do INDE.",
+            "proximo_acompanhamento": "Registrar se a composição do perfil líder se mantém estável ou muda novamente na próxima regeneração anual.",
+        },
+        cuts={
+            "sexo": CUT_SEXO_NAO_AVALIADO,
+            "idade": CUT_IDADE_NAO_AVALIADO,
+            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "O INDE usa pesos diferentes por fase; recalcular perfis alto/baixo por fase reduziria a maioria das células abaixo do mínimo de robustez para uma classificação de perfil com vários componentes simultâneos."},
+            "ano": {"implementado": True, "detalhe": "2022, 2023 e 2024, cada um com seu próprio corte de mediana e perfil líder."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "Pedra é derivada de faixas do próprio INDE; tratá-la aqui seria circular duas vezes. A evolução de Pedra é o tema da pergunta 10."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "A pergunta é sobre combinações de indicadores associadas ao INDE, não sobre status de defasagem."},
+            "cobertura": {"implementado": True, "detalhe": "Cobertura de casos completos por ano publicada na tabela complementar (100%, 91,8%, 91,2%)."},
+            "trajetoria_longitudinal": {"implementado": False, "motivo": "falta de pareamento longitudinal confiável", "detalhe": "Perfis são calculados dentro de cada ano (corte de mediana do próprio ano); comparar o MESMO estudante entre anos exigiria um desenho diferente, fora do escopo desta pergunta."},
+        },
+    ),
+    _question(
+        9,
+        why_it_matters=(
+            "O modelo é a única parte preditiva do projeto; entender não só o desempenho agregado, mas "
+            "também se ele funciona igualmente bem em diferentes fases, gêneros e faixas etárias é "
+            "essencial antes de confiar nele para priorização."
+        ),
+        how_analyzed=(
+            "Validação temporal (treino em 2022→2023, teste único em 2023→2024, sem reajuste); "
+            "métricas agregadas (recall, precisão, AP, ROC-AUC, Brier, matriz de confusão) no "
+            "desenvolvimento (OOF) e no teste temporal; auditoria de equidade por fase, prevista no "
+            "contrato metodológico e já congelada em reports/metricas_modelagem.json; e, nesta "
+            "correção, uma auditoria de equidade por gênero e por faixa etária aproximada, recuperada ligando "
+            "cada predição do teste temporal ao registro correspondente em `local_data/"
+            "base_longitudinal.csv`. A ligação usa a CHAVE COMPOSTA (RA, ano dos preditores) — não "
+            "apenas RA — porque um mesmo RA pode ter mais de um registro anual, e uma auditoria à base "
+            "encontrou pequenas inconsistências cadastrais entre anos (gênero ou ano de nascimento "
+            "divergentes para poucos RAs); a chave composta liga cada predição exatamente ao registro "
+            "do MESMO ano em que os preditores foram observados, eliminando essa ambiguidade (ver "
+            "`scripts/explorar_equidade_genero_modelo.py` e a auditoria de cardinalidade na nota "
+            "abaixo). Sem retreinar, recalibrar ou alterar o modelo ou o limiar. A reconstrução foi "
+            "validada posição a posição contra a coorte tabular oficial (preditores, rótulos e "
+            "probabilidades) e reproduziu todas as métricas globais antes de qualquer quebra por subgrupo."
+        ),
+        answer=("O modelo logístico congelado estima a probabilidade de um estudante elegível entrar em "
+                "defasagem no ano seguinte. No desenvolvimento com predições OOF (2022→2023), o recall "
+                "foi 81,7%; no teste temporal (2023→2024), caiu para 40,5%. Com o limiar congelado de "
+                "aproximadamente 26,7%, o teste temporal gerou 19 falsos positivos e 50 falsos negativos. "
+                "Assim, a probabilidade serve como apoio à revisão humana, não como decisão automática."),
+        numbers=[
+            {"Avaliação": "Desenvolvimento com predições OOF — 2022→2023", "n": 189, "Eventos": 60, "Recall": 0.817, "Precisão": 0.533, "AP": 0.665, "ROC-AUC": 0.814, "Brier": 0.160, "Falsos positivos": None, "Falsos negativos": None, "Limiar": None},
+            {"Avaliação": "Teste temporal — 2023→2024", "n": 311, "Eventos": 84, "Recall": 0.405, "Precisão": 0.642, "AP": 0.621, "ROC-AUC": 0.804, "Brier": 0.174, "Falsos positivos": 19, "Falsos negativos": 50, "Limiar": None},
+            {"Avaliação": "Limiar congelado", "n": None, "Eventos": None, "Recall": None, "Precisão": None, "AP": None, "ROC-AUC": None, "Brier": None, "Falsos positivos": None, "Falsos negativos": None, "Limiar": 0.2669667938},
+        ],
+        note="Preditores: IDA, IEG, IAA, IPS, IPV, fase de origem e defasagem de origem. O modelo não foi retreinado.",
+        complementary_numbers=[
+            {"Recorte": "Equidade por fase — teste temporal", "Fase": "0", "n": 81, "Eventos": 53, "Negativos": 28, "Alertas": 26, "Verdadeiros positivos": 22, "Falsos positivos": 4, "Falsos negativos": 31, "Recall": 0.415, "Precisão": 0.846, "AP": 0.846, "ROC-AUC": 0.770},
+            {"Recorte": "Equidade por fase — teste temporal", "Fase": "1", "n": 33, "Eventos": 16, "Negativos": 17, "Alertas": 17, "Verdadeiros positivos": 10, "Falsos positivos": 7, "Falsos negativos": 6, "Recall": 0.625, "Precisão": 0.588, "AP": 0.757, "ROC-AUC": 0.721},
+            {"Recorte": "Equidade por fase — teste temporal", "Fase": "2", "n": "suprimido", "Eventos": "suprimido", "Negativos": "suprimido", "Alertas": "suprimido", "Verdadeiros positivos": "suprimido", "Falsos positivos": "suprimido", "Falsos negativos": "suprimido", "Recall": "suprimido", "Precisão": "suprimido", "AP": "suprimido", "ROC-AUC": "suprimido"},
+            {"Recorte": "Equidade por fase — teste temporal", "Fase": "3", "n": 51, "Eventos": 6, "Negativos": 45, "Alertas": 0, "Verdadeiros positivos": 0, "Falsos positivos": 0, "Falsos negativos": 6, "Recall": 0.0, "Precisão": None, "AP": 0.146, "ROC-AUC": 0.567},
+            {"Recorte": "Equidade por fase — teste temporal", "Fase": "4 a 7", "n": "suprimido (n<30 ou <5 eventos/não eventos em cada uma)", "Eventos": "—", "Negativos": "—", "Alertas": "—", "Verdadeiros positivos": "—", "Falsos positivos": "—", "Falsos negativos": "—", "Recall": "—", "Precisão": "—", "AP": "—", "ROC-AUC": "—"},
+            {"Recorte": "Equidade por gênero — teste temporal", "Grupo": "feminino", "n": 184, "Eventos": 42, "Negativos": 142, "Alertas": 23, "Verdadeiros positivos": 14, "Falsos positivos": 9, "Falsos negativos": 28, "Recall": 0.333, "Precisão": 0.609, "AP": 0.587, "ROC-AUC": 0.814},
+            {"Recorte": "Equidade por gênero — teste temporal", "Grupo": "masculino", "n": 127, "Eventos": 42, "Negativos": 85, "Alertas": 30, "Verdadeiros positivos": 20, "Falsos positivos": 10, "Falsos negativos": 22, "Recall": 0.476, "Precisão": 0.667, "AP": 0.672, "ROC-AUC": 0.792},
+            {"Recorte": "Equidade por faixa etária aproximada — teste temporal", "Grupo": "7 a 10 anos", "n": 121, "Eventos": 69, "Negativos": 52, "Alertas": 43, "Verdadeiros positivos": 32, "Falsos positivos": 11, "Falsos negativos": 37, "Recall": 0.464, "Precisão": 0.744, "AP": 0.788, "ROC-AUC": 0.751},
+            {"Recorte": "Equidade por faixa etária aproximada — teste temporal", "Grupo": "11 a 13 anos", "n": 114, "Eventos": 9, "Negativos": 105, "Alertas": 8, "Verdadeiros positivos": 1, "Falsos positivos": 7, "Falsos negativos": 8, "Recall": 0.111, "Precisão": 0.125, "AP": 0.116, "ROC-AUC": 0.625},
+            {"Recorte": "Equidade por faixa etária aproximada — teste temporal", "Grupo": "14 a 16 anos", "n": 68, "Eventos": 6, "Negativos": 62, "Alertas": 2, "Verdadeiros positivos": 1, "Falsos positivos": 1, "Falsos negativos": 5, "Recall": 0.167, "Precisão": 0.500, "AP": 0.373, "ROC-AUC": 0.831},
+            {"Recorte": "Equidade por faixa etária aproximada — teste temporal", "Grupo": "17 anos ou mais", "n": "suprimido", "Eventos": "suprimido", "Negativos": "suprimido", "Alertas": "suprimido", "Verdadeiros positivos": "suprimido", "Falsos positivos": "suprimido", "Falsos negativos": "suprimido", "Recall": "suprimido", "Precisão": "suprimido", "AP": "não estimável para este grupo", "ROC-AUC": "não estimável para este grupo"},
+        ],
+        complementary_note=(
+            "Auditoria de equidade por fase prevista no contrato metodológico (docs/contrato_metodologico.md), já "
+            "executada e congelada em reports/metricas_modelagem.json (robustez.equidade_fase) durante a "
+            "avaliação do modelo — não recalculada nesta rodada, apenas trazida para a camada pública (colunas "
+            "de negativos/alertas/verdadeiros e falsos positivos/negativos derivadas da matriz de confusão já "
+            "congelada, sem novo cálculo). "
+            "Fase 3 tem recall 0,0 no teste temporal (nenhum dos 6 eventos reais foi sinalizado) — a pior "
+            "equidade de sinalização entre as fases com dado publicável, e um achado que já reforça o "
+            "padrão de atenção à fase 3 visto nas perguntas 1, 2 e 7. Fases 2 e 4-7 não atingiram o "
+            "mínimo de robustez (30 observações e 5 eventos/5 não eventos) e foram suprimidas nessa "
+            "quebra.\n\n"
+            "Auditoria da chave de ligação usada para gênero e faixa etária aproximada (achado exploratório desta "
+            "correção — ver `scripts/explorar_equidade_genero_modelo.py`): a ligação usa a chave COMPOSTA "
+            "(RA, ano dos preditores), não RA isolado, porque um mesmo RA pode ter mais de um registro "
+            "anual em `local_data/base_longitudinal.csv` — e essa base tem, de fato, 12 RAs com gênero "
+            "divergente entre anos e 8 com ano de nascimento divergente entre anos (inconsistência "
+            "cadastral já esperada, não erro de ligação). A chave composta (RA, ano de referência) foi "
+            "confirmada única em toda a base (3.030 linhas, 3.030 chaves distintas, 0 duplicatas). Nas "
+            "311 linhas do teste temporal: 311 chaves compostas distintas (0 casos de RA repetido no "
+            "próprio teste), 311 correspondências encontradas, 0 sem correspondência, 0 correspondências "
+            "múltiplas — cardinalidade 1:1 confirmada antes de qualquer quebra por subgrupo. Preditores, "
+            "rótulos e probabilidades foram comparados posição a posição com a coorte tabular oficial e "
+            "receberam fingerprints posicionais; nenhuma sequência foi reordenada de forma independente. "
+            "A reconstrução reproduziu exatamente todas as métricas globais do teste temporal — n, eventos, "
+            "prevalência, AP, ROC-AUC, precisão, recall, F1, Brier, matriz de confusão, alertas e proporção "
+            "de alertas — antes de qualquer quebra por subgrupo.\n\n"
+            "Com essa ligação auditada: o recall no teste temporal é bem menor para meninas (33,3%, 42 "
+            "eventos, n=184) do que para meninos (47,6%, 42 eventos, n=127) — uma diferença de cerca de "
+            "14 pontos percentuais, com os dois grupos acima do mínimo de robustez. Por faixa etária aproximada "
+            "(calculada a partir do ano de nascimento — não é idade exata, ver nota da "
+            "pergunta 1), a variação é maior ainda: recall de 46,4% na faixa mais nova contra 11,1% na "
+            "faixa 11-13 anos (baseado em apenas 9 eventos reais — uma amostra pequena de eventos, mesmo "
+            "com n=114 no total) e 16,7% em 14-16 anos (6 eventos). A faixa 17 anos ou mais (aproximada) "
+            "não atingiu o mínimo de privacidade e está integralmente suprimida; como não contém as duas "
+            "classes necessárias, AP e ROC-AUC aparecem como \"não estimável para este grupo\", nunca como "
+            "zero, sem divulgar o tamanho ou as células protegidas. Esses "
+            "resultados vêm de UM único teste temporal (a mesma limitação já registrada para o modelo "
+            "como um todo) e as estimativas com poucos eventos reais (9 e 6) são mais instáveis do que "
+            "as com dezenas de eventos."
+        ),
+        interpret="Recall é a parcela dos eventos reais sinalizada. Falso negativo é um evento não sinalizado; falso positivo é um alerta sem o desfecho definido.",
+        observed="A discriminação permaneceu semelhante, mas a sensibilidade operacional caiu substancialmente no período futuro.",
+        meaning="O teste temporal é a avaliação mais próxima do uso futuro e mostra que muitos casos reais podem não ser sinalizados.",
+        action="Usar a probabilidade apenas como apoio, revisar também casos não sinalizados e monitorar o desempenho prospectivamente.",
+        limits="O alvo é entrada em defasagem no ano seguinte, não toda queda de desempenho; há um único teste temporal e perda de acompanhamento.",
+        population="Elegíveis sem defasagem no ano de origem: desenvolvimento OOF 2022→2023 e teste temporal 2023→2024.",
+        source="artefatos congelados do modelo — métricas transcritas em perguntas[8].principais_numeros",
+        conclusion={
+            "constatacao_principal": "O recall cai de 81,7% (desenvolvimento) para 40,5% (teste temporal) no agregado, e essa queda de sensibilidade não é uniforme entre subgrupos: varia por fase (0,0 a 0,625), por gênero (33,3% feminino vs. 47,6% masculino) e por faixa etária aproximada (11,1% a 46,4%).",
+            "diferencas_entre_grupos": "Fase 3 tem recall 0,0 no teste temporal. Entre gêneros, o recall é cerca de 14 pontos percentuais menor para meninas do que para meninos, com ambos os grupos acima do mínimo de robustez estatística (42 eventos cada). Entre faixas etárias, a diferença é maior — de 46,4% (7 a 10 anos, 69 eventos) a 11,1% (11-13 anos, apenas 9 eventos) — mas essa última estimativa é baseada em poucos eventos reais e deve ser lida com mais cautela do que as demais.",
+            "ponto_de_atencao": "A diferença de recall por gênero (e, de forma ainda mais acentuada, por faixa etária aproximada) significa que, no teste temporal, o modelo deixou de sinalizar uma proporção maior dos casos reais em alguns grupos do que em outros — um sinal de possível desigualdade na cobertura que merece atenção institucional antes de qualquer uso ampliado do modelo.",
+            "limite_da_evidencia": "Todos os recortes de equidade vêm de um único teste temporal (a mesma limitação já registrada para o modelo como um todo); metade das fases não atingiu o mínimo de robustez estatística, e as faixas etárias intermediárias têm poucos eventos reais (9 e 6), tornando essas duas estimativas mais instáveis. Não é possível, com um único teste, distinguir se as diferenças observadas são uma característica estável do modelo ou uma particularidade deste período.",
+            "implicacao_pratica": "A revisão humana deve ser reforçada especificamente para a fase 3, para o gênero feminino e para as faixas etárias com recall mais baixo; o resultado do modelo nunca deve substituir avaliação pedagógica, e a equipe responsável deve ser informada de que a cobertura do modelo não é uniforme entre esses grupos.",
+            "proximo_acompanhamento": "Reavaliar a equidade por fase, gênero e faixa etária aproximada a cada novo teste temporal, para verificar se as diferenças observadas se mantêm, diminuem ou se invertem com mais dados.",
+        },
+        cuts={
+            "sexo": {
+                "implementado": True,
+                "detalhe": (
+                    "Auditoria de equidade por gênero recuperada nesta correção via ligação pela chave "
+                    "COMPOSTA (RA, ano dos preditores) — não RA isolado, para evitar ambiguidade quando o "
+                    "mesmo RA tem registros de mais de um ano (ver análises complementares para a "
+                    "auditoria de cardinalidade: 311 linhas, 311 chaves distintas, 0 sem correspondência, "
+                    "0 correspondências múltiplas) — recall 33,3% (feminino, n=184) vs. 47,6% "
+                    "(masculino, n=127) no teste temporal, com ordem e métricas globais reproduzidas "
+                    "exatamente contra o artefato oficial antes da quebra por subgrupo. O artefato oficial "
+                    "(reports/metricas_modelagem.json) registra \"indisponível\" para este recorte porque "
+                    "a coorte em formato tabular do modelo não retém gênero — o registro está correto "
+                    "para o método que usou; esta correção usou um caminho diferente e válido (a chave "
+                    "privada do JSONL, já destinada a auditoria, ligada por RA+ano)."
+                ),
+            },
+            "idade": {
+                "implementado": True,
+                "detalhe": (
+                    "Auditoria de equidade por faixa etária APROXIMADA (calculada a partir do ano de "
+                    "nascimento, não é idade exata — ver nota da pergunta 1) recuperada nesta correção "
+                    "pela mesma ligação por chave composta — recall de 46,4% (7 a 10 anos) a 11,1% "
+                    "(11-13 anos, poucos eventos); faixa 17 anos ou mais (aproximada) integralmente "
+                    "suprimida por privacidade."
+                ),
+            },
+            "fase": {"implementado": True, "detalhe": "Auditoria de equidade completa por fase (recall/precisão/AP/ROC-AUC/Brier/matriz de confusão), com supressão explícita das fases sem robustez suficiente."},
+            "ano": {"implementado": True, "detalhe": "Desenvolvimento (2022→2023) e teste temporal (2023→2024), a própria validação temporal do modelo."},
+            "pedra": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "Pedra não é preditor nem alvo do modelo; equidade por Pedra não foi prevista no contrato metodológico."},
+            "situacao_defasagem": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "Defasagem de origem já é um dos sete preditores do modelo (contrato oficial); tratá-la como recorte adicional duplicaria a própria definição do problema."},
+            "cobertura": {"implementado": True, "detalhe": "n e eventos explícitos em cada linha, com status de supressão declarado quando abaixo do mínimo de robustez."},
+            "trajetoria_longitudinal": {"implementado": True, "detalhe": "A validação temporal (treino em uma transição, teste na seguinte, sem reajuste) é o próprio desenho longitudinal da avaliação do modelo."},
+        },
+    ),
+    _question(
+        10,
+        why_it_matters=(
+            "Pedra resume a posição do estudante numa escala institucional; entender se ela evolui de "
+            "forma consistente — e a partir de qual Pedra de origem — orienta expectativas realistas "
+            "sobre o ritmo de mudança."
+        ),
+        how_analyzed=(
+            "Distribuição de melhoria/estabilidade/piora de Pedra nas duas transições longitudinais; e, "
+            "como recorte complementar, a variação média de IDA dos mesmos estudantes, agrupada pela "
+            "Pedra em que cada um começou — para ver se o ponto de partida importa."
+        ),
+        answer=("O PDF chama Quartzo, Ágata, Ametista e Topázio de 'fases', mas nos dados elas são "
+                "categorias de Pedra associadas ao desempenho, não fase escolar. Em 2022→2023, 24,4% "
+                "melhoraram, 51,2% permaneceram e 24,4% pioraram; em 2023→2024, foram 24,2%, 50,0% "
+                "e 25,8%. Não há melhora consistente geral. Sem grupo de controle ou contrafactual, "
+                "esses dados não confirmam impacto causal do programa."),
+        numbers=[
+            {"Transição": "2022→2023", "n": 570, "Melhoria": "24,4%", "Estabilidade": "51,2%", "Piora": "24,4%"},
+            {"Transição": "2023→2024", "n": 678, "Melhoria": "24,2%", "Estabilidade": "50,0%", "Piora": "25,8%"},
+        ],
+        note="A ordem das Pedras é usada apenas para descrever avanço, permanência e recuo observados.",
+        complementary_numbers=[
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2022→2023", "Pedra de origem": "Quartzo", "Δ IDA médio": 1.84, "n": 49},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2022→2023", "Pedra de origem": "Ágata", "Δ IDA médio": 0.41, "n": 159},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2022→2023", "Pedra de origem": "Ametista", "Δ IDA médio": -0.07, "n": 256},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2022→2023", "Pedra de origem": "Topázio", "Δ IDA médio": -0.64, "n": 110},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2023→2024", "Pedra de origem": "Quartzo", "Δ IDA médio": -0.41, "n": 42},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2023→2024", "Pedra de origem": "Ágata", "Δ IDA médio": -0.32, "n": 152},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2023→2024", "Pedra de origem": "Ametista", "Δ IDA médio": -0.59, "n": 300},
+            {"Recorte": "Variação média de IDA por Pedra de origem", "Transição": "2023→2024", "Pedra de origem": "Topázio", "Δ IDA médio": -0.46, "n": 185},
+            {"Recorte": "Variação média de IDA por sexo", "Transição": "2022→2023", "Sexo": "feminino", "Δ IDA médio": 0.13, "n": 298},
+            {"Recorte": "Variação média de IDA por sexo", "Transição": "2022→2023", "Sexo": "masculino", "Δ IDA médio": 0.10, "n": 276},
+            {"Recorte": "Variação média de IDA por sexo", "Transição": "2023→2024", "Sexo": "feminino", "Δ IDA médio": -0.50, "n": 363},
+            {"Recorte": "Variação média de IDA por sexo", "Transição": "2023→2024", "Sexo": "masculino", "Δ IDA médio": -0.45, "n": 319},
+            {"Recorte": "Variação média de IDA por faixa etária aproximada", "Transição": "2022→2023", "Faixa": "7 a 10 anos", "Δ IDA médio": 0.17, "n": 218},
+            {"Recorte": "Variação média de IDA por faixa etária aproximada", "Transição": "2022→2023", "Faixa": "11 a 13 anos", "Δ IDA médio": 0.05, "n": 223},
+            {"Recorte": "Variação média de IDA por faixa etária aproximada", "Transição": "2022→2023", "Faixa": "14 a 16 anos", "Δ IDA médio": 0.10, "n": 116},
+            {"Recorte": "Variação média de IDA por faixa etária aproximada", "Transição": "2023→2024", "Faixa": "7 a 10 anos", "Δ IDA médio": -0.35, "n": 246},
+            {"Recorte": "Variação média de IDA por faixa etária aproximada", "Transição": "2023→2024", "Faixa": "11 a 13 anos", "Δ IDA médio": -0.88, "n": 263},
+            {"Recorte": "Variação média de IDA por faixa etária aproximada", "Transição": "2023→2024", "Faixa": "14 a 16 anos", "Δ IDA médio": -0.15, "n": 153},
+        ],
+        complementary_note=(
+            "Recorte por Pedra de ORIGEM (a Pedra em que o estudante começou), mostrando a variação "
+            "média de IDA dos mesmos estudantes na transição seguinte. Em 2022→2023, quem começou em "
+            "Quartzo (a Pedra mais inicial) teve o MAIOR ganho médio de IDA (+1,84); quem começou em "
+            "Topázio (a mais avançada) teve o único recuo médio (-0,64). Esse padrão (ganho maior para "
+            "quem parte de posição mais inicial) desapareceu em 2023→2024, quando as quatro Pedras de "
+            "origem recuaram em IDA médio, incluindo Quartzo (-0,41) — a mesma reversão geral de 2024 já "
+            "observada na pergunta 2, agora vista por Pedra de origem. A matriz completa de transições "
+            "(de qual Pedra para qual) permanece suprimida por caixa pequena nas duas transições. Por sexo "
+            "(achado exploratório): variação semelhante entre feminino e masculino nas duas transições, "
+            "sem diferença que se destaque diante da dispersão de cada grupo. Por faixa etária aproximada: a faixa "
+            "\"11 a 13 anos\" teve o maior recuo em 2023→2024 (-0,88, o dobro das demais faixas com dado "
+            "disponível); a faixa \"17 anos ou mais\" tem cobertura de pareamento baixa demais nas duas "
+            "transições (21-46%) para uma leitura confiável e não está incluída aqui."
+        ),
+        interpret="Compare as três parcelas em cada transição; estabilidade representa aproximadamente metade dos pares.",
+        observed="Melhora e piora têm proporções próximas nos dois períodos.",
+        meaning="A evolução observada não mostra tendência institucional inequívoca e não constitui avaliação causal de impacto.",
+        action="Acompanhar transições por coorte e planejar desenho de avaliação com comparador apropriado.",
+        limits="Pedra não equivale à fase escolar; não há controle, contrafactual ou atribuição causal.",
+        population="Pares com Pedra reconhecida nos dois anos: 570 em 2022→2023 e 678 em 2023→2024.",
+        source="perguntas[9].principais_numeros — transições agregadas aprovadas",
+        status="parcialmente respondida; impacto causal não identificável",
+        conclusion={
+            "constatacao_principal": "As proporções de melhoria/estabilidade/piora de Pedra ficaram próximas nas duas transições, sem indicar uma tendência institucional única; por Pedra de origem, o padrão observado em 2022→2023 não se repetiu em 2023→2024.",
+            "diferencas_entre_grupos": "Em 2022→2023, quem partia de Quartzo teve o maior ganho de IDA (+1,84); em 2023→2024, o mesmo grupo de origem (Quartzo) teve o único resultado ainda relativamente melhor que as demais Pedras, mas já em território negativo (-0,41). Por sexo, a variação foi semelhante entre feminino e masculino nas duas transições; por faixa etária aproximada, a faixa \"11 a 13 anos\" teve o maior recuo em 2023→2024 (-0,88), sem explicação disponível nos dados para essa diferença.",
+            "ponto_de_atencao": "A matriz completa de transições (de qual Pedra exatamente para qual) está suprimida nas duas transições por caixa pequena — só se sabe a direção agregada (melhoria/estabilidade/piora), não o padrão detalhado entre pares específicos de Pedra.",
+            "limite_da_evidencia": "Sem grupo de controle ou contrafactual, nenhuma das duas transições permite atribuir a evolução observada a uma ação específica do programa; o recorte por faixa etária aproximada de 17 anos ou mais tem cobertura de pareamento baixa (21-46%) e não é reportado por esse motivo.",
+            "implicacao_pratica": "Não estabelecer, para nenhuma Pedra de origem ou faixa etária aproximada, uma expectativa fixa de trajetória — o padrão observado em um período não se repetiu no seguinte.",
+            "proximo_acompanhamento": "Planejar um desenho de avaliação com comparador apropriado antes de qualquer afirmação de impacto do programa sobre a evolução de Pedra; acompanhar se o recuo maior da faixa 11-13 anos em 2023→2024 se repete em ciclos futuros.",
+        },
+        cuts={
+            "sexo": {"implementado": True, "detalhe": "Variação de IDA pareada por sexo, nas duas transições (ver análises complementares) — sem diferença que se destaque."},
+            "idade": {"implementado": True, "detalhe": "Variação de IDA pareada por faixa etária aproximada, nas duas transições (ver análises complementares) — faixa 11-13 anos com maior recuo em 2023→2024; faixa 17+ com cobertura de pareamento insuficiente (21-46%), não reportada."},
+            "fase": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "A pergunta distingue explicitamente Pedra de fase escolar; cruzar os dois aqui misturaria justamente as duas categorias que a resposta direta se esforça para separar."},
+            "ano": {"implementado": True, "detalhe": "As duas transições longitudinais (2022→2023 e 2023→2024) são o próprio eixo da pergunta."},
+            "pedra": {"implementado": True, "detalhe": "É o assunto central da pergunta: transições agregadas e, como recorte complementar, variação de IDA por Pedra de origem."},
+            "situacao_defasagem": {"implementado": False, "motivo": "não possui relação educacional clara com a pergunta", "detalhe": "Defasagem não é componente da fórmula do INDE/Pedra; a pergunta trata de evolução de Pedra, não de defasagem."},
+            "cobertura": {"implementado": True, "detalhe": "n de cada Pedra de origem e de cada transição publicados nas duas tabelas."},
+            "trajetoria_longitudinal": {"implementado": True, "detalhe": "É o próprio desenho da pergunta: mesmos estudantes comparados entre um ano e o seguinte."},
+        },
+    ),
+    _question(
+        11,
+        why_it_matters=(
+            "Além de responder às 10 perguntas anteriores, vale registrar o que os dados revelam sobre "
+            "a qualidade do próprio acompanhamento — porque melhorar a coleta pode valer tanto quanto "
+            "aprofundar a análise."
+        ),
+        how_analyzed=(
+            "Perda de correspondência entre anos consecutivos (quem não foi encontrado no ano "
+            "seguinte); e, como recorte complementar, comparação dos indicadores médios de quem FOI "
+            "encontrado versus quem NÃO foi, para avaliar possível viés de seleção — exatamente a "
+            "comparação prevista no contrato metodológico."
+        ),
+        answer=("Três prioridades emergem: melhorar o registro de continuidade, padronizar instrumentos "
+                "e validar o modelo prospectivamente. A perda de correspondência caiu de 27,0% para "
+                "22,1%, mas ausência no ano seguinte não informa, por si só, evasão, sucesso ou fracasso."),
+        numbers=[
+            {"Evidência": "Perda de correspondência 2022→2023: 70 de 259 (27,0%)", "Público": "Gestão de dados e equipes locais", "Ação": "Registrar motivo e data de saída/transferência", "Prioridade": "Alta", "Limitação": "Ausência não equivale a evasão"},
+            {"Evidência": "Perda de correspondência 2023→2024: 88 de 399 (22,1%)", "Público": "Coordenação pedagógica", "Ação": "Monitorar continuidade por ciclo", "Prioridade": "Alta", "Limitação": "A causa da perda não foi observada"},
+            {"Evidência": "Mudanças relevantes de composição entre coortes", "Público": "Avaliação e tecnologia", "Ação": "Versionar instrumentos e definições", "Prioridade": "Alta", "Limitação": "Mudança de distribuição não prova causa"},
+            {"Evidência": "Recall temporal de 40,5%", "Público": "Equipe que utilizará o modelo", "Ação": "Validar prospectivamente e revisar falsos negativos", "Prioridade": "Alta", "Limitação": "Um único teste temporal"},
+            {"Evidência": "Resultados diferentes entre fases", "Público": "Equipe pedagógica", "Ação": "Planejar acompanhamento por fase e cobertura", "Prioridade": "Média", "Limitação": "Alguns recortes têm ausência ou supressão"},
+        ],
+        note="As sugestões não são prescrições automáticas; cada ação requer validação institucional.",
+        complementary_numbers=[
+            {"Recorte": "IDA médio — encontrados no ano seguinte", "Transição": "2022→2023", "Valor": 6.78, "n": 189},
+            {"Recorte": "IDA médio — NÃO encontrados no ano seguinte", "Transição": "2022→2023", "Valor": 5.63, "n": 70},
+            {"Recorte": "IEG médio — encontrados no ano seguinte", "Transição": "2022→2023", "Valor": 8.55, "n": 189},
+            {"Recorte": "IEG médio — NÃO encontrados no ano seguinte", "Transição": "2022→2023", "Valor": 7.43, "n": 70},
+            {"Recorte": "IPV médio — encontrados no ano seguinte", "Transição": "2022→2023", "Valor": 7.60, "n": 189},
+            {"Recorte": "IPV médio — NÃO encontrados no ano seguinte", "Transição": "2022→2023", "Valor": 6.88, "n": 70},
+            {"Recorte": "IDA médio por sexo — feminino encontradas", "Transição": "2022→2023", "Valor": 6.66, "n": 99},
+            {"Recorte": "IDA médio por sexo — feminino não encontradas", "Transição": "2022→2023", "Valor": 5.98, "n": 43},
+            {"Recorte": "IDA médio por sexo — masculino encontrados", "Transição": "2022→2023", "Valor": 6.92, "n": 90},
+            {"Recorte": "IDA médio por sexo — masculino não encontrados", "Transição": "2022→2023", "Valor": 5.08, "n": 27},
+            {"Recorte": "IDA médio por sexo — feminino encontradas", "Transição": "2023→2024", "Valor": 6.90, "n": 184},
+            {"Recorte": "IDA médio por sexo — feminino não encontradas", "Transição": "2023→2024", "Valor": 6.42, "n": 51},
+            {"Recorte": "IDA médio por sexo — masculino encontrados", "Transição": "2023→2024", "Valor": 7.11, "n": 127},
+            {"Recorte": "IDA médio por sexo — masculino não encontrados", "Transição": "2023→2024", "Valor": 7.04, "n": 37},
+        ],
+        complementary_note=(
+            "Comparação prevista no contrato metodológico (\"Perda de acompanhamento e equidade\"): "
+            "estudantes NÃO encontrados no ano seguinte tinham, na origem, IDA (5,63 vs. 6,78), IEG "
+            "(7,43 vs. 8,55) e IPV (6,88 vs. 7,60) mais baixos do que os encontrados — todas as "
+            "diferenças na mesma direção nesta transição. São indícios de possível viés de seleção "
+            "(a perda de acompanhamento pode não ser aleatória em relação ao desempenho), não uma "
+            "prova formal, já que não há como observar diretamente por que cada estudante deixou de "
+            "ser encontrado. Por sexo (achado exploratório): em 2022→2023, a diferença "
+            "encontrados/não-encontrados aparece nos dois sexos, mas é bem maior entre meninos (6,92 "
+            "vs. 5,08, quase 2 pontos) do que entre meninas (6,66 vs. 5,98, menos de 1 ponto); em "
+            "2023→2024, a diferença quase desaparece entre meninos (7,11 vs. 7,04) mas permanece "
+            "entre meninas (6,90 vs. 6,42) — o padrão não é o mesmo nas duas transições, o que pesa "
+            "contra tratar isso como um efeito estável. Por faixa etária aproximada (achado exploratório, não "
+            "tabulado aqui por brevidade): a diferença encontrados/não-encontrados aparece em quase "
+            "todas as faixas nas duas transições (ex.: 11-13 anos, 2022→2023: 6,39 vs. 5,02), mas na "
+            "faixa \"7 a 10 anos\" ela praticamente desaparece em 2023→2024 (7,37 vs. 7,33) — o mesmo "
+            "padrão de inconsistência entre transições visto por sexo. A faixa \"17 anos ou mais\" tem "
+            "grupos pequenos demais (abaixo de 10) nas duas transições e não é reportada. Recorte por "
+            "fase para este mesmo grupo está suprimido por caixa pequena no artefato congelado."
+        ),
+        interpret="Leia cada linha como cadeia evidência → público → ação → prioridade → limitação.",
+        observed="Qualidade da continuidade e estabilidade dos instrumentos condicionam a leitura de desempenho e do modelo.",
+        meaning="Melhorar a informação de acompanhamento pode ser tão importante quanto ampliar a complexidade analítica.",
+        action="Começar pelos registros de continuidade e pelo protocolo de monitoramento prospectivo do modelo.",
+        limits="As análises não identificam a causa das perdas nem garantem que as sugestões produzirão melhora.",
+        population="Coortes elegíveis das transições 2022→2023 e 2023→2024 e resultados agregados das perguntas anteriores.",
+        source="perguntas[10].principais_numeros — síntese sanitizada de evidências aprovadas",
+        conclusion={
+            "constatacao_principal": "Foram encontrados indícios de viés de seleção na transição 2022→2023: estudantes não encontrados no ano seguinte tinham, em média, IDA, IEG e IPV mais baixos na origem do que os encontrados.",
+            "diferencas_entre_grupos": "A diferença mais marcante é em IDA (6,78 vs. 5,63, mais de 1 ponto) e IPV (7,60 vs. 6,88). Por sexo e por faixa etária aproximada, o padrão aparece nas duas transições, mas de forma inconsistente entre elas (ex.: quase desaparece entre meninos e na faixa \"7 a 10 anos\" em 2023→2024, mas permanece nos demais grupos) — o que sugere que a diferença não é um efeito estável e uniforme.",
+            "ponto_de_atencao": "Como o modelo é treinado e testado só com quem tem par no ano seguinte, ele nunca aprende diretamente com o perfil de quem se perde — isso é relevante para interpretar o recall reportado na pergunta 9, sem que se possa afirmar em que direção ou magnitude exata esse fator o afeta.",
+            "limite_da_evidencia": "A comparação mostra associação entre indicadores de origem e perda de correspondência em uma transição, não a causa da perda (transferência, evasão, erro de registro e mudança de instituição não são distinguíveis nos dados disponíveis), e o padrão não se repete de forma idêntica na segunda transição.",
+            "implicacao_pratica": "Priorizar o registro do motivo de saída/transferência, para no futuro distinguir perda por evasão de perda por transferência administrativa, e evitar assumir que o viés observado em 2022→2023 se repete automaticamente em outros ciclos.",
+            "proximo_acompanhamento": "Reavaliar esses indícios de viés de seleção a cada nova coorte, e considerar seu efeito ao interpretar qualquer métrica do modelo (pergunta 9), sem tratá-los como um padrão já estabelecido.",
+        },
+        cuts={
+            "sexo": {"implementado": True, "detalhe": "IDA médio de encontrados/não-encontrados por sexo, nas duas transições (ver análises complementares) — padrão presente mas inconsistente entre transições."},
+            "idade": {"implementado": True, "detalhe": "IDA médio de encontrados/não-encontrados por faixa etária aproximada (ver análises complementares, nota) — mesmo padrão de inconsistência entre transições; faixa 17+ com grupos pequenos demais, não reportada."},
+            "fase": {"implementado": False, "motivo": "grupo pequeno", "detalhe": "O cruzamento fase × encontrado/não encontrado está suprimido por caixa pequena no artefato interno congelado (analises.perdas.<transição>.fases) — a maioria das combinações fica abaixo do mínimo de 10 registros."},
+            "ano": {"implementado": True, "detalhe": "As duas transições (2022→2023 e 2023→2024) são comparadas na tabela principal."},
+            "pedra": {"implementado": False, "motivo": "redundância com outra análise", "detalhe": "Evolução de Pedra já é o tema completo da pergunta 10; repeti-la aqui não acrescentaria pergunta nova."},
+            "situacao_defasagem": {"implementado": True, "detalhe": "O artefato congelado também compara a defasagem média de quem foi e não foi encontrado (ver relatório completo); direção consistente com os demais indicadores."},
+            "cobertura": {"implementado": True, "detalhe": "n exato de cada grupo (encontrados/não encontrados) em cada transição, publicado nas duas tabelas."},
+            "trajetoria_longitudinal": {"implementado": True, "detalhe": "É o próprio tema da pergunta: continuidade (ou perda dela) entre um ano e o seguinte."},
+        },
+    ),
+)
+
+
+def build_payload() -> dict:
+    return {
+        "schema_version": "1.0",
+        "camada": "publica_sanitizada",
+        "titulo": "Respostas às 11 perguntas oficiais — FIAP Datathon Fase 5",
+        "perguntas_oficiais": list(OFFICIAL_QUESTIONS),
+        "topicos_secundarios": list(TOPICS),
+        "privacidade": {
+            "origem_regra": "política metodológica criada pelo projeto; não é exigência do enunciado",
+            "minimo_publicavel": 10,
+            "supressao_primaria": "célula não vazia abaixo do mínimo",
+            "supressao_complementar": "ocultar margens, médias ou relações que permitam reconstrução",
+            "auditoria_conjunta": True,
+        },
+        "resumo_executivo": [
+            "A parcela anual de registros com alguma defasagem diminuiu entre 2022 (69,9%) e 2024 (46,2%); em 2023 foi 54,4%. Em 2024, moderada e severa estão agregadas, e não há medição intranual.",
+            "O IDA não segue tendência única: melhora e recuo dependem do período e da fase.",
+            "IEG se associa moderadamente a IDA e IPV; IAA apresenta coerência fraca com IDA e IEG.",
+            "Não foi encontrada associação clara entre o IPS de origem e as variações futuras de IDA ou IEG nos recortes analisados.",
+            "O teste temporal do modelo manteve discriminação, mas o recall caiu para aproximadamente 40,5%, com equidade por fase desigual (recall 0,0 na fase 3, com poucos eventos). Uma auditoria exploratória adicional, feita por ligação de RA via chave de auditoria (não incorporada ao artefato congelado), encontrou indícios de diferença de recall entre gêneros e faixas etárias — ver pergunta 9.",
+            "Transições de Pedra descrevem evolução observada, não impacto causal do programa; foram encontrados indícios de viés de seleção na transição 2022→2023, pois os estudantes não reencontrados apresentavam indicadores de origem diferentes — o padrão não se repetiu com a mesma clareza na transição 2023→2024.",
+        ],
+        "perguntas": list(QUESTIONS),
+        "modelo_congelado": {
+            "tipo": "regressão logística avaliada",
+            "limiar": 0.26696679375725973,
+            "preditores": ["ida", "ieg", "iaa", "ips", "ipv", "fase_origem", "defasagem_origem"],
+            "retreinado": False,
+        },
+        "dependencias_proibidas_em_execucao": ["DATATHON", "local_data", "local_recovery", "artefatos históricos privados"],
+    }
+
+
+def _style(ax, title: str, ylabel: str = "") -> None:
+    ax.set_title(title, fontsize=11, weight="bold")
+    ax.set_ylabel(ylabel)
+    ax.grid(axis="y", alpha=.2)
+    ax.spines[["top", "right"]].set_visible(False)
+
+
+def _save(fig, number: int) -> None:
+    path = ROOT / FIGURES[number - 1]
+    path.parent.mkdir(parents=True, exist_ok=True)
+    fig.tight_layout()
+    fig.savefig(path, dpi=150, bbox_inches="tight")
+    plt.close(fig)
+
+
+def generate_figures() -> None:
+    plt.rcParams.update({"font.size": 9, "figure.facecolor": "white", "axes.facecolor": "#fbfcfe"})
+
+    fig, axes = plt.subplots(1, 2, figsize=(10.4, 4.4), gridspec_kw={"width_ratios": [1.35, 1]})
+    ax = axes[0]
+    x = np.arange(2); width = .24
+    vals = ((30.1, 45.6), (66.6, 53.1), (3.3, 1.4))
+    for i, (label, value, color) in enumerate(zip(("Sem defasagem", "Moderada", "Severa"), vals, ("#2f80ed", "#f2c94c", "#eb5757"))):
+        ax.bar(x + (i - 1) * width, value, width, label=label, color=color)
+    ax.set_xticks(x, ("2022", "2023")); ax.legend(ncols=3, frameon=False)
+    _style(ax, "2022–2023: categorias detalhadas", "% dos registros")
+    ax = axes[1]
+    ax.bar(("Sem\ndefasagem", "Com\ndefasagem"), (53.8, 46.2), color=("#2f80ed", "#f2c94c"))
+    ax.set_ylim(0, 75)
+    _style(ax, "2024: categorias agregadas", "% dos registros")
+    fig.suptitle("Perfil anual de defasagem (IAN)", fontsize=13, fontweight="bold")
+    _save(fig, 1)
+
+    fig, ax = plt.subplots(figsize=(8.2, 4.4))
+    phases = np.arange(6)
+    for year, values in (("2022", [7.14, 6.46, 5.41, 5.14, 6.05, 5.87]),
+                         ("2023", [7.42, 6.81, 6.74, 5.75, 6.00, 5.90]),
+                         ("2024", [7.32, 6.79, 6.25, 5.35, 5.88, 6.45])):
+        ax.plot(phases, values, marker="o", label=year)
+    ax.set_xticks(phases); ax.set_xlabel("Fase escolar"); ax.legend(frameon=False)
+    _style(ax, "IDA médio por fase e ano — fases comparáveis 0 a 5", "IDA médio")
+    _save(fig, 2)
+
+    fig, ax = plt.subplots(figsize=(7.4, 4.2))
+    ax.bar(("IEG × IDA", "IEG × IPV"), (.492, .522), color=("#2f80ed", "#27ae60"))
+    ax.set_ylim(0, .65); _style(ax, "Associações ajustadas por ano", "ρ de Spearman")
+    _save(fig, 3)
+
+    fig, ax = plt.subplots(figsize=(7.4, 4.2))
+    ax.bar(("IAA × IDA", "IAA × IEG"), (.163, .212), color=("#9b51e0", "#56ccf2"))
+    ax.set_ylim(0, .35); _style(ax, "Coerência ordinal da autoavaliação", "ρ de Spearman")
+    _save(fig, 4)
+
+    fig, ax = plt.subplots(figsize=(8.2, 4.2))
+    labels = ("22→23 ΔIDA", "22→23 ΔIEG", "23→24 ΔIDA", "23→24 ΔIEG")
+    ax.bar(labels, (.029, -.024, .027, .020), color=("#2f80ed", "#56ccf2", "#2f80ed", "#56ccf2"))
+    ax.axhline(0, color="#333", linewidth=.8); ax.set_ylim(-.06, .06)
+    _style(ax, "IPS de origem e variação futura", "ρ de Spearman")
+    _save(fig, 5)
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.5, 4.2))
+    axes[0].bar(("IPP×IAN\n2023", "IPP×D\n2023", "IPP×IAN\n2024", "IPP×D\n2024"), (.106, .173, .160, .187), color="#2d9cdb")
+    axes[0].set_ylim(0, .25); _style(axes[0], "Associações", "ρ")
+    axes[1].bar(("Sem\ndefasagem", "Moderada", "Severa"), (7.665, 7.505, 6.957), color="#6fcf97")
+    axes[1].set_ylim(0, 10); _style(axes[1], "IPP médio por categoria — 2023", "IPP médio")
+    fig.suptitle("IPP e adequação: descrição sem classificação diagnóstica", weight="bold")
+    _save(fig, 6)
+
+    fig, axes = plt.subplots(1, 2, figsize=(10, 4.2))
+    axes[0].bar(("2022 IDA", "2023 IDA", "2024 IPP"), (.624, .551, .705), color="#f2994a")
+    axes[0].set_ylim(0, .8); _style(axes[0], "Maior associação no mesmo ano", "ρ")
+    labels = ("22→23 IDA", "22→23 IEG", "22→23 IPS", "23→24 IDA", "23→24 IEG", "23→24 IPS")
+    axes[1].bar(labels, (.417, .412, .189, .400, .387, .069), color=("#2f80ed", "#27ae60", "#bb6bd9") * 2)
+    axes[1].tick_params(axis="x", rotation=45); axes[1].set_ylim(0, .5)
+    _style(axes[1], "Indicador de origem × IPV futuro", "ρ")
+    _save(fig, 7)
+
+    fig, ax = plt.subplots(figsize=(7.8, 4.2))
+    ax.bar(("2022", "2023", "2024"), (7.96, 8.25, 8.40), color=("#56ccf2", "#2d9cdb", "#2f80ed"))
+    ax.set_ylim(0, 10); _style(ax, "Maior INDE médio entre perfis publicáveis", "INDE médio")
+    ax.text(.5, .05, "Associação esperada pela composição do INDE; não causal", transform=ax.transAxes, ha="center")
+    _save(fig, 8)
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.5, 4.2))
+    axes[0].bar(("Desenvolvimento\nOOF", "Teste\ntemporal"), (.817, .405), color=("#27ae60", "#eb5757"))
+    axes[0].set_ylim(0, 1); _style(axes[0], "Queda do recall", "Recall")
+    matrix = np.array([[208, 19], [50, 34]])
+    axes[1].imshow(matrix, cmap="Blues")
+    for (i, j), value in np.ndenumerate(matrix): axes[1].text(j, i, str(value), ha="center", va="center")
+    axes[1].set_xticks((0, 1), ("Previsto não", "Previsto risco")); axes[1].set_yticks((0, 1), ("Real não", "Real risco"))
+    axes[1].set_title("Matriz do teste temporal", fontsize=11, weight="bold")
+    _save(fig, 9)
+
+    fig, ax = plt.subplots(figsize=(8.2, 4.2))
+    trans = ("2022→2023", "2023→2024")
+    bottom = np.zeros(2)
+    for label, vals, color in (("Melhoria", (24.4, 24.2), "#27ae60"), ("Estabilidade", (51.2, 50.0), "#bdbdbd"), ("Piora", (24.4, 25.8), "#eb5757")):
+        ax.bar(trans, vals, bottom=bottom, label=label, color=color); bottom += vals
+    ax.legend(ncols=3, frameon=False); _style(ax, "Transições observadas entre Pedras", "% dos pares")
+    _save(fig, 10)
+
+    fig, axes = plt.subplots(1, 2, figsize=(9.5, 4.2))
+    axes[0].bar(("2022→2023", "2023→2024"), (27.0, 22.1), color="#f2c94c")
+    axes[0].set_ylim(0, 35); _style(axes[0], "Sem correspondência no ano seguinte", "% dos elegíveis")
+    priorities = ("Continuidade", "Instrumentos", "Validação", "Por fase")
+    axes[1].barh(priorities, (3, 3, 3, 2), color="#2f80ed")
+    axes[1].set_xticks((1, 2, 3), ("Baixa", "Média", "Alta")); axes[1].set_xlim(0, 3.3)
+    axes[1].set_title("Prioridade sugerida", fontsize=11, weight="bold"); axes[1].spines[["top", "right"]].set_visible(False)
+    _save(fig, 11)
+
+
+def render_report(payload: dict) -> str:
+    lines = [f"# {payload['titulo']}\n\n",
+             "Camada pública sanitizada. Os tópicos são informação secundária; os títulos abaixo reproduzem literalmente o PDF.\n\n",
+             "## Política de publicação\n\n",
+             "A regra de mínimo de dez registros é uma política metodológica criada pelo projeto. A auditoria considera conjuntamente tabelas, médias, margens, totais, relações determinísticas, figuras e demais consumidores.\n\n"]
+    for q in payload["perguntas"]:
+        lines += [f"## Pergunta {q['numero']} — {q['pergunta']}\n\n",
+                  f"**Tópico secundário:** {q['topico']}  \n**Estado:** {q['status']}\n\n",
+                  f"**Por que importa.** {q['por_que_importa']}\n\n",
+                  f"**Como foi analisada.** {q['como_foi_analisada']}\n\n",
+                  f"**Resposta direta.** {q['resposta']}\n\n",
+                  "### Principais números\n\n"]
+        headers = list(q["principais_numeros"][0])
+        lines.append("| " + " | ".join(headers) + " |\n")
+        lines.append("| " + " | ".join("---" for _ in headers) + " |\n")
+        for row in q["principais_numeros"]:
+            lines.append("| " + " | ".join("—" if row.get(h) is None else str(row[h]) for h in headers) + " |\n")
+        lines.append(f"\n*{q['nota_numeros']}*\n\n")
+        if q["analises_complementares_numeros"]:
+            lines.append("### Análises complementares\n\n")
+            headers_c = sorted({k for row in q["analises_complementares_numeros"] for k in row})
+            lines.append("| " + " | ".join(headers_c) + " |\n")
+            lines.append("| " + " | ".join("---" for _ in headers_c) + " |\n")
+            for row in q["analises_complementares_numeros"]:
+                lines.append("| " + " | ".join("—" if row.get(h) is None else str(row[h]) for h in headers_c) + " |\n")
+            lines.append(f"\n*{q['analises_complementares_nota']}*\n\n")
+        lines += [f"![Pergunta {q['numero']}](../{q['grafico'].removeprefix('reports/')})\n\n",
+                  f"**Interpretação.** {q['como_interpretar']}\n\n",
+                  f"**Observado.** {q['observamos']}\n\n",
+                  f"**Uso responsável.** {q['uso_ong']}\n\n",
+                  f"**Limitações.** {q['limites']}\n\n",
+                  "### Conclusão da análise\n\n",
+                  f"- **Principal constatação:** {q['conclusao']['constatacao_principal']}\n",
+                  f"- **Diferenças entre grupos:** {q['conclusao']['diferencas_entre_grupos']}\n",
+                  f"- **Ponto de atenção:** {q['conclusao']['ponto_de_atencao']}\n",
+                  f"- **Limite da evidência:** {q['conclusao']['limite_da_evidencia']}\n",
+                  f"- **Implicação prática:** {q['conclusao']['implicacao_pratica']}\n",
+                  f"- **Próximo acompanhamento:** {q['conclusao']['proximo_acompanhamento']}\n\n",
+                  "### Recortes considerados\n\n",
+                  "| Recorte | Implementado | Detalhe / motivo |\n| --- | --- | --- |\n"]
+        for dimensao, info in q["recortes"].items():
+            detalhe = info.get("detalhe", "")
+            motivo = info.get("motivo")
+            texto = f"{motivo}: {detalhe}" if motivo else detalhe
+            lines.append(f"| {dimensao} | {'sim' if info['implementado'] else 'não'} | {texto} |\n")
+        lines.append("\n")
+    return "".join(lines)
+
+
+def sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def write_public_layer() -> dict:
+    PUBLIC_DIR.mkdir(parents=True, exist_ok=True)
+    payload = build_payload()
+    JSON_PATH.write_text(json.dumps(payload, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    generate_figures()
+    REPORT_PATH.write_text(render_report(payload), encoding="utf-8")
+    outputs = [JSON_PATH, REPORT_PATH, *(ROOT / p for p in FIGURES)]
+    manifest = {
+        "schema_version": 1,
+        "camada": "publica_sanitizada",
+        "gerador": "src/analises_publicas.py",
+        "arquivo_principal": JSON_PATH.relative_to(ROOT).as_posix(),
+        "output_hashes": {p.relative_to(ROOT).as_posix(): sha256(p) for p in outputs},
+        "independente_de_dados_privados": True,
+        "independente_de_artefatos_historicos": True,
+    }
+    MANIFEST_PATH.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return manifest
+
+
+if __name__ == "__main__":
+    result = write_public_layer()
+    print(f"Camada pública gerada: {len(result['output_hashes'])} arquivos com hash.")

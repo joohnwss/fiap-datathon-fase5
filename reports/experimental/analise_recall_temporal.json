@@ -1,0 +1,1423 @@
+{
+  "aviso": "Análise experimental — não congelada, não usada para decisão automática, não substitui o modelo/limiar oficiais.",
+  "reproducao": {
+    "limiar_oficial": 0.26696679375725973,
+    "oof": {
+      "n": 189,
+      "eventos": 60,
+      "prevalencia": 0.31746031746031744,
+      "average_precision": 0.6648719587525226,
+      "roc_auc": 0.8142118863049096,
+      "precisao": 0.532608695652174,
+      "recall": 0.8166666666666667,
+      "f1": 0.6447368421052632,
+      "brier": 0.16040225856108906,
+      "matriz_confusao": [
+        [
+          86,
+          43
+        ],
+        [
+          11,
+          49
+        ]
+      ],
+      "previstos_risco": 92,
+      "proporcao_risco": 0.48677248677248675
+    },
+    "temporal": {
+      "n": 311,
+      "eventos": 84,
+      "prevalencia": 0.27009646302250806,
+      "average_precision": 0.6210621783235775,
+      "roc_auc": 0.8044367526746381,
+      "precisao": 0.6415094339622641,
+      "recall": 0.40476190476190477,
+      "f1": 0.49635036496350365,
+      "brier": 0.17353575823783782,
+      "matriz_confusao": [
+        [
+          208,
+          19
+        ],
+        [
+          50,
+          34
+        ]
+      ],
+      "previstos_risco": 53,
+      "proporcao_risco": 0.17041800643086816
+    },
+    "reproducao_confere": true
+  },
+  "baseline_majoritario": {
+    "desenvolvimento": {
+      "n": 189,
+      "eventos": 60,
+      "prevalencia": 0.31746031746031744,
+      "acuracia": 0.6825396825396826,
+      "acuracia_balanceada": 0.5,
+      "recall_classe_positiva": 0.0,
+      "recall_classe_negativa": 1.0,
+      "precisao_classe_positiva": null
+    },
+    "temporal": {
+      "n": 311,
+      "eventos": 84,
+      "prevalencia": 0.27009646302250806,
+      "acuracia": 0.729903536977492,
+      "acuracia_balanceada": 0.5,
+      "recall_classe_positiva": 0.0,
+      "recall_classe_negativa": 1.0,
+      "precisao_classe_positiva": null
+    }
+  },
+  "candidatos": {
+    "limiar_oficial": {
+      "criterio": "limiar já congelado (recall OOF >= 80%, maior precisão, empate: maior recall, depois maior limiar) — carregado do artefato, não re-derivado",
+      "limiar": 0.26696679375725973,
+      "oof": {
+        "limiar": 0.26696679375725973,
+        "tp": 49,
+        "fp": 43,
+        "tn": 86,
+        "fn": 11,
+        "sinalizados": 92,
+        "percentual_sinalizado": 0.48677248677248675,
+        "recall": 0.8166666666666667,
+        "precisao": 0.532608695652174,
+        "especificidade": 0.6666666666666666,
+        "vpn": 0.8865979381443299,
+        "acuracia": 0.7142857142857143,
+        "acuracia_balanceada": 0.7416666666666667,
+        "f1": 0.6447368421052632,
+        "f2": 0.7379518072289155,
+        "youden_j": 0.4833333333333334
+      },
+      "temporal": {
+        "limiar": 0.26696679375725973,
+        "tp": 34,
+        "fp": 19,
+        "tn": 208,
+        "fn": 50,
+        "sinalizados": 53,
+        "percentual_sinalizado": 0.17041800643086816,
+        "recall": 0.40476190476190477,
+        "precisao": 0.6415094339622641,
+        "especificidade": 0.9162995594713657,
+        "vpn": 0.8062015503875969,
+        "acuracia": 0.7781350482315113,
+        "acuracia_balanceada": 0.6605307321166352,
+        "f1": 0.49635036496350365,
+        "f2": 0.4370179948586118,
+        "youden_j": 0.3210614642332703
+      }
+    },
+    "recall_minimo_85": {
+      "criterio": "recall OOF >= 85%; maior precisão; empate: maior recall, depois maior limiar",
+      "limiar": 0.23435046712463295,
+      "oof": {
+        "limiar": 0.23435046712463295,
+        "tp": 51,
+        "fp": 49,
+        "tn": 80,
+        "fn": 9,
+        "sinalizados": 100,
+        "percentual_sinalizado": 0.5291005291005291,
+        "recall": 0.85,
+        "precisao": 0.51,
+        "especificidade": 0.6201550387596899,
+        "vpn": 0.898876404494382,
+        "acuracia": 0.6931216931216931,
+        "acuracia_balanceada": 0.7350775193798449,
+        "f1": 0.6375,
+        "f2": 0.75,
+        "youden_j": 0.4701550387596898
+      },
+      "temporal": {
+        "limiar": 0.23435046712463295,
+        "tp": 37,
+        "fp": 24,
+        "tn": 203,
+        "fn": 47,
+        "sinalizados": 61,
+        "percentual_sinalizado": 0.19614147909967847,
+        "recall": 0.44047619047619047,
+        "precisao": 0.6065573770491803,
+        "especificidade": 0.8942731277533039,
+        "vpn": 0.812,
+        "acuracia": 0.7717041800643086,
+        "acuracia_balanceada": 0.6673746591147471,
+        "f1": 0.5103448275862069,
+        "f2": 0.4659949622166246,
+        "youden_j": 0.3347493182294943
+      }
+    },
+    "recall_minimo_90": {
+      "criterio": "recall OOF >= 90%; maior precisão; empate: maior recall, depois maior limiar",
+      "limiar": 0.19127584325471353,
+      "oof": {
+        "limiar": 0.19127584325471353,
+        "tp": 55,
+        "fp": 63,
+        "tn": 66,
+        "fn": 5,
+        "sinalizados": 118,
+        "percentual_sinalizado": 0.6243386243386243,
+        "recall": 0.9166666666666666,
+        "precisao": 0.4661016949152542,
+        "especificidade": 0.5116279069767442,
+        "vpn": 0.9295774647887324,
+        "acuracia": 0.6402116402116402,
+        "acuracia_balanceada": 0.7141472868217054,
+        "f1": 0.6179775280898876,
+        "f2": 0.7681564245810057,
+        "youden_j": 0.4282945736434107
+      },
+      "temporal": {
+        "limiar": 0.19127584325471353,
+        "tp": 41,
+        "fp": 29,
+        "tn": 198,
+        "fn": 43,
+        "sinalizados": 70,
+        "percentual_sinalizado": 0.22508038585209003,
+        "recall": 0.4880952380952381,
+        "precisao": 0.5857142857142857,
+        "especificidade": 0.8722466960352423,
+        "vpn": 0.8215767634854771,
+        "acuracia": 0.7684887459807074,
+        "acuracia_balanceada": 0.6801709670652402,
+        "f1": 0.5324675324675324,
+        "f2": 0.5049261083743842,
+        "youden_j": 0.3603419341304803
+      }
+    },
+    "recall_minimo_95": {
+      "criterio": "recall OOF >= 95%; maior precisão; empate: maior recall, depois maior limiar",
+      "limiar": 0.1635315341585724,
+      "oof": {
+        "limiar": 0.1635315341585724,
+        "tp": 58,
+        "fp": 68,
+        "tn": 61,
+        "fn": 2,
+        "sinalizados": 126,
+        "percentual_sinalizado": 0.6666666666666666,
+        "recall": 0.9666666666666667,
+        "precisao": 0.4603174603174603,
+        "especificidade": 0.4728682170542636,
+        "vpn": 0.9682539682539683,
+        "acuracia": 0.6296296296296297,
+        "acuracia_balanceada": 0.7197674418604652,
+        "f1": 0.6236559139784946,
+        "f2": 0.7923497267759563,
+        "youden_j": 0.4395348837209303
+      },
+      "temporal": {
+        "limiar": 0.1635315341585724,
+        "tp": 47,
+        "fp": 36,
+        "tn": 191,
+        "fn": 37,
+        "sinalizados": 83,
+        "percentual_sinalizado": 0.26688102893890675,
+        "recall": 0.5595238095238095,
+        "precisao": 0.5662650602409639,
+        "especificidade": 0.8414096916299559,
+        "vpn": 0.8377192982456141,
+        "acuracia": 0.7652733118971061,
+        "acuracia_balanceada": 0.7004667505768827,
+        "f1": 0.562874251497006,
+        "f2": 0.5608591885441527,
+        "youden_j": 0.40093350115376536
+      }
+    },
+    "maior_f2": {
+      "criterio": "maior F2 OOF; empate: maior recall, depois maior limiar",
+      "limiar": 0.1635315341585724,
+      "oof": {
+        "limiar": 0.1635315341585724,
+        "tp": 58,
+        "fp": 68,
+        "tn": 61,
+        "fn": 2,
+        "sinalizados": 126,
+        "percentual_sinalizado": 0.6666666666666666,
+        "recall": 0.9666666666666667,
+        "precisao": 0.4603174603174603,
+        "especificidade": 0.4728682170542636,
+        "vpn": 0.9682539682539683,
+        "acuracia": 0.6296296296296297,
+        "acuracia_balanceada": 0.7197674418604652,
+        "f1": 0.6236559139784946,
+        "f2": 0.7923497267759563,
+        "youden_j": 0.4395348837209303
+      },
+      "temporal": {
+        "limiar": 0.1635315341585724,
+        "tp": 47,
+        "fp": 36,
+        "tn": 191,
+        "fn": 37,
+        "sinalizados": 83,
+        "percentual_sinalizado": 0.26688102893890675,
+        "recall": 0.5595238095238095,
+        "precisao": 0.5662650602409639,
+        "especificidade": 0.8414096916299559,
+        "vpn": 0.8377192982456141,
+        "acuracia": 0.7652733118971061,
+        "acuracia_balanceada": 0.7004667505768827,
+        "f1": 0.562874251497006,
+        "f2": 0.5608591885441527,
+        "youden_j": 0.40093350115376536
+      }
+    },
+    "maior_youden_j": {
+      "criterio": "maior Youden J (recall + especificidade - 1) OOF; empate: maior recall, depois maior limiar",
+      "limiar": 0.26696679375725973,
+      "oof": {
+        "limiar": 0.26696679375725973,
+        "tp": 49,
+        "fp": 43,
+        "tn": 86,
+        "fn": 11,
+        "sinalizados": 92,
+        "percentual_sinalizado": 0.48677248677248675,
+        "recall": 0.8166666666666667,
+        "precisao": 0.532608695652174,
+        "especificidade": 0.6666666666666666,
+        "vpn": 0.8865979381443299,
+        "acuracia": 0.7142857142857143,
+        "acuracia_balanceada": 0.7416666666666667,
+        "f1": 0.6447368421052632,
+        "f2": 0.7379518072289155,
+        "youden_j": 0.4833333333333334
+      },
+      "temporal": {
+        "limiar": 0.26696679375725973,
+        "tp": 34,
+        "fp": 19,
+        "tn": 208,
+        "fn": 50,
+        "sinalizados": 53,
+        "percentual_sinalizado": 0.17041800643086816,
+        "recall": 0.40476190476190477,
+        "precisao": 0.6415094339622641,
+        "especificidade": 0.9162995594713657,
+        "vpn": 0.8062015503875969,
+        "acuracia": 0.7781350482315113,
+        "acuracia_balanceada": 0.6605307321166352,
+        "f1": 0.49635036496350365,
+        "f2": 0.4370179948586118,
+        "youden_j": 0.3210614642332703
+      }
+    },
+    "maior_recall_precisao_minima_50": {
+      "criterio": "precisão OOF >= 50%; maior recall; empate: maior precisão, depois maior limiar",
+      "limiar": 0.2254040809177936,
+      "oof": {
+        "limiar": 0.2254040809177936,
+        "tp": 52,
+        "fp": 52,
+        "tn": 77,
+        "fn": 8,
+        "sinalizados": 104,
+        "percentual_sinalizado": 0.5502645502645502,
+        "recall": 0.8666666666666667,
+        "precisao": 0.5,
+        "especificidade": 0.5968992248062015,
+        "vpn": 0.9058823529411765,
+        "acuracia": 0.6825396825396826,
+        "acuracia_balanceada": 0.7317829457364341,
+        "f1": 0.6341463414634146,
+        "f2": 0.7558139534883722,
+        "youden_j": 0.4635658914728682
+      },
+      "temporal": {
+        "limiar": 0.2254040809177936,
+        "tp": 37,
+        "fp": 26,
+        "tn": 201,
+        "fn": 47,
+        "sinalizados": 63,
+        "percentual_sinalizado": 0.20257234726688103,
+        "recall": 0.44047619047619047,
+        "precisao": 0.5873015873015873,
+        "especificidade": 0.8854625550660793,
+        "vpn": 0.8104838709677419,
+        "acuracia": 0.7652733118971061,
+        "acuracia_balanceada": 0.6629693727711349,
+        "f1": 0.5034013605442177,
+        "f2": 0.4636591478696742,
+        "youden_j": 0.32593874554226976
+      }
+    },
+    "maior_recall_precisao_minima_40": {
+      "criterio": "precisão OOF >= 40%; maior recall; empate: maior precisão, depois maior limiar",
+      "limiar": 0.15104892174638265,
+      "oof": {
+        "limiar": 0.15104892174638265,
+        "tp": 59,
+        "fp": 75,
+        "tn": 54,
+        "fn": 1,
+        "sinalizados": 134,
+        "percentual_sinalizado": 0.708994708994709,
+        "recall": 0.9833333333333333,
+        "precisao": 0.44029850746268656,
+        "especificidade": 0.4186046511627907,
+        "vpn": 0.9818181818181818,
+        "acuracia": 0.5978835978835979,
+        "acuracia_balanceada": 0.700968992248062,
+        "f1": 0.6082474226804123,
+        "f2": 0.7887700534759358,
+        "youden_j": 0.40193798449612395
+      },
+      "temporal": {
+        "limiar": 0.15104892174638265,
+        "tp": 49,
+        "fp": 38,
+        "tn": 189,
+        "fn": 35,
+        "sinalizados": 87,
+        "percentual_sinalizado": 0.2797427652733119,
+        "recall": 0.5833333333333334,
+        "precisao": 0.5632183908045977,
+        "especificidade": 0.8325991189427313,
+        "vpn": 0.84375,
+        "acuracia": 0.7652733118971061,
+        "acuracia_balanceada": 0.7079662261380324,
+        "f1": 0.5730994152046783,
+        "f2": 0.5791962174940898,
+        "youden_j": 0.4159324522760648
+      }
+    }
+  },
+  "classificacoes": {
+    "limiar_oficial": "Manter o limiar oficial",
+    "recall_minimo_85": "Somente experimental",
+    "recall_minimo_90": "Somente experimental",
+    "recall_minimo_95": "Candidato operacional promissor",
+    "maior_f2": "Candidato operacional promissor",
+    "maior_youden_j": "Manter o limiar oficial",
+    "maior_recall_precisao_minima_50": "Somente experimental",
+    "maior_recall_precisao_minima_40": "Candidato operacional promissor"
+  },
+  "candidatos_promissores_para_bootstrap_e_equidade": [
+    "maior_recall_precisao_minima_40",
+    "recall_minimo_95"
+  ],
+  "impacto_pedagogico": {
+    "limiar_oficial": {
+      "estudantes_encaminhados_para_observacao": 53,
+      "casos_reais_encontrados": 34,
+      "casos_reais_ainda_perdidos": 50,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 19
+    },
+    "recall_minimo_85": {
+      "estudantes_encaminhados_para_observacao": 61,
+      "casos_reais_encontrados": 37,
+      "casos_reais_ainda_perdidos": 47,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 24
+    },
+    "recall_minimo_90": {
+      "estudantes_encaminhados_para_observacao": 70,
+      "casos_reais_encontrados": 41,
+      "casos_reais_ainda_perdidos": 43,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 29
+    },
+    "recall_minimo_95": {
+      "estudantes_encaminhados_para_observacao": 83,
+      "casos_reais_encontrados": 47,
+      "casos_reais_ainda_perdidos": 37,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 36
+    },
+    "maior_f2": {
+      "estudantes_encaminhados_para_observacao": 83,
+      "casos_reais_encontrados": 47,
+      "casos_reais_ainda_perdidos": 37,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 36
+    },
+    "maior_youden_j": {
+      "estudantes_encaminhados_para_observacao": 53,
+      "casos_reais_encontrados": 34,
+      "casos_reais_ainda_perdidos": 50,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 19
+    },
+    "maior_recall_precisao_minima_50": {
+      "estudantes_encaminhados_para_observacao": 63,
+      "casos_reais_encontrados": 37,
+      "casos_reais_ainda_perdidos": 47,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 26
+    },
+    "maior_recall_precisao_minima_40": {
+      "estudantes_encaminhados_para_observacao": 87,
+      "casos_reais_encontrados": 49,
+      "casos_reais_ainda_perdidos": 35,
+      "acompanhamentos_adicionais_que_sao_falsos_positivos": 38
+    }
+  },
+  "recalibracao": {
+    "platt": {
+      "brier_oof_antes": 0.16040225856108906,
+      "brier_oof_depois": 0.16629675606568153,
+      "brier_temporal_antes": 0.17353575823783782,
+      "brier_temporal_depois": 0.1684730188137734,
+      "correlacao_de_postos_com_original_temporal": 1.0,
+      "calibracao_oof_depois": {
+        "status": "estimada",
+        "grupos": [
+          {
+            "n": 57,
+            "probabilidade_media": 0.16099622095325972,
+            "fracao_eventos": 0.03508771929824561
+          },
+          {
+            "n": 81,
+            "probabilidade_media": 0.2789292223423327,
+            "fracao_eventos": 0.30864197530864196
+          },
+          {
+            "n": 51,
+            "probabilidade_media": 0.5535725352616675,
+            "fracao_eventos": 0.6470588235294118
+          }
+        ]
+      },
+      "calibracao_temporal_depois": {
+        "status": "estimada",
+        "grupos": [
+          {
+            "n": 224,
+            "probabilidade_media": 0.14901825462579316,
+            "fracao_eventos": 0.15625
+          },
+          {
+            "n": 63,
+            "probabilidade_media": 0.26915119579956376,
+            "fracao_eventos": 0.4603174603174603
+          },
+          {
+            "n": 24,
+            "probabilidade_media": 0.5502052685785855,
+            "fracao_eventos": 0.8333333333333334
+          }
+        ]
+      },
+      "candidato_maior_f2_recalibrado_temporal": {
+        "limiar": 0.2050230442841378,
+        "tp": 47,
+        "fp": 36,
+        "tn": 191,
+        "fn": 37,
+        "sinalizados": 83,
+        "percentual_sinalizado": 0.26688102893890675,
+        "recall": 0.5595238095238095,
+        "precisao": 0.5662650602409639,
+        "especificidade": 0.8414096916299559,
+        "vpn": 0.8377192982456141,
+        "acuracia": 0.7652733118971061,
+        "acuracia_balanceada": 0.7004667505768827,
+        "f1": 0.562874251497006,
+        "f2": 0.5608591885441527,
+        "youden_j": 0.40093350115376536
+      }
+    },
+    "isotonica": {
+      "brier_oof_antes": 0.16040225856108906,
+      "brier_oof_depois": 0.14902073942690194,
+      "brier_temporal_antes": 0.17353575823783782,
+      "brier_temporal_depois": 0.1789159799102239,
+      "correlacao_de_postos_com_original_temporal": 0.955872232698466,
+      "calibracao_oof_depois": {
+        "status": "estimada",
+        "grupos": [
+          {
+            "n": 63,
+            "probabilidade_media": 0.031746031746031744,
+            "fracao_eventos": 0.031746031746031744
+          },
+          {
+            "n": 62,
+            "probabilidade_media": 0.2903225806451614,
+            "fracao_eventos": 0.2903225806451613
+          },
+          {
+            "n": 23,
+            "probabilidade_media": 0.4782608695652174,
+            "fracao_eventos": 0.4782608695652174
+          },
+          {
+            "n": 41,
+            "probabilidade_media": 0.7073170731707317,
+            "fracao_eventos": 0.7073170731707317
+          }
+        ]
+      },
+      "calibracao_temporal_depois": {
+        "status": "estimada",
+        "grupos": [
+          {
+            "n": 227,
+            "probabilidade_media": 0.01583982325736694,
+            "fracao_eventos": 0.16299559471365638
+          },
+          {
+            "n": 53,
+            "probabilidade_media": 0.2879471313554865,
+            "fracao_eventos": 0.4339622641509434
+          },
+          {
+            "n": 31,
+            "probabilidade_media": 0.6211258697027198,
+            "fracao_eventos": 0.7741935483870968
+          }
+        ]
+      },
+      "aviso": "Isotônica ajustada com apenas 60 eventos no desenvolvimento: poucos degraus, alto risco de sobreajuste local.",
+      "candidato_maior_f2_recalibrado_temporal": {
+        "limiar": 0.2647058823529412,
+        "tp": 47,
+        "fp": 36,
+        "tn": 191,
+        "fn": 37,
+        "sinalizados": 83,
+        "percentual_sinalizado": 0.26688102893890675,
+        "recall": 0.5595238095238095,
+        "precisao": 0.5662650602409639,
+        "especificidade": 0.8414096916299559,
+        "vpn": 0.8377192982456141,
+        "acuracia": 0.7652733118971061,
+        "acuracia_balanceada": 0.7004667505768827,
+        "f1": 0.562874251497006,
+        "f2": 0.5608591885441527,
+        "youden_j": 0.40093350115376536
+      }
+    }
+  },
+  "bootstrap_temporal": {
+    "maior_recall_precisao_minima_40": {
+      "a": {
+        "recall": {
+          "ic95": [
+            0.3020613704819277,
+            0.512202743902439
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.5094339622641509,
+            0.767452242524917
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "acuracia_balanceada": {
+          "ic95": [
+            0.6065650222870302,
+            0.7188911580928037
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "b": {
+        "recall": {
+          "ic95": [
+            0.48,
+            0.6875
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.4567834138486312,
+            0.6667582417582412
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "acuracia_balanceada": {
+          "ic95": [
+            0.652654857471052,
+            0.7643953910965231
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "diferenca_b_menos_a": {
+        "recall": {
+          "ic95": [
+            0.1046511627906977,
+            0.2666666666666666
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            -0.1627766958230167,
+            0.006696516370319035
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "acuracia_balanceada": {
+          "ic95": [
+            0.005344582701915193,
+            0.09110839430098712
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      }
+    },
+    "recall_minimo_95": {
+      "a": {
+        "recall": {
+          "ic95": [
+            0.3020613704819277,
+            0.512202743902439
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.5094339622641509,
+            0.767452242524917
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "acuracia_balanceada": {
+          "ic95": [
+            0.6065650222870302,
+            0.7188911580928037
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "b": {
+        "recall": {
+          "ic95": [
+            0.4583333333333333,
+            0.6667499999999995
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            0.45977011494252873,
+            0.6744256094144018
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "acuracia_balanceada": {
+          "ic95": [
+            0.6449852811709035,
+            0.7586795483450596
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      },
+      "diferenca_b_menos_a": {
+        "recall": {
+          "ic95": [
+            0.08433734939759036,
+            0.23684210526315785
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "precisao": {
+          "ic95": [
+            -0.15853282828282833,
+            0.0060091713267047065
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        },
+        "acuracia_balanceada": {
+          "ic95": [
+            0.0015696498232998929,
+            0.0824937302643892
+          ],
+          "validas": 2000,
+          "invalidas": 0
+        }
+      }
+    }
+  },
+  "equidade": {
+    "limiar_oficial": {
+      "genero": {
+        "feminino": {
+          "status": "estimado",
+          "n": 184,
+          "positivos": 42,
+          "negativos": 142,
+          "alertas": 23,
+          "verdadeiros_positivos": 14,
+          "falsos_positivos": 9,
+          "falsos_negativos": 28,
+          "recall": 0.3333333333333333,
+          "precisao": 0.6086956521739131,
+          "average_precision": 0.5872028185883555,
+          "roc_auc": 0.8137156270959088
+        },
+        "masculino": {
+          "status": "estimado",
+          "n": 127,
+          "positivos": 42,
+          "negativos": 85,
+          "alertas": 30,
+          "verdadeiros_positivos": 20,
+          "falsos_positivos": 10,
+          "falsos_negativos": 22,
+          "recall": 0.47619047619047616,
+          "precisao": 0.6666666666666666,
+          "average_precision": 0.6721188858013801,
+          "roc_auc": 0.7915966386554623
+        }
+      },
+      "faixa_etaria_aproximada": {
+        "11 a 13 anos": {
+          "status": "estimado",
+          "n": 114,
+          "positivos": 9,
+          "negativos": 105,
+          "alertas": 8,
+          "verdadeiros_positivos": 1,
+          "falsos_positivos": 7,
+          "falsos_negativos": 8,
+          "recall": 0.1111111111111111,
+          "precisao": 0.125,
+          "average_precision": 0.11609592718778461,
+          "roc_auc": 0.6253968253968254
+        },
+        "14 a 16 anos": {
+          "status": "estimado",
+          "n": 68,
+          "positivos": 6,
+          "negativos": 62,
+          "alertas": 2,
+          "verdadeiros_positivos": 1,
+          "falsos_positivos": 1,
+          "falsos_negativos": 5,
+          "recall": 0.16666666666666666,
+          "precisao": 0.5,
+          "average_precision": 0.3725296725296725,
+          "roc_auc": 0.8306451612903226
+        },
+        "17 anos ou mais": {
+          "status": "suprimido por privacidade",
+          "n": "suprimido",
+          "positivos": "suprimido",
+          "negativos": "suprimido",
+          "alertas": "suprimido",
+          "verdadeiros_positivos": "suprimido",
+          "falsos_positivos": "suprimido",
+          "falsos_negativos": "suprimido",
+          "recall": "suprimido",
+          "precisao": "suprimido",
+          "average_precision": "não estimável para este grupo",
+          "roc_auc": "não estimável para este grupo"
+        },
+        "7 a 10 anos": {
+          "status": "estimado",
+          "n": 121,
+          "positivos": 69,
+          "negativos": 52,
+          "alertas": 43,
+          "verdadeiros_positivos": 32,
+          "falsos_positivos": 11,
+          "falsos_negativos": 37,
+          "recall": 0.463768115942029,
+          "precisao": 0.7441860465116279,
+          "average_precision": 0.7880706384298871,
+          "roc_auc": 0.750557413600892
+        }
+      },
+      "fase": {
+        "0": {
+          "status": "estimado",
+          "metricas": {
+            "n": 81,
+            "eventos": 53,
+            "prevalencia": 0.654320987654321,
+            "average_precision": 0.8461678398296706,
+            "roc_auc": 0.7702156334231807,
+            "precisao": 0.8461538461538461,
+            "recall": 0.41509433962264153,
+            "f1": 0.5569620253164557,
+            "brier": 0.38704868364632067,
+            "matriz_confusao": [
+              [
+                24,
+                4
+              ],
+              [
+                31,
+                22
+              ]
+            ],
+            "previstos_risco": 26,
+            "proporcao_risco": 0.32098765432098764
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 52,
+                "probabilidade_media": 0.0755495009833435,
+                "fracao_eventos": 0.5384615384615384
+              },
+              {
+                "n": 29,
+                "probabilidade_media": 0.5169999711529955,
+                "fracao_eventos": 0.8620689655172413
+              }
+            ]
+          }
+        },
+        "1": {
+          "status": "estimado",
+          "metricas": {
+            "n": 33,
+            "eventos": 16,
+            "prevalencia": 0.48484848484848486,
+            "average_precision": 0.7569543654846824,
+            "roc_auc": 0.7205882352941176,
+            "precisao": 0.5882352941176471,
+            "recall": 0.625,
+            "f1": 0.6060606060606061,
+            "brier": 0.24914158949544693,
+            "matriz_confusao": [
+              [
+                10,
+                7
+              ],
+              [
+                6,
+                10
+              ]
+            ],
+            "previstos_risco": 17,
+            "proporcao_risco": 0.5151515151515151
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 33,
+                "probabilidade_media": 0.2839305609393957,
+                "fracao_eventos": 0.48484848484848486
+              }
+            ]
+          }
+        },
+        "2": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "3": {
+          "status": "estimado",
+          "metricas": {
+            "n": 51,
+            "eventos": 6,
+            "prevalencia": 0.11764705882352941,
+            "average_precision": 0.14553963714580775,
+            "roc_auc": 0.5666666666666667,
+            "precisao": null,
+            "recall": 0.0,
+            "f1": 0.0,
+            "brier": 0.11237039571155379,
+            "matriz_confusao": [
+              [
+                45,
+                0
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            "previstos_risco": 0,
+            "proporcao_risco": 0.0
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 51,
+                "probabilidade_media": 0.05214676083714238,
+                "fracao_eventos": 0.11764705882352941
+              }
+            ]
+          }
+        },
+        "4": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "5": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "6": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "7": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        }
+      }
+    },
+    "maior_recall_precisao_minima_40": {
+      "genero": {
+        "feminino": {
+          "status": "estimado",
+          "n": 184,
+          "positivos": 42,
+          "negativos": 142,
+          "alertas": 43,
+          "verdadeiros_positivos": 23,
+          "falsos_positivos": 20,
+          "falsos_negativos": 19,
+          "recall": 0.5476190476190477,
+          "precisao": 0.5348837209302325,
+          "average_precision": 0.5872028185883555,
+          "roc_auc": 0.8137156270959088
+        },
+        "masculino": {
+          "status": "estimado",
+          "n": 127,
+          "positivos": 42,
+          "negativos": 85,
+          "alertas": 44,
+          "verdadeiros_positivos": 26,
+          "falsos_positivos": 18,
+          "falsos_negativos": 16,
+          "recall": 0.6190476190476191,
+          "precisao": 0.5909090909090909,
+          "average_precision": 0.6721188858013801,
+          "roc_auc": 0.7915966386554623
+        }
+      },
+      "faixa_etaria_aproximada": {
+        "11 a 13 anos": {
+          "status": "estimado",
+          "n": 114,
+          "positivos": 9,
+          "negativos": 105,
+          "alertas": 18,
+          "verdadeiros_positivos": 1,
+          "falsos_positivos": 17,
+          "falsos_negativos": 8,
+          "recall": 0.1111111111111111,
+          "precisao": 0.05555555555555555,
+          "average_precision": 0.11609592718778461,
+          "roc_auc": 0.6253968253968254
+        },
+        "14 a 16 anos": {
+          "status": "estimado",
+          "n": 68,
+          "positivos": 6,
+          "negativos": 62,
+          "alertas": 9,
+          "verdadeiros_positivos": 4,
+          "falsos_positivos": 5,
+          "falsos_negativos": 2,
+          "recall": 0.6666666666666666,
+          "precisao": 0.4444444444444444,
+          "average_precision": 0.3725296725296725,
+          "roc_auc": 0.8306451612903226
+        },
+        "17 anos ou mais": {
+          "status": "suprimido por privacidade",
+          "n": "suprimido",
+          "positivos": "suprimido",
+          "negativos": "suprimido",
+          "alertas": "suprimido",
+          "verdadeiros_positivos": "suprimido",
+          "falsos_positivos": "suprimido",
+          "falsos_negativos": "suprimido",
+          "recall": "suprimido",
+          "precisao": "suprimido",
+          "average_precision": "não estimável para este grupo",
+          "roc_auc": "não estimável para este grupo"
+        },
+        "7 a 10 anos": {
+          "status": "estimado",
+          "n": 121,
+          "positivos": 69,
+          "negativos": 52,
+          "alertas": 59,
+          "verdadeiros_positivos": 44,
+          "falsos_positivos": 15,
+          "falsos_negativos": 25,
+          "recall": 0.6376811594202898,
+          "precisao": 0.7457627118644068,
+          "average_precision": 0.7880706384298871,
+          "roc_auc": 0.750557413600892
+        }
+      },
+      "fase": {
+        "0": {
+          "status": "estimado",
+          "metricas": {
+            "n": 81,
+            "eventos": 53,
+            "prevalencia": 0.654320987654321,
+            "average_precision": 0.8461678398296706,
+            "roc_auc": 0.7702156334231807,
+            "precisao": 0.8333333333333334,
+            "recall": 0.5660377358490566,
+            "f1": 0.6741573033707865,
+            "brier": 0.38704868364632067,
+            "matriz_confusao": [
+              [
+                22,
+                6
+              ],
+              [
+                23,
+                30
+              ]
+            ],
+            "previstos_risco": 36,
+            "proporcao_risco": 0.4444444444444444
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 52,
+                "probabilidade_media": 0.0755495009833435,
+                "fracao_eventos": 0.5384615384615384
+              },
+              {
+                "n": 29,
+                "probabilidade_media": 0.5169999711529955,
+                "fracao_eventos": 0.8620689655172413
+              }
+            ]
+          }
+        },
+        "1": {
+          "status": "estimado",
+          "metricas": {
+            "n": 33,
+            "eventos": 16,
+            "prevalencia": 0.48484848484848486,
+            "average_precision": 0.7569543654846824,
+            "roc_auc": 0.7205882352941176,
+            "precisao": 0.6086956521739131,
+            "recall": 0.875,
+            "f1": 0.717948717948718,
+            "brier": 0.24914158949544693,
+            "matriz_confusao": [
+              [
+                8,
+                9
+              ],
+              [
+                2,
+                14
+              ]
+            ],
+            "previstos_risco": 23,
+            "proporcao_risco": 0.696969696969697
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 33,
+                "probabilidade_media": 0.2839305609393957,
+                "fracao_eventos": 0.48484848484848486
+              }
+            ]
+          }
+        },
+        "2": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "3": {
+          "status": "estimado",
+          "metricas": {
+            "n": 51,
+            "eventos": 6,
+            "prevalencia": 0.11764705882352941,
+            "average_precision": 0.14553963714580775,
+            "roc_auc": 0.5666666666666667,
+            "precisao": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "brier": 0.11237039571155379,
+            "matriz_confusao": [
+              [
+                41,
+                4
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            "previstos_risco": 4,
+            "proporcao_risco": 0.0784313725490196
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 51,
+                "probabilidade_media": 0.05214676083714238,
+                "fracao_eventos": 0.11764705882352941
+              }
+            ]
+          }
+        },
+        "4": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "5": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "6": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "7": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        }
+      }
+    },
+    "recall_minimo_95": {
+      "genero": {
+        "feminino": {
+          "status": "estimado",
+          "n": 184,
+          "positivos": 42,
+          "negativos": 142,
+          "alertas": 39,
+          "verdadeiros_positivos": 21,
+          "falsos_positivos": 18,
+          "falsos_negativos": 21,
+          "recall": 0.5,
+          "precisao": 0.5384615384615384,
+          "average_precision": 0.5872028185883555,
+          "roc_auc": 0.8137156270959088
+        },
+        "masculino": {
+          "status": "estimado",
+          "n": 127,
+          "positivos": 42,
+          "negativos": 85,
+          "alertas": 44,
+          "verdadeiros_positivos": 26,
+          "falsos_positivos": 18,
+          "falsos_negativos": 16,
+          "recall": 0.6190476190476191,
+          "precisao": 0.5909090909090909,
+          "average_precision": 0.6721188858013801,
+          "roc_auc": 0.7915966386554623
+        }
+      },
+      "faixa_etaria_aproximada": {
+        "11 a 13 anos": {
+          "status": "estimado",
+          "n": 114,
+          "positivos": 9,
+          "negativos": 105,
+          "alertas": 16,
+          "verdadeiros_positivos": 1,
+          "falsos_positivos": 15,
+          "falsos_negativos": 8,
+          "recall": 0.1111111111111111,
+          "precisao": 0.0625,
+          "average_precision": 0.11609592718778461,
+          "roc_auc": 0.6253968253968254
+        },
+        "14 a 16 anos": {
+          "status": "estimado",
+          "n": 68,
+          "positivos": 6,
+          "negativos": 62,
+          "alertas": 8,
+          "verdadeiros_positivos": 3,
+          "falsos_positivos": 5,
+          "falsos_negativos": 3,
+          "recall": 0.5,
+          "precisao": 0.375,
+          "average_precision": 0.3725296725296725,
+          "roc_auc": 0.8306451612903226
+        },
+        "17 anos ou mais": {
+          "status": "suprimido por privacidade",
+          "n": "suprimido",
+          "positivos": "suprimido",
+          "negativos": "suprimido",
+          "alertas": "suprimido",
+          "verdadeiros_positivos": "suprimido",
+          "falsos_positivos": "suprimido",
+          "falsos_negativos": "suprimido",
+          "recall": "suprimido",
+          "precisao": "suprimido",
+          "average_precision": "não estimável para este grupo",
+          "roc_auc": "não estimável para este grupo"
+        },
+        "7 a 10 anos": {
+          "status": "estimado",
+          "n": 121,
+          "positivos": 69,
+          "negativos": 52,
+          "alertas": 58,
+          "verdadeiros_positivos": 43,
+          "falsos_positivos": 15,
+          "falsos_negativos": 26,
+          "recall": 0.6231884057971014,
+          "precisao": 0.7413793103448276,
+          "average_precision": 0.7880706384298871,
+          "roc_auc": 0.750557413600892
+        }
+      },
+      "fase": {
+        "0": {
+          "status": "estimado",
+          "metricas": {
+            "n": 81,
+            "eventos": 53,
+            "prevalencia": 0.654320987654321,
+            "average_precision": 0.8461678398296706,
+            "roc_auc": 0.7702156334231807,
+            "precisao": 0.8285714285714286,
+            "recall": 0.5471698113207547,
+            "f1": 0.6590909090909091,
+            "brier": 0.38704868364632067,
+            "matriz_confusao": [
+              [
+                22,
+                6
+              ],
+              [
+                24,
+                29
+              ]
+            ],
+            "previstos_risco": 35,
+            "proporcao_risco": 0.43209876543209874
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 52,
+                "probabilidade_media": 0.0755495009833435,
+                "fracao_eventos": 0.5384615384615384
+              },
+              {
+                "n": 29,
+                "probabilidade_media": 0.5169999711529955,
+                "fracao_eventos": 0.8620689655172413
+              }
+            ]
+          }
+        },
+        "1": {
+          "status": "estimado",
+          "metricas": {
+            "n": 33,
+            "eventos": 16,
+            "prevalencia": 0.48484848484848486,
+            "average_precision": 0.7569543654846824,
+            "roc_auc": 0.7205882352941176,
+            "precisao": 0.6086956521739131,
+            "recall": 0.875,
+            "f1": 0.717948717948718,
+            "brier": 0.24914158949544693,
+            "matriz_confusao": [
+              [
+                8,
+                9
+              ],
+              [
+                2,
+                14
+              ]
+            ],
+            "previstos_risco": 23,
+            "proporcao_risco": 0.696969696969697
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 33,
+                "probabilidade_media": 0.2839305609393957,
+                "fracao_eventos": 0.48484848484848486
+              }
+            ]
+          }
+        },
+        "2": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "3": {
+          "status": "estimado",
+          "metricas": {
+            "n": 51,
+            "eventos": 6,
+            "prevalencia": 0.11764705882352941,
+            "average_precision": 0.14553963714580775,
+            "roc_auc": 0.5666666666666667,
+            "precisao": 0.0,
+            "recall": 0.0,
+            "f1": 0.0,
+            "brier": 0.11237039571155379,
+            "matriz_confusao": [
+              [
+                42,
+                3
+              ],
+              [
+                6,
+                0
+              ]
+            ],
+            "previstos_risco": 3,
+            "proporcao_risco": 0.058823529411764705
+          },
+          "calibracao": {
+            "status": "estimada",
+            "grupos": [
+              {
+                "n": 51,
+                "probabilidade_media": 0.05214676083714238,
+                "fracao_eventos": 0.11764705882352941
+              }
+            ]
+          }
+        },
+        "4": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "5": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "6": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        },
+        "7": {
+          "status": "suprimido: n < 30 ou menos de 5 eventos/nao eventos"
+        }
+      }
+    }
+  }
+}
