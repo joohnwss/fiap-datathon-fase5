@@ -1,8 +1,8 @@
-"""Inferência pública do modelo oficialmente avaliado (TASK 009).
+"""Inferência pública do modelo oficialmente avaliado.
 
 Reaproveita `modelagem.validate_frozen` como única fonte de verdade para as
 verificações que ela realmente executa, e complementa apenas com as
-verificações adicionais definidas no contrato aprovado na TASK 008
+verificações adicionais definidas no contrato de uso do modelo
 (`docs/decisao_modelo_operacional.md`, seção 7.1), que dependem
 exclusivamente de artefatos públicos.
 
@@ -12,9 +12,9 @@ deploy público. Este módulo também **nunca** treina, ajusta incrementalmente,
 recalibra ou regenera nenhum artefato; ele apenas lê, valida e usa o que já
 está congelado.
 
-Não importa Streamlit: é utilizável e testável isoladamente (a TASK 010
-adicionará os testes automatizados). `streamlit_app.py` é a única camada que
-conhece a interface; este módulo só conhece dados e artefatos.
+Não importa Streamlit: é utilizável e testável isoladamente.
+`streamlit_app.py` é a única camada que conhece a interface; este módulo só
+conhece dados e artefatos.
 """
 from __future__ import annotations
 
@@ -110,7 +110,7 @@ def find_project_root(start: Path | str | None = None) -> Path:
 
 
 # ---------------------------------------------------------------------------
-# Validador público (contrato da TASK 008, seção 7.1 de
+# Validador público (contrato de uso do modelo, seção 7.1 de
 # docs/decisao_modelo_operacional.md).
 # ---------------------------------------------------------------------------
 
