@@ -31,6 +31,11 @@ reports/*.json
 !reports/metricas_analises_negocio.json
 reports/*.xlsx
 reports/*.html
+# Exceção: documento "Modelo e limitações" (25/09/2026) — só métricas
+# agregadas já públicas (mesmas de reports/metricas_modelagem.json),
+# nenhum dado individual; gerado por
+# scripts/gerar_relatorio_modelo_e_limitacoes.py para uso da equipe.
+!reports/relatorio_modelo_e_limitacoes.html
 
 # Secrets e caches
 .env
@@ -43,3 +48,10 @@ secrets/
 /local_data/
 /local_recovery/
 /tmp/
+
+# Evidências visuais de validação (capturas de tela geradas por scripts de
+# QA manual/automatizado) — mantidas apenas localmente, nunca versionadas,
+# conforme decisão da correção pós-auditoria comparativa (24/09/2026, item 6).
+/reports/validacao_visual/
+/reports/validacao_visual_publica/
+/reports/validacao_layout/

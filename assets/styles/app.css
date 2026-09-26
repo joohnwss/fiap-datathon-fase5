@@ -1,0 +1,290 @@
+/* Identidade visual da Associação Passos Mágicos (revisão de identidade
+ * visual, 25/09/2026).
+ *
+ * Arquivo LOCAL, ESTÁTICO: nenhuma variável de usuário é interpolada aqui,
+ * nenhum recurso externo é referenciado (sem @import, sem url() remota, sem
+ * Google Fonts), nenhum JavaScript. As únicas variáveis usadas (`--pm-*`)
+ * são definidas em tempo de execução por `streamlit_app.py`
+ * (`_aplicar_estilo_visual`), com dois conjuntos fixos de valores — um para
+ * "Claro" e um para "Escuro" — escolhidos a partir de `st.session_state`,
+ * nunca de conteúdo enviado pelo usuário.
+ *
+ * Direção editorial: menos caixas e cartões, mais tipografia e espaço em
+ * branco, largura de leitura confortável, poucas cores usadas com
+ * moderação. Cobre o que o tema nativo do Streamlit (`.streamlit/
+ * config.toml`) não alcança sozinho: fundo/texto do app, largura central,
+ * cabeçalho com logo, tabs, expanders, alertas, e as áreas específicas do
+ * Panorama e da Início. */
+
+/* -- Base: fundo, texto, largura de leitura --------------------------------- */
+/* `html`/`body` também recebem o fundo do tema: `.stApp` é posicionado
+ * como `position: absolute` pelo próprio Streamlit, e uma captura de tela
+ * de página inteira (altura maior que a viewport inicial) pode deixar o
+ * fundo nativo do `body` visível por baixo dele — sem isso, a página
+ * parecia "voltar" ao modo claro abaixo da primeira dobra no modo escuro. */
+html, body,
+.stApp,
+[data-testid="stAppViewContainer"] {
+  background: var(--pm-bg);
+  color: var(--pm-texto);
+}
+/* Componentes NATIVOS do Streamlit (rótulo de widget, texto de `st.table`,
+ * rótulo/valor de `st.metric`, opção de rádio/selectbox) fixam sua própria
+ * cor de texto a partir de `textColor` em `.streamlit/config.toml` — que é
+ * estático (só o modo "Claro"). Sem esta regra, esses elementos específicos
+ * ficavam com baixo contraste no modo escuro (texto escuro sobre fundo
+ * escuro), mesmo com `.stApp` já correto — encontrado por captura de tela
+ * real durante a validação visual desta rodada, não pelos testes
+ * automatizados. `.stApp *` cobre genericamente qualquer componente nativo
+ * não listado individualmente; as regras mais específicas abaixo (links,
+ * botão primário, valores em destaque) continuam vencendo por vir depois
+ * no arquivo. */
+.stApp * {
+  color: inherit;
+}
+[data-testid="stWidgetLabel"],
+[data-testid="stWidgetLabel"] p,
+[data-testid="stTable"] td,
+[data-testid="stTable"] th,
+[data-testid="stMetricLabel"],
+[data-testid="stMetricValue"],
+[data-testid="stMarkdownContainer"],
+[data-baseweb="radio"] div,
+[data-baseweb="select"] * {
+  color: var(--pm-texto);
+}
+[data-testid="stHeader"] {
+  background: transparent;
+}
+[data-testid="stMainBlockContainer"],
+.block-container {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding-top: 1.5rem;
+}
+h1, h2, h3, h4, h5, h6 {
+  color: var(--pm-texto);
+  letter-spacing: -0.01em;
+}
+a, [data-testid="stMarkdownContainer"] a {
+  color: var(--pm-azul-claro);
+}
+hr, [data-testid="stDivider"] {
+  border-color: var(--pm-borda);
+}
+[data-testid="stCaptionContainer"], .stCaption,
+[data-testid="stTooltipHoverTarget"] {
+  color: var(--pm-texto-suave);
+}
+
+/* -- Botões: só o primário recebe a cor institucional ----------------------- */
+[data-testid^="stBaseButton-primary"] {
+  background: var(--pm-azul);
+  border-color: var(--pm-azul);
+  color: #ffffff;
+}
+[data-testid^="stBaseButton-secondary"] {
+  background: var(--pm-bg-elevado);
+  border-color: var(--pm-borda);
+  color: var(--pm-texto);
+}
+/* Botão desabilitado: o Streamlit pinta o texto com uma cor FIXA do modo
+ * claro a 40% de opacidade (`rgba(34,40,44,0.4)`), que não se adapta ao
+ * modo escuro e fica quase ilegível sobre fundo escuro — encontrado por
+ * captura de tela real (revisão de contraste, rodada seguinte). Usa
+ * `--pm-texto-suave` (já claro/escuro conforme o tema) em vez da cor fixa;
+ * `!important` necessário para vencer o estilo inline aplicado pelo
+ * componente ao ficar desabilitado. */
+[data-testid^="stBaseButton-primary"]:disabled,
+[data-testid^="stBaseButton-secondary"]:disabled {
+  color: var(--pm-texto-suave) !important;
+  opacity: 0.7;
+}
+/* Alternador de aparência (Claro/Escuro): o item selecionado e o não
+ * selecionado recebem cores fixas do BaseWeb (do modo claro do
+ * `.streamlit/config.toml`, que é estático), nunca as variáveis de tema —
+ * a opção não selecionada ficava com baixo contraste no modo escuro
+ * (encontrado por captura de tela real). */
+button[data-variant="segmented_control"] {
+  background: var(--pm-bg-elevado);
+  color: var(--pm-texto);
+  border-color: var(--pm-borda);
+}
+button[data-variant="segmented_control"][aria-checked="true"] {
+  background: var(--pm-azul);
+  color: #ffffff;
+  border-color: var(--pm-azul);
+}
+
+/* -- Tabs: separação discreta, aba ativa marcada pelo azul ------------------ */
+[data-testid="stTabs"] [data-baseweb="tab-list"] {
+  border-bottom: 1px solid var(--pm-borda);
+  gap: 1.5rem;
+}
+[data-testid="stTabs"] [data-baseweb="tab"] {
+  color: var(--pm-texto-suave);
+}
+[data-testid="stTabs"] [aria-selected="true"] {
+  color: var(--pm-azul);
+}
+[data-testid="stTabs"] [data-baseweb="tab-highlight"] {
+  background-color: var(--pm-azul);
+}
+
+/* -- Expanders: contorno discreto, sem sombra ------------------------------- */
+[data-testid="stExpander"] {
+  border: 1px solid var(--pm-borda);
+  border-radius: 8px;
+  background: var(--pm-bg-elevado);
+}
+
+/* -- Alertas nativos (info/success/warning/error): tom mais discreto ------- */
+[data-testid="stAlert"] {
+  border-radius: 8px;
+  background: var(--pm-bg-elevado);
+  border: 1px solid var(--pm-borda);
+}
+
+/* -- Tabelas e dataframes ---------------------------------------------------- */
+[data-testid="stTable"] table,
+[data-testid="stDataFrame"] {
+  border: 1px solid var(--pm-borda);
+  border-radius: 6px;
+}
+
+/* -- Inputs: contorno consistente com o tema -------------------------------- */
+[data-testid="stTextInputRootElement"],
+[data-testid="stSelectbox"] > div > div,
+[data-baseweb="select"] > div {
+  border-color: var(--pm-borda) !important;
+  background: var(--pm-bg-elevado) !important;
+}
+
+/* -- Cabeçalho institucional: logo + subtítulo + seletor de aparência ------ */
+[class*="st-key-cabecalho_"] {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
+  border-bottom: 1px solid var(--pm-borda);
+}
+[class*="st-key-cabecalho_"] h1 {
+  font-size: 1.5rem;
+  margin: 0 0 0.15rem 0;
+}
+[class*="st-key-logo_moldura_"] {
+  display: inline-flex;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
+  background: var(--pm-logo-fundo);
+}
+
+/* -- Início: abertura editorial ---------------------------------------------- */
+[class*="st-key-inicio_abertura_"] h1 {
+  font-size: 2.1rem;
+  line-height: 1.2;
+  margin-bottom: 0.5rem;
+}
+[class*="st-key-inicio_caminho_"] {
+  border-top: 1px solid var(--pm-borda);
+  padding-top: 0.9rem;
+  margin-top: 0.6rem;
+}
+[class*="st-key-inicio_equipe_"] {
+  color: var(--pm-texto);
+  padding: 0.15rem 0;
+}
+[class*="st-key-inicio_rodape_"] {
+  border-top: 1px solid var(--pm-borda);
+  margin-top: 1.5rem;
+  padding-top: 0.9rem;
+  color: var(--pm-texto-suave);
+  font-size: 0.85rem;
+}
+
+/* -- Panorama: blocos editoriais, sem cartões coloridos --------------------- */
+[class*="st-key-panorama_resumo_"] {
+  border-left: 3px solid var(--pm-azul);
+  padding: 0.15rem 0 0.15rem 1rem;
+  margin-bottom: 0.75rem;
+}
+[class*="st-key-panorama_resumo_"] p {
+  margin-bottom: 0.4rem;
+  font-size: 1.02rem;
+}
+[class*="st-key-panorama_resumo_"] p:last-child {
+  margin-bottom: 0;
+}
+
+[class*="st-key-panorama_cartao_"] {
+  border-bottom: 1px solid var(--pm-borda);
+  padding: 0.5rem 0;
+}
+[class*="st-key-panorama_cartao_"] [data-testid="stMetricValue"] {
+  color: var(--pm-azul);
+  font-weight: 700;
+}
+[class*="st-key-panorama_cartao_"] [data-testid="stMetricLabel"] {
+  color: var(--pm-texto-suave);
+}
+
+[class*="st-key-panorama_evidencia_"] {
+  border-top: 1px solid var(--pm-borda);
+  padding-top: 1rem;
+  margin-top: 0.5rem;
+}
+
+[class*="st-key-panorama_leitura_"] {
+  border-left: 3px solid var(--pm-verde);
+  padding: 0.15rem 0 0.15rem 1rem;
+  margin-top: 0.4rem;
+}
+[class*="st-key-panorama_leitura_"] p {
+  margin-bottom: 0.35rem;
+}
+[class*="st-key-panorama_leitura_"] p:last-child {
+  margin-bottom: 0;
+}
+
+[class*="st-key-panorama_conclusao_"] {
+  border-left: 3px solid var(--pm-azul);
+  padding: 0.2rem 0 0.2rem 1rem;
+  margin-top: 0.75rem;
+}
+[class*="st-key-panorama_conclusao_"] p {
+  margin-bottom: 0.5rem;
+}
+[class*="st-key-panorama_conclusao_"] p:last-child {
+  margin-bottom: 0;
+}
+
+[class*="st-key-panorama_navegador_"] {
+  border: 1px solid var(--pm-borda);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  background: var(--pm-bg-elevado);
+}
+
+/* -- Avaliar um caso: distinguir contexto de indicadores do modelo --------- */
+[class*="st-key-avaliar_contexto_"] {
+  border-left: 3px solid var(--pm-texto-suave);
+  padding: 0.15rem 0 0.15rem 1rem;
+}
+
+/* -- Responsividade: telas estreitas (celular) ------------------------------ */
+@media (max-width: 480px) {
+  [data-testid="stMainBlockContainer"],
+  .block-container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  [class*="st-key-panorama_resumo_"],
+  [class*="st-key-panorama_conclusao_"],
+  [class*="st-key-panorama_leitura_"] {
+    padding-left: 0.75rem;
+  }
+  [class*="st-key-cabecalho_"] {
+    flex-wrap: wrap;
+  }
+}

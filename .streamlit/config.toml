@@ -6,14 +6,35 @@
 gatherUsageStats = false
 
 [theme]
-# Tema sóbrio e acessível (contraste alto, sem cores vibrantes), adequado
-# para uma aplicação acadêmica.
+# Identidade visual da Associação Passos Mágicos (revisão de identidade
+# visual, 25/09/2026) — `primaryColor`/`linkColor` usam o azul institucional
+# extraído do logo oficial (ver assets/brand/ORIGEM.md e
+# docs/identidade_visual.md). Este bloco é a base "Claro" (config.toml do
+# Streamlit é estático); o alternador "Claro/Escuro" da interface é
+# implementado por cima, via variáveis CSS injetadas em tempo de execução
+# (`streamlit_app.py:_aplicar_estilo_visual`) — nunca por um segundo tema
+# nativo. A paleta categórica dos gráficos Plotly (validada pela skill
+# `dataviz`) é preservada sem alteração. Nenhuma fonte externa (Google
+# Fonts): só famílias nativas do navegador, sem chamada de rede.
 base = "light"
-primaryColor = "#2E5077"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#F2F4F7"
-textColor = "#1F2933"
-font = "sans serif"
+primaryColor = "#145089"
+backgroundColor = "#FAF8F4"
+secondaryBackgroundColor = "#F2EEE6"
+textColor = "#22282C"
+font = "sans-serif"
+borderColor = "#E2DDD4"
+linkColor = "#0367B0"
+baseRadius = "small"
+showWidgetBorder = true
+blueColor = "#145089"
+greenColor = "#1BAF7A"
+orangeColor = "#EDA100"
+redColor = "#D03B3B"
+violetColor = "#4A3AA7"
+chartCategoricalColors = [
+    "#2a78d6", "#eb6834", "#1baf7a", "#eda100",
+    "#e87ba4", "#008300", "#4a3aa7", "#e34948",
+]
 
 [client]
 # Mensagens de erro do framework não devem expor stack trace bruto ao público.
