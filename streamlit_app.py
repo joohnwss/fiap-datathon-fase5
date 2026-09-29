@@ -1175,10 +1175,6 @@ def _apresentar_resultado(estado: dict, valores_atuais: dict, contexto_atual: di
     else:
         st.success(f"**{textos.TITULO_ABAIXO_DO_PONTO}**\n\n{textos.TEXTO_ABAIXO_DO_PONTO}", icon="✅")
 
-    situacao, ian_valor = _situacao_e_ian(estado["entradas"].get("defasagem_origem"))
-    if situacao is not None:
-        st.caption(f"Situação: {situacao} · IAN (contexto, não enviado à estimativa): {ian_valor:g}.")
-
     st.markdown(textos.AVISO_NAO_CAUSAL)
     st.markdown(textos.AVISO_SUPERVISAO_HUMANA)
     st.caption(textos.AVISO_ABAIXO_NAO_ELIMINA_RISCO)
