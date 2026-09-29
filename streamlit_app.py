@@ -1175,12 +1175,6 @@ def _apresentar_resultado(estado: dict, valores_atuais: dict, contexto_atual: di
     else:
         st.success(f"**{textos.TITULO_ABAIXO_DO_PONTO}**\n\n{textos.TEXTO_ABAIXO_DO_PONTO}", icon="✅")
 
-    st.caption(
-        f"Ponto de atenção operacional (arredondado): aproximadamente "
-        f"{round(resultado.threshold * 100)}%.")
-    st.caption(textos.EXPLICACAO_AJUSTE_PONTO_ATENCAO)
-    st.caption(textos.EXPLICACAO_MAIS_ENCAMINHADOS_OBSERVACAO)
-
     situacao, ian_valor = _situacao_e_ian(estado["entradas"].get("defasagem_origem"))
     if situacao is not None:
         st.caption(f"Situação: {situacao} · IAN (contexto, não enviado à estimativa): {ian_valor:g}.")

@@ -408,16 +408,27 @@ class AppTestBehaviorTests(unittest.TestCase):
                 self.assertIn("não elimina o risco", texto)
 
     def test_item9_ponto_de_atencao_carregado_do_artefato(self):
-        """Decisão de gestão de 25/09/2026: a mensagem exibida usa o ponto
-        de atenção OPERACIONAL (config/ponto_atencao_operacional.json), não
-        mais o limiar metodológico original — este último permanece
+        """Decisão de gestão de 25/09/2026: a classificação exibida usa o
+        ponto de atenção OPERACIONAL (config/ponto_atencao_operacional.json),
+        não mais o limiar metodológico original — este último permanece
         preservado, mas só aparece no documento gerado por
-        `scripts/gerar_relatorio_modelo_e_limitacoes.py`."""
-        at = _preencher_e_enviar(_novo_app(), PAYLOAD_BAIXO_RISCO)
-        texto = _texto_total(at)
+        `scripts/gerar_relatorio_modelo_e_limitacoes.py`. A legenda com o
+        valor arredondado do limiar foi retirada da tela (redundante com o
+        Guia rápido/Manual completo do grupo); esta verificação passou a
+        confirmar o comportamento — qual regra é de fato aplicada —, não
+        mais um texto específico na interface."""
         limiar_operacional = operational_threshold()
-        self.assertIn(f"aproximadamente {round(limiar_operacional * 100)}%", texto)
-        self.assertNotEqual(round(limiar_operacional * 100), round(official_threshold() * 100))
+        limiar_original = official_threshold()
+        self.assertNotEqual(round(limiar_operacional * 100), round(limiar_original * 100))
+
+        # PAYLOAD_ZONA_ENTRE_PONTOS cai entre os dois limiares: sinalizado
+        # pelo ponto operacional, não sinalizado pelo ponto original — o
+        # único jeito de diferenciar qual regra a aplicação realmente usa.
+        at = _preencher_e_enviar(_novo_app(), PAYLOAD_ZONA_ENTRE_PONTOS)
+        texto = _texto_total(at)
+        self.assertIn(textos.TITULO_ACIMA_DO_PONTO, texto)
+        self.assertNotIn(textos.TITULO_ABAIXO_DO_PONTO, texto)
+
         # o valor EXATO só aparece na camada técnica (expander), nunca fora dele
         self.assertNotRegex(texto, r"threshold\s*=\s*0\.\d{4,}")
         self.assertNotRegex(texto, r"classe\s*=\s*1\b")
